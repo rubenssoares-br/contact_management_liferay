@@ -1,0 +1,12 @@
+dependencies {
+	api project(":modules:contact:contact-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+}
+
+buildService {
+	apiDir = "../contact-api/src/main/java"
+	testDir = "../contact-test/src/testIntegration/java"
+}
+
+group = "com.liferay.contact.management"
