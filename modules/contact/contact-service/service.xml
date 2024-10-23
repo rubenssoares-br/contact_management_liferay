@@ -9,27 +9,14 @@
 
 		<!-- PK fields -->
 
-		<column name="fooId" primary="true" type="long" />
+		<column name="contactId" primary="true" type="long" />
 
-		<!-- Group instance -->
+		<!-- Normal fields -->
 
-		<column name="groupId" type="long" />
-
-		<!-- Audit fields -->
-
-		<column name="companyId" type="long" />
-		<column name="userId" type="long" />
-		<column name="userName" type="String" />
-		<column name="createDate" type="Date" />
-		<column name="modifiedDate" type="Date" />
-
-		<!-- Other fields -->
-
-		<column name="field1" type="String" />
-		<column name="field2" type="boolean" />
-		<column name="field3" type="int" />
-		<column name="field4" type="Date" />
-		<column name="field5" type="String" />
+		<column name="name" type="String" />
+		<column name="email" type="String" />
+		<column name="phone" type="long" />
+		<column name="address" type="String" />
 
 		<!-- Order -->
 
