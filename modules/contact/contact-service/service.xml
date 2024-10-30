@@ -35,4 +35,30 @@
 		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
 		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>
+	<entity local-service="true" name="ContactEntry" remote-service="true" uuid="true">
+
+		<!-- Normal fields -->
+
+		<column name="familyRelationship" type="String" />
+		<column name="phone" type="long" />
+		<column name="address" type="String" />
+		<column name="contactId" type="long" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="field1" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="Field2" return-type="Collection">
+			<finder-column name="field2" />
+		</finder>
+
+		<!-- References -->
+
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
 </service-builder>
