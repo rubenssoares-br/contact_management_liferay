@@ -26,8 +26,8 @@
 
 		<!-- Finder methods -->
 
-		<finder name="Field2" return-type="Collection">
-			<finder-column name="field2" />
+		<finder name="Name" return-type="Collection">
+			<finder-column name="name" />
 		</finder>
 
 		<!-- References -->
@@ -52,8 +52,8 @@
 
 		<!-- Finder methods -->
 
-		<finder name="Field2" return-type="Collection">
-			<finder-column name="field2" />
+		<finder name="ContactId" return-type="Collection">
+			<finder-column name="contactId" />
 		</finder>
 
 		<!-- References -->
