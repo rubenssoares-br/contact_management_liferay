@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.contact.management.model.Contact">
+		<field name="uuid" type="String" />
+		<field name="contactId" type="long" />
+		<field name="name" type="String" />
+		<field name="email" type="String" />
+		<field name="phone" type="long" />
+		<field name="address" type="String" />
+	</model>
+	<model name="com.liferay.contact.management.model.ContactEntry">
+		<field name="entryId" type="long" />
+		<field name="familyRelationship" type="String" />
+		<field name="phone" type="long" />
+		<field name="address" type="String" />
+		<field name="contactId" type="long" />
+	</model>
+</model-hints>
