@@ -1,0 +1,45 @@
+services:
+
+  database:
+    container_name: database_container
+    image: "mysql:8.0"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=lportal
+      - MYSQL_USER=dxpcloud
+      - MYSQL_PASSWORD=dxpcloud
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-p$$MYSQL_ROOT_PASSWORD","--protocol","tcp" ]
+      timeout: 15s
+      retries: 20
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci --character-set-filesystem=utf8
+    ports:
+      - "3307:3306"
+#    volumes:
+#      - ./database-dump:/docker-entrypoint-initdb.d
+
+  liferay:
+    image: liferay/dxp:2024.q3.0
+    container_name: liferay_container
+    user: root:root
+    environment:
+      - JAVA_VERSION=zulu21
+      - LIFERAY_JAVA_OPTS=-Xms4g -Xmx4g
+      - LIFERAY_HOME=/opt/liferay
+      - LIFERAY_JPDA_ENABLED=true
+      - LIFERAY_MODULE_PERIOD_FRAMEWORK_PERIOD_PROPERTIES_PERIOD_OSGI_PERIOD_CONSOLE=0.0.0.0:11311
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME=com.mysql.cj.jdbc.Driver
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME=dxpcloud
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD=dxpcloud
+      - LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL=jdbc:mysql://database_container:3306/lportal?characterEncoding=UTF-8&dontTrackOpenResources=true&holdResultsOpenOverStatementClose=true&serverTimezone=GMT&useFastDateParsing=false&useUnicode=true
+    ports:
+      - "8080:8080"
+      - "11311:11311"
+      - "8000:8000"
+    volumes:
+      - ./bundles/deploy:/opt/liferay/deploy
+      - ./bundles/osgi/modules:/opt/liferay/osgi/modules
+      - ./configs/common/license:/opt/liferay/deploy
+    depends_on:
+      database:
+        condition: service_healthy
