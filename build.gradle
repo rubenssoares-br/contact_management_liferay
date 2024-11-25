@@ -1,1 +1,14 @@
 // Check GETTING_STARTED.markdown for information regarding usage.
+buildscript {
+    dependencies {
+        classpath group: "com.liferay", name: "com.liferay.gradle.plugins.db.support", version: "1.0.9"
+    }
+
+    repositories {
+        maven {
+            url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+        }
+    }
+}
+
+apply plugin: "com.liferay.portal.tools.db.support"
