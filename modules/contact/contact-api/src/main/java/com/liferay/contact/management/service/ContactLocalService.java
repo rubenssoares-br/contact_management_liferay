@@ -262,4 +262,9 @@ public interface ContactLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Contact updateContact(Contact contact);
 
+	public Contact updateContact(
+			String name, long contactId, String email, long phone,
+			String address, ServiceContext serviceContext)
+		throws PortalException;
+
 }

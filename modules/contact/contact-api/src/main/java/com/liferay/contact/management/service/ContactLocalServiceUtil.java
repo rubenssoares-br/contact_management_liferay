@@ -288,6 +288,16 @@ public class ContactLocalServiceUtil {
 		return getService().updateContact(contact);
 	}
 
+	public static Contact updateContact(
+			String name, long contactId, String email, long phone,
+			String address,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateContact(
+			name, contactId, email, phone, address, serviceContext);
+	}
+
 	public static ContactLocalService getService() {
 		return _serviceSnapshot.get();
 	}
