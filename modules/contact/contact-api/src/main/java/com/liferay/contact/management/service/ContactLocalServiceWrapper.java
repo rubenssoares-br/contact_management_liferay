@@ -43,6 +43,16 @@ public class ContactLocalServiceWrapper
 		return _contactLocalService.addContact(contact);
 	}
 
+	@Override
+	public com.liferay.contact.management.model.Contact addContact(
+			String name, String email, long phone, String address,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactLocalService.addContact(
+			name, email, phone, address, serviceContext);
+	}
+
 	/**
 	 * Creates a new contact with the primary key. Does not add the contact to the database.
 	 *
