@@ -39,4 +39,19 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		return entity;
 	}
+
+	public Contact updateContact( String name,long contactId, String email, long phone, String address, ServiceContext serviceContext) throws PortalException {
+
+		Contact entity = contactPersistence.findByPrimaryKey(contactId);
+
+		entity.setExpandoBridgeAttributes(serviceContext);
+		entity.setName(name);
+		entity.setEmail(email);
+		entity.setPhone(phone);
+		entity.setAddress(address);
+
+		contactPersistence.update(entity);
+
+		return entity;
+	}
 }
