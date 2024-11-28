@@ -5,10 +5,19 @@
 
 package com.liferay.contact.management.service.impl;
 
+import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.service.base.ContactServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionUtil;
+import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Rubens Soares
@@ -21,4 +30,8 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class ContactServiceImpl extends ContactServiceBaseImpl {
+
+	@Reference
+	private volatile ModelResourcePermission<Contact>
+			_contactModelResourcePermission;
 }
