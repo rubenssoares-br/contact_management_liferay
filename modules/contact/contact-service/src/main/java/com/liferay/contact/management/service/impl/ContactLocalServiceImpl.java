@@ -63,4 +63,9 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		return entity;
 	}
 
+	public Contact getContact(long contactId) throws PortalException {
+
+		return contactPersistence.findByPrimaryKey(contactId);
+	}
+
 }
