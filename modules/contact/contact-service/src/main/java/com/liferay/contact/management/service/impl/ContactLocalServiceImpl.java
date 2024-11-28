@@ -5,12 +5,13 @@
 
 package com.liferay.contact.management.service.impl;
 
+
 import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.service.base.ContactLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
+
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -54,4 +55,12 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		return entity;
 	}
+
+	public Contact deleteContact(Contact entity) throws PortalException {
+
+		contactPersistence.remove(entity);
+
+		return entity;
+	}
+
 }
