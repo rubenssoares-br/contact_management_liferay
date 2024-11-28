@@ -31,6 +31,16 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 )
 public class ContactServiceImpl extends ContactServiceBaseImpl {
 
+	public Contact addContact(String name, String email, long phone, String address, ServiceContext serviceContext)
+			throws PortalException {
+
+		ModelResourcePermissionUtil.check(
+				_contactModelResourcePermission, getPermissionChecker(),
+				serviceContext.getScopeGroupId(), phone, ActionKeys.ADD_ENTRY);
+
+		return contactLocalService.addContact(name, email, phone, address, serviceContext);
+	}
+
 	@Reference
 	private volatile ModelResourcePermission<Contact>
 			_contactModelResourcePermission;
