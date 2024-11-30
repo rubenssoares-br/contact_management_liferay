@@ -41,6 +41,18 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 		return contactLocalService.addContact(name, email, phone, address, serviceContext);
 	}
 
+	public Contact getContact(long contactId, ServiceContext serviceContext)
+			throws PortalException {
+
+		ModelResourcePermissionUtil.check(
+				_contactModelResourcePermission, getPermissionChecker(),
+				serviceContext.getScopeGroupId(), contactId, ActionKeys.ADD_ENTRY);
+
+		return contactLocalService.getContact(contactId);
+	}
+
+
+
 	@Reference
 	private volatile ModelResourcePermission<Contact>
 			_contactModelResourcePermission;
