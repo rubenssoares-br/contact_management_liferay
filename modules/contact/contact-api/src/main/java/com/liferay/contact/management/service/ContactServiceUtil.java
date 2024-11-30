@@ -37,6 +37,14 @@ public class ContactServiceUtil {
 			name, email, phone, address, serviceContext);
 	}
 
+	public static Contact getContact(
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().getContact(contactId, serviceContext);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

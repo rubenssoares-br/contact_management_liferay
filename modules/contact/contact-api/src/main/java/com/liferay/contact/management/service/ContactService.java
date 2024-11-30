@@ -13,6 +13,7 @@ import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -43,6 +44,10 @@ public interface ContactService extends BaseService {
 	public Contact addContact(
 			String name, String email, long phone, String address,
 			ServiceContext serviceContext)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Contact getContact(long contactId, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

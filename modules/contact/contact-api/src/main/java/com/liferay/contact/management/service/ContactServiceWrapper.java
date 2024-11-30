@@ -35,6 +35,15 @@ public class ContactServiceWrapper
 			name, email, phone, address, serviceContext);
 	}
 
+	@Override
+	public com.liferay.contact.management.model.Contact getContact(
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactService.getContact(contactId, serviceContext);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
