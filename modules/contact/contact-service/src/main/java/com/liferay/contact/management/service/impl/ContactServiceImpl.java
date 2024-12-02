@@ -48,6 +48,13 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 		contactLocalService.deleteContact(contactId);
 	}
 
+	public Contact updateContact(String name, long contactId, String email, long phone, String address, ServiceContext serviceContext)
+			throws PortalException {
+
+
+		return contactLocalService.updateContact(name, contactId, email, phone, address, serviceContext);
+	}
+
 
 
 	@Reference
