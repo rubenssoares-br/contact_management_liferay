@@ -34,19 +34,12 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 	public Contact addContact(String name, String email, long phone, String address, ServiceContext serviceContext)
 			throws PortalException {
 
-		ModelResourcePermissionUtil.check(
-				_contactModelResourcePermission, getPermissionChecker(),
-				serviceContext.getScopeGroupId(), phone, ActionKeys.ADD_ENTRY);
 
 		return contactLocalService.addContact(name, email, phone, address, serviceContext);
 	}
 
 	public Contact getContact(long contactId, ServiceContext serviceContext)
 			throws PortalException {
-
-		ModelResourcePermissionUtil.check(
-				_contactModelResourcePermission, getPermissionChecker(),
-				serviceContext.getScopeGroupId(), contactId, ActionKeys.ADD_ENTRY);
 
 		return contactLocalService.getContact(contactId);
 	}
