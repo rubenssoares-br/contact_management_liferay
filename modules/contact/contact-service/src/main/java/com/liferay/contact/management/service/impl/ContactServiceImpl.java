@@ -44,6 +44,10 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 		return contactLocalService.getContact(contactId);
 	}
 
+	public void deleteContact(long contactId) throws PortalException {
+		contactLocalService.deleteContact(contactId);
+	}
+
 
 
 	@Reference
