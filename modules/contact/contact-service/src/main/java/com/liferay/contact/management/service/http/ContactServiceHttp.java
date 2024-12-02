@@ -160,6 +160,49 @@ public class ContactServiceHttp {
 		}
 	}
 
+	public static com.liferay.contact.management.model.Contact updateContact(
+			HttpPrincipal httpPrincipal, String name, long contactId,
+			String email, long phone, String address,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ContactServiceUtil.class, "updateContact",
+				_updateContactParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, name, contactId, email, phone, address,
+				serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.contact.management.model.Contact)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ContactServiceHttp.class);
 
 	private static final Class<?>[] _addContactParameterTypes0 = new Class[] {
@@ -171,5 +214,10 @@ public class ContactServiceHttp {
 	};
 	private static final Class<?>[] _deleteContactParameterTypes2 =
 		new Class[] {long.class};
+	private static final Class<?>[] _updateContactParameterTypes3 =
+		new Class[] {
+			String.class, long.class, String.class, long.class, String.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
+		};
 
 }

@@ -59,4 +59,9 @@ public interface ContactService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	public Contact updateContact(
+			String name, long contactId, String email, long phone,
+			String address, ServiceContext serviceContext)
+		throws PortalException;
+
 }
