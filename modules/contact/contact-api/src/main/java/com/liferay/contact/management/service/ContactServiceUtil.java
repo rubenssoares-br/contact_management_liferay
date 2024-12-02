@@ -37,6 +37,10 @@ public class ContactServiceUtil {
 			name, email, phone, address, serviceContext);
 	}
 
+	public static void deleteContact(long contactId) throws PortalException {
+		getService().deleteContact(contactId);
+	}
+
 	public static Contact getContact(
 			long contactId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)

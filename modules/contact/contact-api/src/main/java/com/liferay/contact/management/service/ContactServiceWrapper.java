@@ -36,6 +36,13 @@ public class ContactServiceWrapper
 	}
 
 	@Override
+	public void deleteContact(long contactId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_contactService.deleteContact(contactId);
+	}
+
+	@Override
 	public com.liferay.contact.management.model.Contact getContact(
 			long contactId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)

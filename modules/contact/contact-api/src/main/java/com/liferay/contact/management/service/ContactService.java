@@ -46,6 +46,8 @@ public interface ContactService extends BaseService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	public void deleteContact(long contactId) throws PortalException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Contact getContact(long contactId, ServiceContext serviceContext)
 		throws PortalException;

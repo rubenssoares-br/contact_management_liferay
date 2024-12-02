@@ -124,6 +124,42 @@ public class ContactServiceHttp {
 		}
 	}
 
+	public static void deleteContact(
+			HttpPrincipal httpPrincipal, long contactId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ContactServiceUtil.class, "deleteContact",
+				_deleteContactParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, contactId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(ContactServiceHttp.class);
 
 	private static final Class<?>[] _addContactParameterTypes0 = new Class[] {
@@ -133,5 +169,7 @@ public class ContactServiceHttp {
 	private static final Class<?>[] _getContactParameterTypes1 = new Class[] {
 		long.class, com.liferay.portal.kernel.service.ServiceContext.class
 	};
+	private static final Class<?>[] _deleteContactParameterTypes2 =
+		new Class[] {long.class};
 
 }
