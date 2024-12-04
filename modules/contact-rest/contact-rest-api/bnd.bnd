@@ -1,0 +1,6 @@
+Bundle-Name: contact-rest-api
+Bundle-SymbolicName: contact.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	contact.rest.dto.v1_0,\
+	contact.rest.resource.v1_0

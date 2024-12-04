@@ -1,0 +1,5 @@
+Bundle-Name: contact-rest-test
+Bundle-SymbolicName: contact.rest.test
+Bundle-Version: 1.0.0
+-includeresource: contact.rest.client.jar=../contact-rest-client/build/libs/contact.rest.client-1.0.0.jar;lib:=true
+-provider-policy: ${replacestring;${range;[==,==]};.*,(.*)];$1}

@@ -1,0 +1,9 @@
+apiDir: "../contact-rest-api/src/main/java"
+apiPackagePath: "contact.rest"
+application:
+    baseURI: "/contact-rest"
+    className: "ContactRestApplication"
+    name: "ContactRest"
+author: "me"
+clientDir: "../contact-rest-client/src/main/java"
+testDir: "../contact-rest-test/src/testIntegration/java"
