@@ -4,6 +4,6 @@ application:
     baseURI: "/contact-rest"
     className: "ContactRestApplication"
     name: "ContactRest"
-author: "me"
+author: "Rubens Soares"
 clientDir: "../contact-rest-client/src/main/java"
 testDir: "../contact-rest-test/src/testIntegration/java"
