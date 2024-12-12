@@ -39,4 +39,82 @@ paths:
                                     $ref: "#/components/schemas/Contact"
                                 type: array
             tags: ["Contact"]
-                        
+        post:
+            operationId: postContact
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+            tags: ["Contact"]
+    "/contact/{contactId}":
+        delete:
+            operationId: deleteContact
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["Contact"]
+        get:
+            operationId: getIdContact
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+            tags: ["Contact"]
+        put:
+            operationId: putContact
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+            tags: ["Contact"]
