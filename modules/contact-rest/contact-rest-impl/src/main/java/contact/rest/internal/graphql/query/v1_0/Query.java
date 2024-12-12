@@ -54,6 +54,21 @@ public class Query {
 			contactResource -> new ContactPage(contactResource.getContact()));
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {idContact(contactId: ___){contactId, name, email, phone, address}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public Contact idContact(@GraphQLName("contactId") Integer contactId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactResource -> contactResource.getIdContact(contactId));
+	}
+
 	@GraphQLName("ContactPage")
 	public class ContactPage {
 

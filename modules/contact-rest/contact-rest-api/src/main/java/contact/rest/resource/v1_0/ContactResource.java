@@ -22,6 +22,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -43,6 +44,24 @@ public interface ContactResource {
 	}
 
 	public Page<Contact> getContact() throws Exception;
+
+	public Contact postContact(Contact contact) throws Exception;
+
+	public Response postContactBatch(String callbackURL, Object object)
+		throws Exception;
+
+	public void deleteContact(Integer contactId) throws Exception;
+
+	public Response deleteContactBatch(String callbackURL, Object object)
+		throws Exception;
+
+	public Contact getIdContact(Integer contactId) throws Exception;
+
+	public Contact putContact(Integer contactId, Contact contact)
+		throws Exception;
+
+	public Response putContactBatch(String callbackURL, Object object)
+		throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

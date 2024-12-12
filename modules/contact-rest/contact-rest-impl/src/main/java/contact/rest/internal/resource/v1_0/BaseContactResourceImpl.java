@@ -1,5 +1,6 @@
 package contact.rest.internal.resource.v1_0;
 
+import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
@@ -41,6 +42,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -69,12 +71,258 @@ public abstract class BaseContactResourceImpl
 		return Page.of(Collections.emptyList());
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact' -d $'{"address": ___, "contactId": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/contact")
+	@javax.ws.rs.POST
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public Contact postContact(Contact contact) throws Exception {
+		return new Contact();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.Consumes("application/json")
+	@javax.ws.rs.Path("/contact/batch")
+	@javax.ws.rs.POST
+	@javax.ws.rs.Produces("application/json")
+	@Override
+	public Response postContactBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.postImportTask(
+				Contact.class.getName(), callbackURL, null, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.DELETE
+	@javax.ws.rs.Path("/contact/{contactId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public void deleteContact(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactId")
+			Integer contactId)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contact/batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.Consumes("application/json")
+	@javax.ws.rs.DELETE
+	@javax.ws.rs.Path("/contact/batch")
+	@javax.ws.rs.Produces("application/json")
+	@Override
+	public Response deleteContactBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.deleteImportTask(
+				Contact.class.getName(), callbackURL, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/contact/{contactId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public Contact getIdContact(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactId")
+			Integer contactId)
+		throws Exception {
+
+		return new Contact();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}' -d $'{"address": ___, "contactId": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/contact/{contactId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@javax.ws.rs.PUT
+	@Override
+	public Contact putContact(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactId")
+			Integer contactId,
+			Contact contact)
+		throws Exception {
+
+		return new Contact();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+	)
+	@javax.ws.rs.Consumes("application/json")
+	@javax.ws.rs.Path("/contact/batch")
+	@javax.ws.rs.Produces("application/json")
+	@javax.ws.rs.PUT
+	@Override
+	public Response putContactBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.putImportTask(
+				Contact.class.getName(), callbackURL, object)
+		).build();
+	}
+
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(
 			java.util.Collection<Contact> contacts,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		UnsafeConsumer<Contact, Exception> contactUnsafeConsumer =
+			contact -> postContact(contact);
+
+		for (Contact contact : contacts) {
+			contactUnsafeConsumer.accept(contact);
+		}
 	}
 
 	@Override
@@ -82,6 +330,10 @@ public abstract class BaseContactResourceImpl
 			java.util.Collection<Contact> contacts,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		for (Contact contact : contacts) {
+			deleteContact(contact.getContactId());
+		}
 	}
 
 	@Override
@@ -135,6 +387,13 @@ public abstract class BaseContactResourceImpl
 			java.util.Collection<Contact> contacts,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		for (Contact contact : contacts) {
+			putContact(
+				(contact.getContactId() != null) ? contact.getContactId() :
+					Integer.parseInt((String)parameters.get("contactId")),
+				contact);
+		}
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
@@ -260,33 +519,33 @@ public abstract class BaseContactResourceImpl
 			actionName, siteId, methodName, null, permissionName, siteId);
 	}
 
-	// protected <T, R> List<R> transform(
-	// 	java.util.Collection<T> collection,
-	// 	UnsafeFunction<T, R, Exception> unsafeFunction) {
+	protected <T, R> List<R> transform(
+		java.util.Collection<T> collection,
+		UnsafeFunction<T, R, Exception> unsafeFunction) {
 
-	// 	return TransformUtil.transform(collection, unsafeFunction);
-	// }
+		return TransformUtil.transform(collection, unsafeFunction);
+	}
 
-	// protected <T, R> R[] transform(
-	// 	T[] array, UnsafeFunction<T, R, Exception> unsafeFunction,
-	// 	Class<?> clazz) {
+	protected <T, R> R[] transform(
+		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction,
+		Class<?> clazz) {
 
-	// 	return TransformUtil.transform(array, unsafeFunction, clazz);
-	// }
+		return TransformUtil.transform(array, unsafeFunction, clazz);
+	}
 
-	// protected <T, R> R[] transformToArray(
-	// 	java.util.Collection<T> collection,
-	// 	UnsafeFunction<T, R, Exception> unsafeFunction, Class<?> clazz) {
+	protected <T, R> R[] transformToArray(
+		java.util.Collection<T> collection,
+		UnsafeFunction<T, R, Exception> unsafeFunction, Class<?> clazz) {
 
-	// 	return TransformUtil.transformToArray(
-	// 		collection, unsafeFunction, clazz);
-	// }
+		return TransformUtil.transformToArray(
+			collection, unsafeFunction, clazz);
+	}
 
-	// protected <T, R> List<R> transformToList(
-	// 	T[] array, UnsafeFunction<T, R, Exception> unsafeFunction) {
+	protected <T, R> List<R> transformToList(
+		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction) {
 
-	// 	return TransformUtil.transformToList(array, unsafeFunction);
-	// }
+		return TransformUtil.transformToList(array, unsafeFunction);
+	}
 
 	protected AcceptLanguage contextAcceptLanguage;
 	protected com.liferay.portal.kernel.model.Company contextCompany;

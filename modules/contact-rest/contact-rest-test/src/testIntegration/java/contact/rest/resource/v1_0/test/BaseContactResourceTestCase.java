@@ -205,6 +205,53 @@ public abstract class BaseContactResourceTestCase {
 			"This method needs to be implemented");
 	}
 
+	@Test
+	public void testPostContact() throws Exception {
+		Contact randomContact = randomContact();
+
+		Contact postContact = testPostContact_addContact(randomContact);
+
+		assertEquals(randomContact, postContact);
+		assertValid(postContact);
+	}
+
+	protected Contact testPostContact_addContact(Contact contact)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testDeleteContact() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGraphQLDeleteContact() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGetIdContact() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGraphQLGetIdContact() throws Exception {
+		Assert.assertTrue(true);
+	}
+
+	@Test
+	public void testGraphQLGetIdContactNotFound() throws Exception {
+		Assert.assertTrue(true);
+	}
+
+	@Test
+	public void testPutContact() throws Exception {
+		Assert.assertTrue(false);
+	}
+
 	protected void assertContains(Contact contact, List<Contact> contacts) {
 		boolean contains = false;
 
