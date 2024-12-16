@@ -46,6 +46,17 @@ public class ContactEntryLocalServiceWrapper
 		return _contactEntryLocalService.addContactEntry(contactEntry);
 	}
 
+	@Override
+	public com.liferay.contact.management.model.ContactEntry addContactEntry(
+			String familyRelationship, long phone, String address,
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactEntryLocalService.addContactEntry(
+			familyRelationship, phone, address, contactId, serviceContext);
+	}
+
 	/**
 	 * Creates a new contact entry with the primary key. Does not add the contact entry to the database.
 	 *

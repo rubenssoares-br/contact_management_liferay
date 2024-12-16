@@ -51,6 +51,16 @@ public class ContactEntryLocalServiceUtil {
 		return getService().addContactEntry(contactEntry);
 	}
 
+	public static ContactEntry addContactEntry(
+			String familyRelationship, long phone, String address,
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addContactEntry(
+			familyRelationship, phone, address, contactId, serviceContext);
+	}
+
 	/**
 	 * Creates a new contact entry with the primary key. Does not add the contact entry to the database.
 	 *
