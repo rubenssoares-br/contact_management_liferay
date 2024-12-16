@@ -39,4 +39,19 @@ public class ContactEntryLocalServiceImpl
 
 		return entity;
 	}
+
+	public ContactEntry updateContactEntry( String familyRelationship, long entryId, long phone, String address, long contactId, ServiceContext serviceContext) throws PortalException {
+
+		ContactEntry entity = contactEntryPersistence.findByPrimaryKey(entryId);
+
+		entity.setExpandoBridgeAttributes(serviceContext);
+		entity.setFamilyRelationship(familyRelationship);
+		entity.setPhone(phone);
+		entity.setAddress(address);
+		entity.setContactId(contactId);
+
+		contactEntryPersistence.update(entity);
+
+		return entity;
+	}
 }
