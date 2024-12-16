@@ -25,6 +25,17 @@ public class ContactEntryServiceWrapper
 		_contactEntryService = contactEntryService;
 	}
 
+	@Override
+	public com.liferay.contact.management.model.ContactEntry addContactEntry(
+			String familyRelationship, long phone, String address,
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactEntryService.addContactEntry(
+			familyRelationship, phone, address, contactId, serviceContext);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

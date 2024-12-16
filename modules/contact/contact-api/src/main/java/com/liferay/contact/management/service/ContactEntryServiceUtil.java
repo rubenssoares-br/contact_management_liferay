@@ -5,6 +5,8 @@
 
 package com.liferay.contact.management.service;
 
+import com.liferay.contact.management.model.ContactEntry;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.module.service.Snapshot;
 
 /**
@@ -26,6 +28,15 @@ public class ContactEntryServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.contact.management.service.impl.ContactEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static ContactEntry addContactEntry(
+			String familyRelationship, long phone, String address,
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addContactEntry(
+			familyRelationship, phone, address, contactId, serviceContext);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
