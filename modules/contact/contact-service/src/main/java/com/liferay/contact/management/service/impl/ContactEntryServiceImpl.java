@@ -5,9 +5,12 @@
 
 package com.liferay.contact.management.service.impl;
 
+import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactEntryServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
 
 /**
@@ -21,4 +24,9 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class ContactEntryServiceImpl extends ContactEntryServiceBaseImpl {
+
+	public ContactEntry addContactEntry(String familyRelationship, long phone, String address, long contactId, ServiceContext serviceContext) throws PortalException {
+
+		return contactEntryLocalService.addContactEntry(familyRelationship, phone, address, contactId, serviceContext);
+	}
 }
