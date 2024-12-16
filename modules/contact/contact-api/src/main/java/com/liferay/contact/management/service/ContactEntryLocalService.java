@@ -262,4 +262,9 @@ public interface ContactEntryLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public ContactEntry updateContactEntry(ContactEntry contactEntry);
 
+	public ContactEntry updateContactEntry(
+			String familyRelationship, long entryId, long phone, String address,
+			long contactId, ServiceContext serviceContext)
+		throws PortalException;
+
 }
