@@ -90,10 +90,12 @@ public class ContactEntryLocalServiceWrapper
 	 *
 	 * @param contactEntry the contact entry
 	 * @return the contact entry that was removed
+	 * @throws PortalException
 	 */
 	@Override
 	public com.liferay.contact.management.model.ContactEntry deleteContactEntry(
-		com.liferay.contact.management.model.ContactEntry contactEntry) {
+			com.liferay.contact.management.model.ContactEntry contactEntry)
+		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _contactEntryLocalService.deleteContactEntry(contactEntry);
 	}
