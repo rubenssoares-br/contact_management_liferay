@@ -43,6 +43,15 @@ public class ContactEntryServiceWrapper
 		_contactEntryService.deleteContactEntry(entryId);
 	}
 
+	@Override
+	public com.liferay.contact.management.model.ContactEntry getContactEntry(
+			long entryId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactEntryService.getContactEntry(entryId, serviceContext);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

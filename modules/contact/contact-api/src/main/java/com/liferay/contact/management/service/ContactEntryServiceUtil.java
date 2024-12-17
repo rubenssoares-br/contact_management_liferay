@@ -42,6 +42,14 @@ public class ContactEntryServiceUtil {
 		getService().deleteContactEntry(entryId);
 	}
 
+	public static ContactEntry getContactEntry(
+			long entryId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().getContactEntry(entryId, serviceContext);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

@@ -164,6 +164,48 @@ public class ContactEntryServiceHttp {
 		}
 	}
 
+	public static com.liferay.contact.management.model.ContactEntry
+			getContactEntry(
+				HttpPrincipal httpPrincipal, long entryId,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ContactEntryServiceUtil.class, "getContactEntry",
+				_getContactEntryParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, entryId, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.contact.management.model.ContactEntry)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ContactEntryServiceHttp.class);
 
@@ -179,5 +221,9 @@ public class ContactEntryServiceHttp {
 		};
 	private static final Class<?>[] _deleteContactEntryParameterTypes2 =
 		new Class[] {long.class};
+	private static final Class<?>[] _getContactEntryParameterTypes3 =
+		new Class[] {
+			long.class, com.liferay.portal.kernel.service.ServiceContext.class
+		};
 
 }
