@@ -61,4 +61,9 @@ public class ContactEntryLocalServiceImpl
 
 		return entity;
 	}
+
+	public ContactEntry getContactEntry(long entryId) throws PortalException {
+
+		return contactEntryPersistence.findByPrimaryKey(entryId);
+	}
 }
