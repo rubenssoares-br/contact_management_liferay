@@ -13,6 +13,19 @@ components:
                 address:
                     type: string
             type: object
+        ContactEntry:
+            properties:
+                entryId:
+                    type: integer
+                familyRelationship:
+                    type: string
+                phone:
+                    type: integer
+                address:
+                    type: string
+                contactId:
+                    type: integer
+            type: object
 info:
     description: "Contact REST API"
     license:
@@ -118,3 +131,115 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Contact"
             tags: ["Contact"]
+    "/contact/{contactId}/contactEntry":
+        get:
+            operationId: getContactEntries
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/ContactEntry"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/ContactEntry"
+                                type: array
+            tags: ["ContactEntry"]
+        post:
+            operationId: postContactEntry
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+                    application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+            tags: ["ContactEntry"]
+    "/contactEntry/{entryId}":
+        delete:
+            operationId: deleteContactEntry
+            parameters:
+                - in: path
+                  name: entryId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["ContactEntry"]
+        get:
+            operationId: getContactEntry
+            parameters:
+                - in: path
+                  name: entryId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+            tags: ["ContactEntry"]  
+        put:
+            operationId: putContactEntry
+            parameters:
+                - in: path
+                  name: entryId
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ContactEntry"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/ContactEntry"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ContactEntry"
+            tags: ["ContactEntry"]
+
+                
+
+
