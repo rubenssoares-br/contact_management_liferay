@@ -45,6 +45,8 @@ public interface ContactEntryService extends BaseService {
 			long contactId, ServiceContext serviceContext)
 		throws PortalException;
 
+	public void deleteContactEntry(long entryId) throws PortalException;
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

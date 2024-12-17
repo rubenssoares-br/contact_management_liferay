@@ -38,6 +38,10 @@ public class ContactEntryServiceUtil {
 			familyRelationship, phone, address, contactId, serviceContext);
 	}
 
+	public static void deleteContactEntry(long entryId) throws PortalException {
+		getService().deleteContactEntry(entryId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

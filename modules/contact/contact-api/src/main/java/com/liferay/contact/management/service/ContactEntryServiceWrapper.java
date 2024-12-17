@@ -36,6 +36,13 @@ public class ContactEntryServiceWrapper
 			familyRelationship, phone, address, contactId, serviceContext);
 	}
 
+	@Override
+	public void deleteContactEntry(long entryId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_contactEntryService.deleteContactEntry(entryId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
