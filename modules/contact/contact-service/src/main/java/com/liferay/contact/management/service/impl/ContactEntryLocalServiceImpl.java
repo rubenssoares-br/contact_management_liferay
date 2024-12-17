@@ -54,4 +54,11 @@ public class ContactEntryLocalServiceImpl
 
 		return entity;
 	}
+
+	public ContactEntry deleteContactEntry(ContactEntry entity) throws PortalException {
+
+		contactEntryPersistence.remove(entity);
+
+		return entity;
+	}
 }
