@@ -47,6 +47,17 @@ public class ContactEntryServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static ContactEntry updateContactEntry(
+			String familyRelationship, long entryId, long phone, String address,
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateContactEntry(
+			familyRelationship, entryId, phone, address, contactId,
+			serviceContext);
+	}
+
 	public static ContactEntryService getService() {
 		return _serviceSnapshot.get();
 	}

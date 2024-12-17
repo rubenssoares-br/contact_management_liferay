@@ -52,4 +52,9 @@ public interface ContactEntryService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	public ContactEntry updateContactEntry(
+			String familyRelationship, long entryId, long phone, String address,
+			long contactId, ServiceContext serviceContext)
+		throws PortalException;
+
 }

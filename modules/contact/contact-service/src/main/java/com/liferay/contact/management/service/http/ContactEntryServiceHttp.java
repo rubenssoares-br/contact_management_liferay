@@ -85,12 +85,61 @@ public class ContactEntryServiceHttp {
 		}
 	}
 
+	public static com.liferay.contact.management.model.ContactEntry
+			updateContactEntry(
+				HttpPrincipal httpPrincipal, String familyRelationship,
+				long entryId, long phone, String address, long contactId,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ContactEntryServiceUtil.class, "updateContactEntry",
+				_updateContactEntryParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, familyRelationship, entryId, phone, address,
+				contactId, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.contact.management.model.ContactEntry)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ContactEntryServiceHttp.class);
 
 	private static final Class<?>[] _addContactEntryParameterTypes0 =
 		new Class[] {
 			String.class, long.class, String.class, long.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
+		};
+	private static final Class<?>[] _updateContactEntryParameterTypes1 =
+		new Class[] {
+			String.class, long.class, long.class, String.class, long.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
 

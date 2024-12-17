@@ -47,6 +47,18 @@ public class ContactEntryServiceWrapper
 	}
 
 	@Override
+	public com.liferay.contact.management.model.ContactEntry updateContactEntry(
+			String familyRelationship, long entryId, long phone, String address,
+			long contactId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactEntryService.updateContactEntry(
+			familyRelationship, entryId, phone, address, contactId,
+			serviceContext);
+	}
+
+	@Override
 	public ContactEntryService getWrappedService() {
 		return _contactEntryService;
 	}
