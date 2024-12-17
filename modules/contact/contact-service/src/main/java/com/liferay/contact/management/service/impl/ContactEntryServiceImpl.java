@@ -29,4 +29,9 @@ public class ContactEntryServiceImpl extends ContactEntryServiceBaseImpl {
 
 		return contactEntryLocalService.addContactEntry(familyRelationship, phone, address, contactId, serviceContext);
 	}
+
+	public ContactEntry updateContactEntry(String familyRelationship, long entryId, long phone, String address, long contactId, ServiceContext serviceContext) throws PortalException {
+
+		return contactEntryLocalService.updateContactEntry(familyRelationship, entryId, phone, address, contactId, serviceContext);
+	}
 }
