@@ -10,6 +10,8 @@ import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 
 import contact.rest.dto.v1_0.Contact;
+import contact.rest.dto.v1_0.ContactEntry;
+import contact.rest.resource.v1_0.ContactEntryResource;
 import contact.rest.resource.v1_0.ContactResource;
 
 import java.util.function.BiFunction;
@@ -37,6 +39,14 @@ public class Mutation {
 
 		_contactResourceComponentServiceObjects =
 			contactResourceComponentServiceObjects;
+	}
+
+	public static void setContactEntryResourceComponentServiceObjects(
+		ComponentServiceObjects<ContactEntryResource>
+			contactEntryResourceComponentServiceObjects) {
+
+		_contactEntryResourceComponentServiceObjects =
+			contactEntryResourceComponentServiceObjects;
 	}
 
 	@GraphQLField
@@ -112,6 +122,74 @@ public class Mutation {
 				callbackURL, object));
 	}
 
+	@GraphQLField
+	public ContactEntry createContactEntry(
+			@GraphQLName("contactId") Integer contactId,
+			@GraphQLName("contactEntry") ContactEntry contactEntry)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> contactEntryResource.postContactEntry(
+				contactId, contactEntry));
+	}
+
+	@GraphQLField
+	public boolean deleteContactEntry(@GraphQLName("entryId") Integer entryId)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> contactEntryResource.deleteContactEntry(
+				entryId));
+
+		return true;
+	}
+
+	@GraphQLField
+	public Response deleteContactEntryBatch(
+			@GraphQLName("entryId") Integer entryId,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource ->
+				contactEntryResource.deleteContactEntryBatch(
+					entryId, callbackURL, object));
+	}
+
+	@GraphQLField
+	public ContactEntry updateContactEntry(
+			@GraphQLName("entryId") Integer entryId,
+			@GraphQLName("contactEntry") ContactEntry contactEntry)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> contactEntryResource.putContactEntry(
+				entryId, contactEntry));
+	}
+
+	@GraphQLField
+	public Response updateContactEntryBatch(
+			@GraphQLName("entryId") Integer entryId,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> contactEntryResource.putContactEntryBatch(
+				entryId, callbackURL, object));
+	}
+
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
 			_applyComponentServiceObjects(
 				ComponentServiceObjects<T> componentServiceObjects,
@@ -163,8 +241,25 @@ public class Mutation {
 		contactResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private void _populateResourceContext(
+			ContactEntryResource contactEntryResource)
+		throws Exception {
+
+		contactEntryResource.setContextAcceptLanguage(_acceptLanguage);
+		contactEntryResource.setContextCompany(_company);
+		contactEntryResource.setContextHttpServletRequest(_httpServletRequest);
+		contactEntryResource.setContextHttpServletResponse(
+			_httpServletResponse);
+		contactEntryResource.setContextUriInfo(_uriInfo);
+		contactEntryResource.setContextUser(_user);
+		contactEntryResource.setGroupLocalService(_groupLocalService);
+		contactEntryResource.setRoleLocalService(_roleLocalService);
+	}
+
 	private static ComponentServiceObjects<ContactResource>
 		_contactResourceComponentServiceObjects;
+	private static ComponentServiceObjects<ContactEntryResource>
+		_contactEntryResourceComponentServiceObjects;
 
 	private AcceptLanguage _acceptLanguage;
 	private com.liferay.portal.kernel.model.Company _company;

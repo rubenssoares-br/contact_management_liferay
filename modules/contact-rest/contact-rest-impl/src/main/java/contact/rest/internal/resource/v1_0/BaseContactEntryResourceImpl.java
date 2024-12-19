@@ -1,6 +1,5 @@
 package contact.rest.internal.resource.v1_0;
 
-import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
@@ -25,8 +24,8 @@ import com.liferay.portal.vulcan.resource.EntityModelResource;
 import com.liferay.portal.vulcan.util.ActionUtil;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
-import contact.rest.dto.v1_0.Contact;
-import contact.rest.resource.v1_0.ContactResource;
+import contact.rest.dto.v1_0.ContactEntry;
+import contact.rest.resource.v1_0.ContactEntryResource;
 
 import java.io.Serializable;
 
@@ -51,91 +50,14 @@ import javax.ws.rs.core.UriInfo;
  */
 @Generated("")
 @javax.ws.rs.Path("/v1.0")
-public abstract class BaseContactResourceImpl
-	implements ContactResource, EntityModelResource,
-			   VulcanBatchEngineTaskItemDelegate<Contact> {
+public abstract class BaseContactEntryResourceImpl
+	implements ContactEntryResource, EntityModelResource,
+			   VulcanBatchEngineTaskItemDelegate<ContactEntry> {
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
-	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/contact")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public Page<Contact> getContact() throws Exception {
-		return Page.of(Collections.emptyList());
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact' -d $'{"address": ___, "contactId": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
-	)
-	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/contact")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public Contact postContact(Contact contact) throws Exception {
-		return new Contact();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/batch'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "callbackURL"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
-	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/contact/batch")
-	@javax.ws.rs.POST
-	@javax.ws.rs.Produces("application/json")
-	@Override
-	public Response postContactBatch(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
-			String callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.postImportTask(
-				Contact.class.getName(), callbackURL, null, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -146,27 +68,93 @@ public abstract class BaseContactResourceImpl
 		}
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
-	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/contact/{contactId}")
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/contact/{contactId}/contactEntry")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteContact(
+	public Page<ContactEntry> getContactEntries(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("contactId")
 			Integer contactId)
+		throws Exception {
+
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry' -d $'{"address": ___, "contactId": ___, "entryId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/contact/{contactId}/contactEntry")
+	@javax.ws.rs.POST
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public ContactEntry postContactEntry(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactId")
+			Integer contactId,
+			ContactEntry contactEntry)
+		throws Exception {
+
+		return new ContactEntry();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "entryId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
+	)
+	@javax.ws.rs.DELETE
+	@javax.ws.rs.Path("/contactEntry/{entryId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public void deleteContactEntry(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("entryId")
+			Integer entryId)
 		throws Exception {
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contact/batch'  -u 'test@liferay.com:test'
+	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}/batch'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "entryId"
+			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "callbackURL"
@@ -174,14 +162,18 @@ public abstract class BaseContactResourceImpl
 		}
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.Consumes("application/json")
 	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/contact/batch")
+	@javax.ws.rs.Path("/contactEntry/{entryId}/batch")
 	@javax.ws.rs.Produces("application/json")
 	@Override
-	public Response deleteContactBatch(
+	public Response deleteContactEntryBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("entryId")
+			Integer entryId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
@@ -200,79 +192,83 @@ public abstract class BaseContactResourceImpl
 
 		return responseBuilder.entity(
 			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Contact.class.getName(), callbackURL, object)
+				ContactEntry.class.getName(), callbackURL, object)
 		).build();
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
-				name = "contactId"
+				name = "entryId"
 			)
 		}
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/contact/{contactId}")
+	@javax.ws.rs.Path("/contactEntry/{entryId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Contact getIdContact(
+	public ContactEntry getContactEntryId(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("contactId")
-			Integer contactId)
+			@javax.ws.rs.PathParam("entryId")
+			Integer entryId)
 		throws Exception {
 
-		return new Contact();
+		return new ContactEntry();
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}' -d $'{"address": ___, "contactId": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}' -d $'{"address": ___, "contactId": ___, "entryId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
-				name = "contactId"
+				name = "entryId"
 			)
 		}
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/contact/{contactId}")
+	@javax.ws.rs.Path("/contactEntry/{entryId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public Contact putContact(
+	public ContactEntry putContactEntry(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("contactId")
-			Integer contactId,
-			Contact contact)
+			@javax.ws.rs.PathParam("entryId")
+			Integer entryId,
+			ContactEntry contactEntry)
 		throws Exception {
 
-		return new Contact();
+		return new ContactEntry();
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/batch'  -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}/batch'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "entryId"
+			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "callbackURL"
@@ -280,14 +276,18 @@ public abstract class BaseContactResourceImpl
 		}
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/contact/batch")
+	@javax.ws.rs.Path("/contactEntry/{entryId}/batch")
 	@javax.ws.rs.Produces("application/json")
 	@javax.ws.rs.PUT
 	@Override
-	public Response putContactBatch(
+	public Response putContactEntryBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("entryId")
+			Integer entryId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
@@ -306,34 +306,23 @@ public abstract class BaseContactResourceImpl
 
 		return responseBuilder.entity(
 			vulcanBatchEngineImportTaskResource.putImportTask(
-				Contact.class.getName(), callbackURL, object)
+				ContactEntry.class.getName(), callbackURL, object)
 		).build();
 	}
 
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(
-			java.util.Collection<Contact> contacts,
+			java.util.Collection<ContactEntry> contactEntries,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		UnsafeConsumer<Contact, Exception> contactUnsafeConsumer =
-			contact -> postContact(contact);
-
-		for (Contact contact : contacts) {
-			contactUnsafeConsumer.accept(contact);
-		}
 	}
 
 	@Override
 	public void delete(
-			java.util.Collection<Contact> contacts,
+			java.util.Collection<ContactEntry> contactEntries,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Contact contact : contacts) {
-			deleteContact(contact.getContactId());
-		}
 	}
 
 	@Override
@@ -352,7 +341,7 @@ public abstract class BaseContactResourceImpl
 	}
 
 	@Override
-	public Page<Contact> read(
+	public Page<ContactEntry> read(
 			Filter filter, Pagination pagination, Sort[] sorts,
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
@@ -384,15 +373,12 @@ public abstract class BaseContactResourceImpl
 
 	@Override
 	public void update(
-			java.util.Collection<Contact> contacts,
+			java.util.Collection<ContactEntry> contactEntries,
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		for (Contact contact : contacts) {
-			putContact(
-				(contact.getContactId() != null) ? contact.getContactId() :
-					Integer.parseInt((String)parameters.get("contactId")),
-				contact);
+		for (ContactEntry contactEntry : contactEntries) {
+			putContactEntry(entryId, contactEntry);
 		}
 	}
 
@@ -564,6 +550,6 @@ public abstract class BaseContactResourceImpl
 		vulcanBatchEngineImportTaskResource;
 
 	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BaseContactResourceImpl.class);
+		LogFactoryUtil.getLog(BaseContactEntryResourceImpl.class);
 
 }

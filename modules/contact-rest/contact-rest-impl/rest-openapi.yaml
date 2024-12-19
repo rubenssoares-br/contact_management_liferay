@@ -196,7 +196,7 @@ paths:
                         application/xml: {}
             tags: ["ContactEntry"]
         get:
-            operationId: getContactEntry
+            operationId: getContactEntryId
             parameters:
                 - in: path
                   name: entryId
@@ -212,7 +212,7 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/ContactEntry"
-            tags: ["ContactEntry"]  
+            tags: ["ContactEntry"] 
         put:
             operationId: putContactEntry
             parameters:

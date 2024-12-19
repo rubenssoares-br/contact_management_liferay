@@ -9,9 +9,12 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLTypeExtension;
 import com.liferay.portal.vulcan.pagination.Page;
 
 import contact.rest.dto.v1_0.Contact;
+import contact.rest.dto.v1_0.ContactEntry;
+import contact.rest.resource.v1_0.ContactEntryResource;
 import contact.rest.resource.v1_0.ContactResource;
 
 import java.util.Map;
@@ -39,6 +42,14 @@ public class Query {
 
 		_contactResourceComponentServiceObjects =
 			contactResourceComponentServiceObjects;
+	}
+
+	public static void setContactEntryResourceComponentServiceObjects(
+		ComponentServiceObjects<ContactEntryResource>
+			contactEntryResourceComponentServiceObjects) {
+
+		_contactEntryResourceComponentServiceObjects =
+			contactEntryResourceComponentServiceObjects;
 	}
 
 	/**
@@ -69,6 +80,100 @@ public class Query {
 			contactResource -> contactResource.getIdContact(contactId));
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {contactEntries(contactId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public ContactEntryPage contactEntries(
+			@GraphQLName("contactId") Integer contactId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> new ContactEntryPage(
+				contactEntryResource.getContactEntries(contactId)));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {contactEntryId(entryId: ___){entryId, familyRelationship, phone, address, contactId}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public ContactEntry contactEntryId(@GraphQLName("entryId") Integer entryId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> contactEntryResource.getContactEntryId(
+				entryId));
+	}
+
+	@GraphQLTypeExtension(ContactEntry.class)
+	public class GetContactEntryIdTypeExtension {
+
+		public GetContactEntryIdTypeExtension(ContactEntry contactEntry) {
+			_contactEntry = contactEntry;
+		}
+
+		@GraphQLField
+		public ContactEntry id() throws Exception {
+			return _applyComponentServiceObjects(
+				_contactEntryResourceComponentServiceObjects,
+				Query.this::_populateResourceContext,
+				contactEntryResource -> contactEntryResource.getContactEntryId(
+					_contactEntry.getEntryId()));
+		}
+
+		private ContactEntry _contactEntry;
+
+	}
+
+	@GraphQLTypeExtension(Contact.class)
+	public class GetContactEntriesTypeExtension {
+
+		public GetContactEntriesTypeExtension(Contact contact) {
+			_contact = contact;
+		}
+
+		@GraphQLField
+		public ContactEntryPage entries() throws Exception {
+			return _applyComponentServiceObjects(
+				_contactEntryResourceComponentServiceObjects,
+				Query.this::_populateResourceContext,
+				contactEntryResource -> new ContactEntryPage(
+					contactEntryResource.getContactEntries(
+						_contact.getContactId())));
+		}
+
+		private Contact _contact;
+
+	}
+
+	@GraphQLTypeExtension(ContactEntry.class)
+	public class GetIdContactTypeExtension {
+
+		public GetIdContactTypeExtension(ContactEntry contactEntry) {
+			_contactEntry = contactEntry;
+		}
+
+		@GraphQLField
+		public Contact idContact() throws Exception {
+			return _applyComponentServiceObjects(
+				_contactResourceComponentServiceObjects,
+				Query.this::_populateResourceContext,
+				contactResource -> contactResource.getIdContact(
+					_contactEntry.getContactId()));
+		}
+
+		private ContactEntry _contactEntry;
+
+	}
+
 	@GraphQLName("ContactPage")
 	public class ContactPage {
 
@@ -87,6 +192,39 @@ public class Query {
 
 		@GraphQLField
 		protected java.util.Collection<Contact> items;
+
+		@GraphQLField
+		protected long lastPage;
+
+		@GraphQLField
+		protected long page;
+
+		@GraphQLField
+		protected long pageSize;
+
+		@GraphQLField
+		protected long totalCount;
+
+	}
+
+	@GraphQLName("ContactEntryPage")
+	public class ContactEntryPage {
+
+		public ContactEntryPage(Page contactEntryPage) {
+			actions = contactEntryPage.getActions();
+
+			items = contactEntryPage.getItems();
+			lastPage = contactEntryPage.getLastPage();
+			page = contactEntryPage.getPage();
+			pageSize = contactEntryPage.getPageSize();
+			totalCount = contactEntryPage.getTotalCount();
+		}
+
+		@GraphQLField
+		protected Map<String, Map> actions;
+
+		@GraphQLField
+		protected java.util.Collection<ContactEntry> items;
 
 		@GraphQLField
 		protected long lastPage;
@@ -134,8 +272,25 @@ public class Query {
 		contactResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private void _populateResourceContext(
+			ContactEntryResource contactEntryResource)
+		throws Exception {
+
+		contactEntryResource.setContextAcceptLanguage(_acceptLanguage);
+		contactEntryResource.setContextCompany(_company);
+		contactEntryResource.setContextHttpServletRequest(_httpServletRequest);
+		contactEntryResource.setContextHttpServletResponse(
+			_httpServletResponse);
+		contactEntryResource.setContextUriInfo(_uriInfo);
+		contactEntryResource.setContextUser(_user);
+		contactEntryResource.setGroupLocalService(_groupLocalService);
+		contactEntryResource.setRoleLocalService(_roleLocalService);
+	}
+
 	private static ComponentServiceObjects<ContactResource>
 		_contactResourceComponentServiceObjects;
+	private static ComponentServiceObjects<ContactEntryResource>
+		_contactEntryResourceComponentServiceObjects;
 
 	private AcceptLanguage _acceptLanguage;
 	private com.liferay.portal.kernel.model.Company _company;

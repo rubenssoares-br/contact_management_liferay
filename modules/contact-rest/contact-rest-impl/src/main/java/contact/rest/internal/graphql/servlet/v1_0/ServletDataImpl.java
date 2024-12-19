@@ -4,6 +4,7 @@ import com.liferay.portal.vulcan.graphql.servlet.ServletData;
 
 import contact.rest.internal.graphql.mutation.v1_0.Mutation;
 import contact.rest.internal.graphql.query.v1_0.Query;
+import contact.rest.resource.v1_0.ContactEntryResource;
 import contact.rest.resource.v1_0.ContactResource;
 
 import javax.annotation.Generated;
@@ -27,9 +28,13 @@ public class ServletDataImpl implements ServletData {
 	public void activate(BundleContext bundleContext) {
 		Mutation.setContactResourceComponentServiceObjects(
 			_contactResourceComponentServiceObjects);
+		Mutation.setContactEntryResourceComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects);
 
 		Query.setContactResourceComponentServiceObjects(
 			_contactResourceComponentServiceObjects);
+		Query.setContactEntryResourceComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects);
 	}
 
 	@Override
@@ -50,5 +55,9 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<ContactResource>
 		_contactResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<ContactEntryResource>
+		_contactEntryResourceComponentServiceObjects;
 
 }
