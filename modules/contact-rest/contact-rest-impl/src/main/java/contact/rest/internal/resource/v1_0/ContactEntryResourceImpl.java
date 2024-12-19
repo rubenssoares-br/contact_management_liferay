@@ -55,6 +55,7 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 		return contactEntry;
 	}
 
+	@Override
 	public ContactEntry putContactEntry(Integer entryId, ContactEntry contactEntry) throws PortalException{
 		_contactEntries.put(entryId, contactEntry);
 
