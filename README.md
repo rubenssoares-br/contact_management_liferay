@@ -6,7 +6,7 @@ This project, built using the Liferay framework's Service Builder and REST Build
   - Blade
   - Docker
   - Gradle
-  - Java21
+  - Java11
 
 ## Build and Up project
 
