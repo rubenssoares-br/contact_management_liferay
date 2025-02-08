@@ -458,14 +458,6 @@ public abstract class ContactEntryLocalServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserLocalService
 		userLocalService;
 
-	@Reference
-	protected com.liferay.asset.kernel.service.AssetEntryLocalService
-		assetEntryLocalService;
-
-	@Reference
-	protected com.liferay.asset.kernel.service.AssetTagLocalService
-		assetTagLocalService;
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		ContactEntryLocalServiceBaseImpl.class);
 
