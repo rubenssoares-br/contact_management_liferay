@@ -32,8 +32,6 @@
 
 		<!-- References -->
 
-		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>
 	<entity local-service="true" name="ContactEntry" remote-service="true" uuid="false">
 
@@ -61,7 +59,5 @@
 
 		<!-- References -->
 
-		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
-		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
 	</entity>
 </service-builder>
