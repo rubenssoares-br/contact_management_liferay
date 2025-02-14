@@ -7,6 +7,7 @@ package com.liferay.contact.management.service.impl;
 
 import com.liferay.contact.management.exception.ContactAddressException;
 import com.liferay.contact.management.exception.ContactEntryFamilyRelationshipException;
+import com.liferay.contact.management.exception.ContactIdException;
 import com.liferay.contact.management.exception.ContactPhoneException;
 import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactEntryLocalServiceBaseImpl;
@@ -81,6 +82,8 @@ public class ContactEntryLocalServiceImpl
 
 		_validateAddress(address);
 
+		_validateContactId(contactId);
+
 	}
 
 	private void _validateFamilyRelationship(String familyRelationship) throws PortalException {
@@ -101,6 +104,13 @@ public class ContactEntryLocalServiceImpl
 
 		if (Validator.isBlank(address)) {
 			return;
+		}
+	}
+
+	private void _validateContactId(long contactId) throws PortalException {
+
+		if (Validator.isNull(contactId)) {
+			throw new ContactIdException("contactId is null");
 		}
 	}
 }
