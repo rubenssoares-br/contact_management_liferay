@@ -65,6 +65,7 @@
 		<exception>ContactEmail</exception>
 		<exception>ContactPhone</exception>
 		<exception>ContactAddress</exception>
+		<exception>ContactId</exception>
 		<exception>ContactEntryFamilyRelationship</exception>
 	</exceptions>
 </service-builder>
