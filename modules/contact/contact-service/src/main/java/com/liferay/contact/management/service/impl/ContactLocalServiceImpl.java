@@ -91,8 +91,21 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	private void _validateName(String name) throws PortalException {
 
 		if (Validator.isNull(name)) {
-			throw new ContactNameException("Name is null");
+			throw new ContactNameException.MustNotBeNull();
 		}
+
+		char[] arrayNameChar = name.toCharArray();
+
+		for (char a : arrayNameChar) {
+			if (!Validator.isChar(a) && !Validator.isDigit(a))  {
+				throw new ContactNameException.MustOnlyContainLettersAndDigits();
+			}
+		}
+
+		if (arrayNameChar.length > 50) {
+			throw new ContactNameException.MustBeLessThan50Characters();
+		}
+
 	}
 
 	private void _validateEmailAddress(String email) throws PortalException {
