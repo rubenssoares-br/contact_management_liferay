@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -39,6 +40,7 @@ import java.io.Serializable;
 
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -610,123 +612,85 @@ public class ContactPersistenceImpl
 	private static final String _FINDER_COLUMN_UUID_UUID_3 =
 		"(contact.uuid IS NULL OR contact.uuid = '')";
 
-	private FinderPath _finderPathWithPaginationFindByName;
-	private FinderPath _finderPathWithoutPaginationFindByName;
+	private FinderPath _finderPathFetchByName;
 	private FinderPath _finderPathCountByName;
 
 	/**
-	 * Returns all the contacts where name = &#63;.
+	 * Returns the contact where name = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
 	 *
 	 * @param name the name
-	 * @return the matching contacts
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
 	 */
 	@Override
-	public List<Contact> findByName(String name) {
-		return findByName(name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	public Contact findByName(String name) throws NoSuchContactException {
+		Contact contact = fetchByName(name);
+
+		if (contact == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("name=");
+			sb.append(name);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchContactException(sb.toString());
+		}
+
+		return contact;
 	}
 
 	/**
-	 * Returns a range of all the contacts where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
-	 * </p>
+	 * Returns the contact where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param name the name
-	 * @param start the lower bound of the range of contacts
-	 * @param end the upper bound of the range of contacts (not inclusive)
-	 * @return the range of matching contacts
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
 	 */
 	@Override
-	public List<Contact> findByName(String name, int start, int end) {
-		return findByName(name, start, end, null);
+	public Contact fetchByName(String name) {
+		return fetchByName(name, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the contacts where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
-	 * </p>
+	 * Returns the contact where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param name the name
-	 * @param start the lower bound of the range of contacts
-	 * @param end the upper bound of the range of contacts (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching contacts
-	 */
-	@Override
-	public List<Contact> findByName(
-		String name, int start, int end,
-		OrderByComparator<Contact> orderByComparator) {
-
-		return findByName(name, start, end, orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the contacts where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
-	 * </p>
-	 *
-	 * @param name the name
-	 * @param start the lower bound of the range of contacts
-	 * @param end the upper bound of the range of contacts (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching contacts
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
 	 */
 	@Override
-	public List<Contact> findByName(
-		String name, int start, int end,
-		OrderByComparator<Contact> orderByComparator, boolean useFinderCache) {
-
+	public Contact fetchByName(String name, boolean useFinderCache) {
 		name = Objects.toString(name, "");
 
-		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-			(orderByComparator == null)) {
-
-			if (useFinderCache) {
-				finderPath = _finderPathWithoutPaginationFindByName;
-				finderArgs = new Object[] {name};
-			}
-		}
-		else if (useFinderCache) {
-			finderPath = _finderPathWithPaginationFindByName;
-			finderArgs = new Object[] {name, start, end, orderByComparator};
+		if (useFinderCache) {
+			finderArgs = new Object[] {name};
 		}
 
-		List<Contact> list = null;
+		Object result = null;
 
 		if (useFinderCache) {
-			list = (List<Contact>)finderCache.getResult(
-				finderPath, finderArgs, this);
+			result = finderCache.getResult(
+				_finderPathFetchByName, finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (Contact contact : list) {
-					if (!name.equals(contact.getName())) {
-						list = null;
+		if (result instanceof Contact) {
+			Contact contact = (Contact)result;
 
-						break;
-					}
-				}
+			if (!Objects.equals(name, contact.getName())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler sb = null;
-
-			if (orderByComparator != null) {
-				sb = new StringBundler(
-					3 + (orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				sb = new StringBundler(3);
-			}
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
 
 			sb.append(_SQL_SELECT_CONTACT_WHERE);
 
@@ -739,14 +703,6 @@ public class ContactPersistenceImpl
 				bindName = true;
 
 				sb.append(_FINDER_COLUMN_NAME_NAME_2);
-			}
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(
-					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
-			}
-			else {
-				sb.append(ContactModelImpl.ORDER_BY_JPQL);
 			}
 
 			String sql = sb.toString();
@@ -764,13 +720,35 @@ public class ContactPersistenceImpl
 					queryPos.add(name);
 				}
 
-				list = (List<Contact>)QueryUtil.list(
-					query, getDialect(), start, end);
+				List<Contact> list = query.list();
 
-				cacheResult(list);
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByName, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
 
-				if (useFinderCache) {
-					finderCache.putResult(finderPath, finderArgs, list);
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {name};
+							}
+
+							_log.warn(
+								"ContactPersistenceImpl.fetchByName(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Contact contact = list.get(0);
+
+					result = contact;
+
+					cacheResult(contact);
 				}
 			}
 			catch (Exception exception) {
@@ -781,293 +759,25 @@ public class ContactPersistenceImpl
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching contact
-	 * @throws NoSuchContactException if a matching contact could not be found
-	 */
-	@Override
-	public Contact findByName_First(
-			String name, OrderByComparator<Contact> orderByComparator)
-		throws NoSuchContactException {
-
-		Contact contact = fetchByName_First(name, orderByComparator);
-
-		if (contact != null) {
-			return contact;
-		}
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("name=");
-		sb.append(name);
-
-		sb.append("}");
-
-		throw new NoSuchContactException(sb.toString());
-	}
-
-	/**
-	 * Returns the first contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching contact, or <code>null</code> if a matching contact could not be found
-	 */
-	@Override
-	public Contact fetchByName_First(
-		String name, OrderByComparator<Contact> orderByComparator) {
-
-		List<Contact> list = findByName(name, 0, 1, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching contact
-	 * @throws NoSuchContactException if a matching contact could not be found
-	 */
-	@Override
-	public Contact findByName_Last(
-			String name, OrderByComparator<Contact> orderByComparator)
-		throws NoSuchContactException {
-
-		Contact contact = fetchByName_Last(name, orderByComparator);
-
-		if (contact != null) {
-			return contact;
-		}
-
-		StringBundler sb = new StringBundler(4);
-
-		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		sb.append("name=");
-		sb.append(name);
-
-		sb.append("}");
-
-		throw new NoSuchContactException(sb.toString());
-	}
-
-	/**
-	 * Returns the last contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching contact, or <code>null</code> if a matching contact could not be found
-	 */
-	@Override
-	public Contact fetchByName_Last(
-		String name, OrderByComparator<Contact> orderByComparator) {
-
-		int count = countByName(name);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<Contact> list = findByName(
-			name, count - 1, count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the contacts before and after the current contact in the ordered set where name = &#63;.
-	 *
-	 * @param contactId the primary key of the current contact
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next contact
-	 * @throws NoSuchContactException if a contact with the primary key could not be found
-	 */
-	@Override
-	public Contact[] findByName_PrevAndNext(
-			long contactId, String name,
-			OrderByComparator<Contact> orderByComparator)
-		throws NoSuchContactException {
-
-		name = Objects.toString(name, "");
-
-		Contact contact = findByPrimaryKey(contactId);
-
-		Session session = null;
-
-		try {
-			session = openSession();
-
-			Contact[] array = new ContactImpl[3];
-
-			array[0] = getByName_PrevAndNext(
-				session, contact, name, orderByComparator, true);
-
-			array[1] = contact;
-
-			array[2] = getByName_PrevAndNext(
-				session, contact, name, orderByComparator, false);
-
-			return array;
-		}
-		catch (Exception exception) {
-			throw processException(exception);
-		}
-		finally {
-			closeSession(session);
-		}
-	}
-
-	protected Contact getByName_PrevAndNext(
-		Session session, Contact contact, String name,
-		OrderByComparator<Contact> orderByComparator, boolean previous) {
-
-		StringBundler sb = null;
-
-		if (orderByComparator != null) {
-			sb = new StringBundler(
-				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
-					(orderByComparator.getOrderByFields().length * 3));
-		}
 		else {
-			sb = new StringBundler(3);
-		}
-
-		sb.append(_SQL_SELECT_CONTACT_WHERE);
-
-		boolean bindName = false;
-
-		if (name.isEmpty()) {
-			sb.append(_FINDER_COLUMN_NAME_NAME_3);
-		}
-		else {
-			bindName = true;
-
-			sb.append(_FINDER_COLUMN_NAME_NAME_2);
-		}
-
-		if (orderByComparator != null) {
-			String[] orderByConditionFields =
-				orderByComparator.getOrderByConditionFields();
-
-			if (orderByConditionFields.length > 0) {
-				sb.append(WHERE_AND);
-			}
-
-			for (int i = 0; i < orderByConditionFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByConditionFields[i]);
-
-				if ((i + 1) < orderByConditionFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(WHERE_GREATER_THAN);
-					}
-					else {
-						sb.append(WHERE_LESSER_THAN);
-					}
-				}
-			}
-
-			sb.append(ORDER_BY_CLAUSE);
-
-			String[] orderByFields = orderByComparator.getOrderByFields();
-
-			for (int i = 0; i < orderByFields.length; i++) {
-				sb.append(_ORDER_BY_ENTITY_ALIAS);
-				sb.append(orderByFields[i]);
-
-				if ((i + 1) < orderByFields.length) {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC_HAS_NEXT);
-					}
-					else {
-						sb.append(ORDER_BY_DESC_HAS_NEXT);
-					}
-				}
-				else {
-					if (orderByComparator.isAscending() ^ previous) {
-						sb.append(ORDER_BY_ASC);
-					}
-					else {
-						sb.append(ORDER_BY_DESC);
-					}
-				}
-			}
-		}
-		else {
-			sb.append(ContactModelImpl.ORDER_BY_JPQL);
-		}
-
-		String sql = sb.toString();
-
-		Query query = session.createQuery(sql);
-
-		query.setFirstResult(0);
-		query.setMaxResults(2);
-
-		QueryPos queryPos = QueryPos.getInstance(query);
-
-		if (bindName) {
-			queryPos.add(name);
-		}
-
-		if (orderByComparator != null) {
-			for (Object orderByConditionValue :
-					orderByComparator.getOrderByConditionValues(contact)) {
-
-				queryPos.add(orderByConditionValue);
-			}
-		}
-
-		List<Contact> list = query.list();
-
-		if (list.size() == 2) {
-			return list.get(1);
-		}
-		else {
-			return null;
+			return (Contact)result;
 		}
 	}
 
 	/**
-	 * Removes all the contacts where name = &#63; from the database.
+	 * Removes the contact where name = &#63; from the database.
 	 *
 	 * @param name the name
+	 * @return the contact that was removed
 	 */
 	@Override
-	public void removeByName(String name) {
-		for (Contact contact :
-				findByName(name, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+	public Contact removeByName(String name) throws NoSuchContactException {
+		Contact contact = findByName(name);
 
-			remove(contact);
-		}
+		return remove(contact);
 	}
 
 	/**
@@ -1161,6 +871,9 @@ public class ContactPersistenceImpl
 	public void cacheResult(Contact contact) {
 		entityCache.putResult(
 			ContactImpl.class, contact.getPrimaryKey(), contact);
+
+		finderCache.putResult(
+			_finderPathFetchByName, new Object[] {contact.getName()}, contact);
 	}
 
 	private int _valueObjectFinderCacheListThreshold;
@@ -1228,6 +941,13 @@ public class ContactPersistenceImpl
 		for (Serializable primaryKey : primaryKeys) {
 			entityCache.removeResult(ContactImpl.class, primaryKey);
 		}
+	}
+
+	protected void cacheUniqueFindersCache(ContactModelImpl contactModelImpl) {
+		Object[] args = new Object[] {contactModelImpl.getName()};
+
+		finderCache.putResult(_finderPathCountByName, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByName, args, contactModelImpl);
 	}
 
 	/**
@@ -1381,6 +1101,8 @@ public class ContactPersistenceImpl
 		}
 
 		entityCache.putResult(ContactImpl.class, contactModelImpl, false, true);
+
+		cacheUniqueFindersCache(contactModelImpl);
 
 		if (isNew) {
 			contact.setNew(false);
@@ -1683,16 +1405,8 @@ public class ContactPersistenceImpl
 			new String[] {String.class.getName()}, new String[] {"uuid_"},
 			false);
 
-		_finderPathWithPaginationFindByName = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByName",
-			new String[] {
-				String.class.getName(), Integer.class.getName(),
-				Integer.class.getName(), OrderByComparator.class.getName()
-			},
-			new String[] {"name"}, true);
-
-		_finderPathWithoutPaginationFindByName = new FinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByName",
+		_finderPathFetchByName = new FinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByName",
 			new String[] {String.class.getName()}, new String[] {"name"}, true);
 
 		_finderPathCountByName = new FinderPath(

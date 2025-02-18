@@ -272,154 +272,49 @@ public class ContactUtil {
 	}
 
 	/**
-	 * Returns all the contacts where name = &#63;.
+	 * Returns the contact where name = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
 	 *
 	 * @param name the name
-	 * @return the matching contacts
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
 	 */
-	public static List<Contact> findByName(String name) {
+	public static Contact findByName(String name)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
 		return getPersistence().findByName(name);
 	}
 
 	/**
-	 * Returns a range of all the contacts where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
-	 * </p>
+	 * Returns the contact where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param name the name
-	 * @param start the lower bound of the range of contacts
-	 * @param end the upper bound of the range of contacts (not inclusive)
-	 * @return the range of matching contacts
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
 	 */
-	public static List<Contact> findByName(String name, int start, int end) {
-		return getPersistence().findByName(name, start, end);
+	public static Contact fetchByName(String name) {
+		return getPersistence().fetchByName(name);
 	}
 
 	/**
-	 * Returns an ordered range of all the contacts where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
-	 * </p>
+	 * Returns the contact where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param name the name
-	 * @param start the lower bound of the range of contacts
-	 * @param end the upper bound of the range of contacts (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching contacts
-	 */
-	public static List<Contact> findByName(
-		String name, int start, int end,
-		OrderByComparator<Contact> orderByComparator) {
-
-		return getPersistence().findByName(name, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the contacts where name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
-	 * </p>
-	 *
-	 * @param name the name
-	 * @param start the lower bound of the range of contacts
-	 * @param end the upper bound of the range of contacts (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching contacts
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
 	 */
-	public static List<Contact> findByName(
-		String name, int start, int end,
-		OrderByComparator<Contact> orderByComparator, boolean useFinderCache) {
-
-		return getPersistence().findByName(
-			name, start, end, orderByComparator, useFinderCache);
+	public static Contact fetchByName(String name, boolean useFinderCache) {
+		return getPersistence().fetchByName(name, useFinderCache);
 	}
 
 	/**
-	 * Returns the first contact in the ordered set where name = &#63;.
+	 * Removes the contact where name = &#63; from the database.
 	 *
 	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching contact
-	 * @throws NoSuchContactException if a matching contact could not be found
+	 * @return the contact that was removed
 	 */
-	public static Contact findByName_First(
-			String name, OrderByComparator<Contact> orderByComparator)
+	public static Contact removeByName(String name)
 		throws com.liferay.contact.management.exception.NoSuchContactException {
 
-		return getPersistence().findByName_First(name, orderByComparator);
-	}
-
-	/**
-	 * Returns the first contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching contact, or <code>null</code> if a matching contact could not be found
-	 */
-	public static Contact fetchByName_First(
-		String name, OrderByComparator<Contact> orderByComparator) {
-
-		return getPersistence().fetchByName_First(name, orderByComparator);
-	}
-
-	/**
-	 * Returns the last contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching contact
-	 * @throws NoSuchContactException if a matching contact could not be found
-	 */
-	public static Contact findByName_Last(
-			String name, OrderByComparator<Contact> orderByComparator)
-		throws com.liferay.contact.management.exception.NoSuchContactException {
-
-		return getPersistence().findByName_Last(name, orderByComparator);
-	}
-
-	/**
-	 * Returns the last contact in the ordered set where name = &#63;.
-	 *
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching contact, or <code>null</code> if a matching contact could not be found
-	 */
-	public static Contact fetchByName_Last(
-		String name, OrderByComparator<Contact> orderByComparator) {
-
-		return getPersistence().fetchByName_Last(name, orderByComparator);
-	}
-
-	/**
-	 * Returns the contacts before and after the current contact in the ordered set where name = &#63;.
-	 *
-	 * @param contactId the primary key of the current contact
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next contact
-	 * @throws NoSuchContactException if a contact with the primary key could not be found
-	 */
-	public static Contact[] findByName_PrevAndNext(
-			long contactId, String name,
-			OrderByComparator<Contact> orderByComparator)
-		throws com.liferay.contact.management.exception.NoSuchContactException {
-
-		return getPersistence().findByName_PrevAndNext(
-			contactId, name, orderByComparator);
-	}
-
-	/**
-	 * Removes all the contacts where name = &#63; from the database.
-	 *
-	 * @param name the name
-	 */
-	public static void removeByName(String name) {
-		getPersistence().removeByName(name);
+		return getPersistence().removeByName(name);
 	}
 
 	/**
