@@ -11,6 +11,20 @@ import com.liferay.portal.kernel.exception.PortalException;
  */
 public class ContactEmailException extends PortalException {
 
+	public static class MustNotBeNull extends ContactEmailException {
+		public MustNotBeNull() {
+			super("Email is null");
+		}
+
+	}
+
+	public static class MustHaveValidAddressFormat extends ContactEmailException {
+		public MustHaveValidAddressFormat(String email) {
+			super("The email " + email + " is not in a valid email address format");
+		}
+
+	}
+
 	public ContactEmailException() {
 	}
 
