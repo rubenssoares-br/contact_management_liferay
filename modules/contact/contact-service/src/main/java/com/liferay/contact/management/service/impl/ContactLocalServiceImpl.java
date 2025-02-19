@@ -118,8 +118,13 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	private void _validateEmailAddress(String email) throws PortalException {
 
 		if (Validator.isNull(email)) {
-			throw new ContactEmailException("Email is null");
+			throw new ContactEmailException.MustNotBeNull();
 		}
+
+		if (!Validator.isEmailAddress(email)) {
+			throw new ContactEmailException.MustHaveValidAddressFormat(email);
+		}
+		
 	}
 
 	private void _validatePhone(long phone) throws PortalException {
