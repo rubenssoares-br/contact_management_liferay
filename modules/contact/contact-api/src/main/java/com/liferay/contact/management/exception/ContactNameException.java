@@ -14,6 +14,12 @@ import java.util.List;
  */
 public class ContactNameException extends PortalException {
 
+	public static class MustNotBeDuplicate extends ContactNameException {
+		public MustNotBeDuplicate(String name) {
+			super("Name " + name + " duplicated");
+		}
+	}
+
 	public static class MustNotBeNull extends ContactNameException {
 
 		public MustNotBeNull() {

@@ -106,6 +106,12 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 			throw new ContactNameException.MustBeLessThan50Characters();
 		}
 
+		Contact contactName = contactPersistence.fetchByName(name);
+
+		if (contactName != null) {
+			throw new ContactNameException.MustNotBeDuplicate(name);
+		}
+
 	}
 
 	private void _validateEmailAddress(String email) throws PortalException {
