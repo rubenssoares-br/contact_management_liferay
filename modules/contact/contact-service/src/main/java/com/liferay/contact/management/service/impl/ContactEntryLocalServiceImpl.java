@@ -96,14 +96,14 @@ public class ContactEntryLocalServiceImpl
 	private void _validatePhone(long phone) throws PortalException {
 
 		if (Validator.isNull(phone)) {
-			throw new ContactPhoneException("Phone is null");
+			return;
 		}
 	}
 
 	private void _validateAddress(String address) throws PortalException {
 
-		if (Validator.isBlank(address)) {
-			return;
+		if (Validator.isNull(address)) {
+			throw new ContactAddressException();
 		}
 	}
 

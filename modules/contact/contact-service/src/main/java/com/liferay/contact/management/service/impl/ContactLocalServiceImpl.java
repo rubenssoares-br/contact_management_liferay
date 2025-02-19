@@ -6,6 +6,7 @@
 package com.liferay.contact.management.service.impl;
 
 
+import com.liferay.contact.management.exception.ContactAddressException;
 import com.liferay.contact.management.exception.ContactEmailException;
 import com.liferay.contact.management.exception.ContactNameException;
 import com.liferay.contact.management.exception.ContactPhoneException;
@@ -124,14 +125,14 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	private void _validatePhone(long phone) throws PortalException {
 
 		if (Validator.isNull(phone)) {
-			throw new ContactPhoneException("Phone is null");
+			return;
 		}
 	}
 
 	private void _validateAddress(String address) throws PortalException {
 
 		if (Validator.isNull(address)) {
-			return;
+			throw new ContactAddressException();
 		}
 	}
 
