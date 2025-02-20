@@ -328,6 +328,62 @@ public class ContactUtil {
 	}
 
 	/**
+	 * Returns the contact where email = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param email the email
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	public static Contact findByEmail(String email)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().findByEmail(email);
+	}
+
+	/**
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param email the email
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchByEmail(String email) {
+		return getPersistence().fetchByEmail(email);
+	}
+
+	/**
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param email the email
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchByEmail(String email, boolean useFinderCache) {
+		return getPersistence().fetchByEmail(email, useFinderCache);
+	}
+
+	/**
+	 * Removes the contact where email = &#63; from the database.
+	 *
+	 * @param email the email
+	 * @return the contact that was removed
+	 */
+	public static Contact removeByEmail(String email)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().removeByEmail(email);
+	}
+
+	/**
+	 * Returns the number of contacts where email = &#63;.
+	 *
+	 * @param email the email
+	 * @return the number of matching contacts
+	 */
+	public static int countByEmail(String email) {
+		return getPersistence().countByEmail(email);
+	}
+
+	/**
 	 * Caches the contact in the entity cache if it is enabled.
 	 *
 	 * @param contact the contact

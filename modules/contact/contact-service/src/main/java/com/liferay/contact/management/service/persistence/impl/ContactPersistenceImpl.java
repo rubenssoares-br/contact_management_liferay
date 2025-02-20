@@ -847,6 +847,242 @@ public class ContactPersistenceImpl
 	private static final String _FINDER_COLUMN_NAME_NAME_3 =
 		"(contact.name IS NULL OR contact.name = '')";
 
+	private FinderPath _finderPathFetchByEmail;
+	private FinderPath _finderPathCountByEmail;
+
+	/**
+	 * Returns the contact where email = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param email the email
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	@Override
+	public Contact findByEmail(String email) throws NoSuchContactException {
+		Contact contact = fetchByEmail(email);
+
+		if (contact == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("email=");
+			sb.append(email);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchContactException(sb.toString());
+		}
+
+		return contact;
+	}
+
+	/**
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param email the email
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public Contact fetchByEmail(String email) {
+		return fetchByEmail(email, true);
+	}
+
+	/**
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param email the email
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public Contact fetchByEmail(String email, boolean useFinderCache) {
+		email = Objects.toString(email, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {email};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByEmail, finderArgs, this);
+		}
+
+		if (result instanceof Contact) {
+			Contact contact = (Contact)result;
+
+			if (!Objects.equals(email, contact.getEmail())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_CONTACT_WHERE);
+
+			boolean bindEmail = false;
+
+			if (email.isEmpty()) {
+				sb.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
+			}
+			else {
+				bindEmail = true;
+
+				sb.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindEmail) {
+					queryPos.add(email);
+				}
+
+				List<Contact> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByEmail, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {email};
+							}
+
+							_log.warn(
+								"ContactPersistenceImpl.fetchByEmail(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Contact contact = list.get(0);
+
+					result = contact;
+
+					cacheResult(contact);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Contact)result;
+		}
+	}
+
+	/**
+	 * Removes the contact where email = &#63; from the database.
+	 *
+	 * @param email the email
+	 * @return the contact that was removed
+	 */
+	@Override
+	public Contact removeByEmail(String email) throws NoSuchContactException {
+		Contact contact = findByEmail(email);
+
+		return remove(contact);
+	}
+
+	/**
+	 * Returns the number of contacts where email = &#63;.
+	 *
+	 * @param email the email
+	 * @return the number of matching contacts
+	 */
+	@Override
+	public int countByEmail(String email) {
+		email = Objects.toString(email, "");
+
+		FinderPath finderPath = _finderPathCountByEmail;
+
+		Object[] finderArgs = new Object[] {email};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONTACT_WHERE);
+
+			boolean bindEmail = false;
+
+			if (email.isEmpty()) {
+				sb.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
+			}
+			else {
+				bindEmail = true;
+
+				sb.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindEmail) {
+					queryPos.add(email);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 =
+		"contact.email = ?";
+
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 =
+		"(contact.email IS NULL OR contact.email = '')";
+
 	public ContactPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -874,6 +1110,10 @@ public class ContactPersistenceImpl
 
 		finderCache.putResult(
 			_finderPathFetchByName, new Object[] {contact.getName()}, contact);
+
+		finderCache.putResult(
+			_finderPathFetchByEmail, new Object[] {contact.getEmail()},
+			contact);
 	}
 
 	private int _valueObjectFinderCacheListThreshold;
@@ -948,6 +1188,11 @@ public class ContactPersistenceImpl
 
 		finderCache.putResult(_finderPathCountByName, args, Long.valueOf(1));
 		finderCache.putResult(_finderPathFetchByName, args, contactModelImpl);
+
+		args = new Object[] {contactModelImpl.getEmail()};
+
+		finderCache.putResult(_finderPathCountByEmail, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByEmail, args, contactModelImpl);
 	}
 
 	/**
@@ -1412,6 +1657,16 @@ public class ContactPersistenceImpl
 		_finderPathCountByName = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
 			new String[] {String.class.getName()}, new String[] {"name"},
+			false);
+
+		_finderPathFetchByEmail = new FinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
+			new String[] {String.class.getName()}, new String[] {"email"},
+			true);
+
+		_finderPathCountByEmail = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
+			new String[] {String.class.getName()}, new String[] {"email"},
 			false);
 
 		ContactUtil.setPersistence(this);

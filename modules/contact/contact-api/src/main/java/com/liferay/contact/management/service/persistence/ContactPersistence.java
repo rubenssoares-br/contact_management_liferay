@@ -216,6 +216,48 @@ public interface ContactPersistence extends BasePersistence<Contact> {
 	public int countByName(String name);
 
 	/**
+	 * Returns the contact where email = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param email the email
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	public Contact findByEmail(String email) throws NoSuchContactException;
+
+	/**
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param email the email
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public Contact fetchByEmail(String email);
+
+	/**
+	 * Returns the contact where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param email the email
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public Contact fetchByEmail(String email, boolean useFinderCache);
+
+	/**
+	 * Removes the contact where email = &#63; from the database.
+	 *
+	 * @param email the email
+	 * @return the contact that was removed
+	 */
+	public Contact removeByEmail(String email) throws NoSuchContactException;
+
+	/**
+	 * Returns the number of contacts where email = &#63;.
+	 *
+	 * @param email the email
+	 * @return the number of matching contacts
+	 */
+	public int countByEmail(String email);
+
+	/**
 	 * Caches the contact in the entity cache if it is enabled.
 	 *
 	 * @param contact the contact
