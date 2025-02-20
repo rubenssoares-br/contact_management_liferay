@@ -30,6 +30,10 @@
 			<finder-column name="name" />
 		</finder>
 
+		<finder name="Email" return-type="Contact">
+			<finder-column name="email" />
+		</finder>
+
 		<!-- References -->
 
 	</entity>
