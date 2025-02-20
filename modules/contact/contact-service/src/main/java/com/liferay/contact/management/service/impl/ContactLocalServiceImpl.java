@@ -124,7 +124,13 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		if (!Validator.isEmailAddress(email)) {
 			throw new ContactEmailException.MustHaveValidAddressFormat(email);
 		}
-		
+
+		char[] arrayEmailChar = email.toCharArray();
+
+		if (arrayEmailChar.length > 70) {
+			throw new ContactEmailException.MustBeLessThan70Characters();
+		}
+
 	}
 
 	private void _validatePhone(long phone) throws PortalException {
