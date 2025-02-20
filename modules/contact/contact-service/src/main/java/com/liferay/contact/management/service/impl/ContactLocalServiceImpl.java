@@ -12,6 +12,7 @@ import com.liferay.contact.management.exception.ContactNameException;
 import com.liferay.contact.management.exception.ContactPhoneException;
 import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.service.base.ContactLocalServiceBaseImpl;
+import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -129,6 +130,10 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		if (arrayEmailChar.length > 70) {
 			throw new ContactEmailException.MustBeLessThan70Characters();
+		}
+
+		if (ContactUtil.fetchByEmail(email) != null) {
+			throw new ContactEmailException.MustNotBeDuplicate(email);
 		}
 
 	}
