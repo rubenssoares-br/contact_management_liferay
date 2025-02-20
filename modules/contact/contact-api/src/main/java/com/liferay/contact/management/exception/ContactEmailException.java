@@ -14,6 +14,13 @@ import java.util.List;
  */
 public class ContactEmailException extends PortalException {
 
+	public static class MustNotBeDuplicate extends ContactEmailException {
+		public MustNotBeDuplicate(String email) {
+			super("Email " + email + " duplicated");
+		}
+
+	}
+
 	public static class MustNotBeNull extends ContactEmailException {
 		public MustNotBeNull() {
 			super("Email is null");
