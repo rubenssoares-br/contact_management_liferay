@@ -6,6 +6,9 @@ package com.liferay.contact.management.exception;
 
 import com.liferay.portal.kernel.exception.PortalException;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Rubens Soares
  */
@@ -25,11 +28,21 @@ public class ContactEmailException extends PortalException {
 
 	}
 
+	public static class MustBeLessThan70Characters extends ContactEmailException {
+		public MustBeLessThan70Characters() {
+			super(Arrays.asList(70, "email"), "Email must be less than 70 characters");
+		}
+	}
+
 	public ContactEmailException() {
 	}
 
 	public ContactEmailException(String msg) {
 		super(msg);
+	}
+
+	public ContactEmailException(List<Object> argument, String message) {
+		super(message);
 	}
 
 	public ContactEmailException(String msg, Throwable throwable) {
