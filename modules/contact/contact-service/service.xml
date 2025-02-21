@@ -34,6 +34,14 @@
 			<finder-column name="email" />
 		</finder>
 
+		<finder name="Phone" return-type="Contact">
+			<finder-column name="phone"></finder-column>
+		</finder>
+
+		<finder name="Address" return-type="Contact">
+			<finder-column name="address"></finder-column>
+		</finder>
+
 		<!-- References -->
 
 	</entity>
