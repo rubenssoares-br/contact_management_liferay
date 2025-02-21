@@ -14,6 +14,12 @@ import java.util.List;
  */
 public class ContactPhoneException extends PortalException {
 
+	public static class MustNotBeDuplicate extends ContactPhoneException {
+		public MustNotBeDuplicate(long phone) {
+			super("Phone " + phone + " duplicated");
+		}
+	}
+
 	public static class MustOnlyContainDigits extends ContactPhoneException {
 		public MustOnlyContainDigits() {
 			super("Phone must only contain digits");
