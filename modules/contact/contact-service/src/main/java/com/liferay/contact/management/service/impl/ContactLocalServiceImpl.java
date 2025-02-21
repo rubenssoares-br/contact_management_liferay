@@ -164,7 +164,23 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	private void _validateAddress(String address) throws PortalException {
 
 		if (Validator.isNull(address)) {
-			throw new ContactAddressException();
+			throw new ContactAddressException.MustNotBeNull();
+		}
+
+		char[] arrayAddressChar = address.toCharArray();
+
+		for (char a : arrayAddressChar) {
+			if (!Validator.isChar(a) && !Validator.isDigit(a))  {
+				throw new ContactAddressException.MustOnlyContainLettersAndDigits();
+			}
+		}
+
+		if (arrayAddressChar.length > 60) {
+			throw new ContactAddressException.MustBeLessThan60Characters();
+		}
+
+		if (ContactUtil.fetchByAddress(address) != null) {
+			throw new ContactEmailException.MustNotBeDuplicate(address);
 		}
 	}
 
