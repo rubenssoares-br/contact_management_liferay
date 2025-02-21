@@ -8,6 +8,7 @@ package com.liferay.contact.management.service.impl;
 import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactEntryLocalServiceBaseImpl;
+import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 
@@ -101,7 +102,11 @@ public class ContactEntryLocalServiceImpl
 		if (arrayFamilyRelationshipChar.length > 50) {
 			throw new ContactEntryFamilyRelationshipException.MustBeLessThan50Characters();
 		}
-		
+
+		if (ContactEntryUtil.fetchByFamilyRelationship(familyRelationship) != null) {
+			throw new ContactEntryFamilyRelationshipException.MustNotBeDuplicate(familyRelationship);
+		}
+
 	}
 
 	private void _validatePhone(long phone) throws PortalException {
