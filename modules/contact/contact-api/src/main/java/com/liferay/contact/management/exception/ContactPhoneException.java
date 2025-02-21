@@ -6,16 +6,35 @@ package com.liferay.contact.management.exception;
 
 import com.liferay.portal.kernel.exception.PortalException;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Rubens Soares
  */
 public class ContactPhoneException extends PortalException {
+
+	public static class MustOnlyContainDigits extends ContactPhoneException {
+		public MustOnlyContainDigits() {
+			super("Phone must only contain digits");
+		}
+	}
+
+	public static class MustBeLessThan30Characters extends ContactPhoneException {
+		public MustBeLessThan30Characters() {
+			super(Arrays.asList(30, "phone"), "Phone must be less than 30 characters");
+		}
+	}
 
 	public ContactPhoneException() {
 	}
 
 	public ContactPhoneException(String msg) {
 		super(msg);
+	}
+
+	public ContactPhoneException(List<Object> argument, String message) {
+		super(message);
 	}
 
 	public ContactPhoneException(String msg, Throwable throwable) {
