@@ -87,8 +87,21 @@ public class ContactEntryLocalServiceImpl
 	private void _validateFamilyRelationship(String familyRelationship) throws PortalException {
 
 		if (Validator.isNull(familyRelationship)) {
-			throw new ContactEntryFamilyRelationshipException("FamilyRelationship is null");
+			throw new ContactEntryFamilyRelationshipException.MustNotBeNull();
 		}
+
+		char[] arrayFamilyRelationshipChar = familyRelationship.toCharArray();
+
+		for (char a : arrayFamilyRelationshipChar) {
+			if (!Validator.isChar(a) && !Validator.isDigit(a)) {
+				throw new ContactEntryFamilyRelationshipException.MustOnlyContainLettersAndDigits();
+			}
+		}
+
+		if (arrayFamilyRelationshipChar.length > 50) {
+			throw new ContactEntryFamilyRelationshipException.MustBeLessThan50Characters();
+		}
+		
 	}
 
 	private void _validatePhone(long phone) throws PortalException {
