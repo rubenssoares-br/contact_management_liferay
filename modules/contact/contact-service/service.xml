@@ -69,6 +69,10 @@
 			<finder-column name="familyRelationship" />
 		</finder>
 
+		<finder name="ContactId" return-type="ContactEntry">
+			<finder-column name="contactId"></finder-column>
+		</finder>
+
 		<!-- References -->
 
 	</entity>
