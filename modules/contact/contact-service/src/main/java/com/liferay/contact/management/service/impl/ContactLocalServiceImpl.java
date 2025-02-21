@@ -143,6 +143,18 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		if (Validator.isNull(phone)) {
 			return;
 		}
+
+		char[] arrayPhoneChar = Long.toString(phone).toCharArray();
+
+		for (char a : arrayPhoneChar) {
+			if (!Validator.isDigit(a)) {
+				throw new ContactPhoneException.MustOnlyContainDigits();
+			}
+		}
+
+		if (arrayPhoneChar.length > 30) {
+			throw new ContactPhoneException.MustBeLessThan30Characters();
+		}
 	}
 
 	private void _validateAddress(String address) throws PortalException {
