@@ -160,7 +160,25 @@ public class ContactEntryLocalServiceImpl
 	private void _validateContactId(long contactId) throws PortalException {
 
 		if (Validator.isNull(contactId)) {
-			throw new ContactIdException("contactId is null");
+			throw new ContactIdException.MustNotBeNull();
 		}
+
+		char[] arrayContactIdChar = Long.toString(contactId).toCharArray();
+
+		for (char a : arrayContactIdChar) {
+			if (!Validator.isDigit(a)) {
+				throw new ContactIdException.MustOnlyContainDigits();
+			}
+		}
+
+		if (arrayContactIdChar.length > 30) {
+			throw new ContactIdException.MustBeLessThan30Characters();
+		}
+
+		if (ContactEntryUtil.fetchByContactId(contactId) == null) {
+			throw new ContactIdException.MustBeValid();
+		}
+		
 	}
+
 }
