@@ -155,6 +155,10 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		if (arrayPhoneChar.length > 30) {
 			throw new ContactPhoneException.MustBeLessThan30Characters();
 		}
+
+		if (ContactUtil.fetchByPhone(phone) != null) {
+			throw new ContactPhoneException.MustNotBeDuplicate(phone);
+		}
 	}
 
 	private void _validateAddress(String address) throws PortalException {
