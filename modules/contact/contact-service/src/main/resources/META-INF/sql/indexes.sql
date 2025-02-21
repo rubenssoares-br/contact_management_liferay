@@ -5,3 +5,4 @@ create index IX_8D235E0C on CTMG_Contact (phone);
 create index IX_AB785722 on CTMG_Contact (uuid_[$COLUMN_LENGTH:75$]);
 
 create index IX_A3E03A3F on CTMG_ContactEntry (contactId);
+create index IX_CA415BBC on CTMG_ContactEntry (familyRelationship[$COLUMN_LENGTH:75$]);

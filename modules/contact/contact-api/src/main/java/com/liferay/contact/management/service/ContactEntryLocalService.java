@@ -5,6 +5,7 @@
 
 package com.liferay.contact.management.service;
 
+import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;

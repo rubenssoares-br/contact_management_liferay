@@ -17,6 +17,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.transaction.Propagation;
@@ -138,6 +140,15 @@ public class ContactEntryPersistenceTest {
 		Assert.assertEquals(
 			existingContactEntry.getContactId(),
 			newContactEntry.getContactId());
+	}
+
+	@Test
+	public void testCountByFamilyRelationship() throws Exception {
+		_persistence.countByFamilyRelationship("");
+
+		_persistence.countByFamilyRelationship("null");
+
+		_persistence.countByFamilyRelationship((String)null);
 	}
 
 	@Test
@@ -383,6 +394,70 @@ public class ContactEntryPersistenceTest {
 		List<Object> result = _persistence.findWithDynamicQuery(dynamicQuery);
 
 		Assert.assertEquals(0, result.size());
+	}
+
+	@Test
+	public void testResetOriginalValues() throws Exception {
+		ContactEntry newContactEntry = addContactEntry();
+
+		_persistence.clearCache();
+
+		_assertOriginalValues(
+			_persistence.findByPrimaryKey(newContactEntry.getPrimaryKey()));
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromDatabase()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(true);
+	}
+
+	@Test
+	public void testResetOriginalValuesWithDynamicQueryLoadFromSession()
+		throws Exception {
+
+		_testResetOriginalValuesWithDynamicQuery(false);
+	}
+
+	private void _testResetOriginalValuesWithDynamicQuery(boolean clearSession)
+		throws Exception {
+
+		ContactEntry newContactEntry = addContactEntry();
+
+		if (clearSession) {
+			Session session = _persistence.openSession();
+
+			session.flush();
+
+			session.clear();
+		}
+
+		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(
+			ContactEntry.class, _dynamicQueryClassLoader);
+
+		dynamicQuery.add(
+			RestrictionsFactoryUtil.eq(
+				"entryId", newContactEntry.getEntryId()));
+
+		List<ContactEntry> result = _persistence.findWithDynamicQuery(
+			dynamicQuery);
+
+		_assertOriginalValues(result.get(0));
+	}
+
+	private void _assertOriginalValues(ContactEntry contactEntry) {
+		Assert.assertEquals(
+			contactEntry.getFamilyRelationship(),
+			ReflectionTestUtil.invoke(
+				contactEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "familyRelationship"));
+
+		Assert.assertEquals(
+			Long.valueOf(contactEntry.getContactId()),
+			ReflectionTestUtil.<Long>invoke(
+				contactEntry, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "contactId"));
 	}
 
 	protected ContactEntry addContactEntry() throws Exception {

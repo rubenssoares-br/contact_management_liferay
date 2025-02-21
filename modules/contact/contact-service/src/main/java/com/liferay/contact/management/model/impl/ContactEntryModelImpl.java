@@ -99,8 +99,7 @@ public class ContactEntryModelImpl
 	public static final long CONTACTID_COLUMN_BITMASK = 1L;
 
 	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *		#getColumnBitmask(String)}
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
 	public static final long FAMILYRELATIONSHIP_COLUMN_BITMASK = 2L;
@@ -294,6 +293,15 @@ public class ContactEntryModelImpl
 		}
 
 		_familyRelationship = familyRelationship;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public String getOriginalFamilyRelationship() {
+		return getColumnOriginalValue("familyRelationship");
 	}
 
 	@JSON

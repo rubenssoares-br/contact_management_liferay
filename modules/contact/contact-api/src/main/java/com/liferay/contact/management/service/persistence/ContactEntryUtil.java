@@ -111,165 +111,118 @@ public class ContactEntryUtil {
 	}
 
 	/**
-	 * Returns all the contact entries where contactId = &#63;.
+	 * Returns the contact entry where familyRelationship = &#63; or throws a <code>NoSuchContactEntryException</code> if it could not be found.
+	 *
+	 * @param familyRelationship the family relationship
+	 * @return the matching contact entry
+	 * @throws NoSuchContactEntryException if a matching contact entry could not be found
+	 */
+	public static ContactEntry findByFamilyRelationship(
+			String familyRelationship)
+		throws com.liferay.contact.management.exception.
+			NoSuchContactEntryException {
+
+		return getPersistence().findByFamilyRelationship(familyRelationship);
+	}
+
+	/**
+	 * Returns the contact entry where familyRelationship = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param familyRelationship the family relationship
+	 * @return the matching contact entry, or <code>null</code> if a matching contact entry could not be found
+	 */
+	public static ContactEntry fetchByFamilyRelationship(
+		String familyRelationship) {
+
+		return getPersistence().fetchByFamilyRelationship(familyRelationship);
+	}
+
+	/**
+	 * Returns the contact entry where familyRelationship = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param familyRelationship the family relationship
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact entry, or <code>null</code> if a matching contact entry could not be found
+	 */
+	public static ContactEntry fetchByFamilyRelationship(
+		String familyRelationship, boolean useFinderCache) {
+
+		return getPersistence().fetchByFamilyRelationship(
+			familyRelationship, useFinderCache);
+	}
+
+	/**
+	 * Removes the contact entry where familyRelationship = &#63; from the database.
+	 *
+	 * @param familyRelationship the family relationship
+	 * @return the contact entry that was removed
+	 */
+	public static ContactEntry removeByFamilyRelationship(
+			String familyRelationship)
+		throws com.liferay.contact.management.exception.
+			NoSuchContactEntryException {
+
+		return getPersistence().removeByFamilyRelationship(familyRelationship);
+	}
+
+	/**
+	 * Returns the number of contact entries where familyRelationship = &#63;.
+	 *
+	 * @param familyRelationship the family relationship
+	 * @return the number of matching contact entries
+	 */
+	public static int countByFamilyRelationship(String familyRelationship) {
+		return getPersistence().countByFamilyRelationship(familyRelationship);
+	}
+
+	/**
+	 * Returns the contact entry where contactId = &#63; or throws a <code>NoSuchContactEntryException</code> if it could not be found.
 	 *
 	 * @param contactId the contact ID
-	 * @return the matching contact entries
+	 * @return the matching contact entry
+	 * @throws NoSuchContactEntryException if a matching contact entry could not be found
 	 */
-	public static List<ContactEntry> findByContactId(long contactId) {
+	public static ContactEntry findByContactId(long contactId)
+		throws com.liferay.contact.management.exception.
+			NoSuchContactEntryException {
+
 		return getPersistence().findByContactId(contactId);
 	}
 
 	/**
-	 * Returns a range of all the contact entries where contactId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
-	 * </p>
+	 * Returns the contact entry where contactId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param contactId the contact ID
-	 * @param start the lower bound of the range of contact entries
-	 * @param end the upper bound of the range of contact entries (not inclusive)
-	 * @return the range of matching contact entries
+	 * @return the matching contact entry, or <code>null</code> if a matching contact entry could not be found
 	 */
-	public static List<ContactEntry> findByContactId(
-		long contactId, int start, int end) {
-
-		return getPersistence().findByContactId(contactId, start, end);
+	public static ContactEntry fetchByContactId(long contactId) {
+		return getPersistence().fetchByContactId(contactId);
 	}
 
 	/**
-	 * Returns an ordered range of all the contact entries where contactId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
-	 * </p>
+	 * Returns the contact entry where contactId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param contactId the contact ID
-	 * @param start the lower bound of the range of contact entries
-	 * @param end the upper bound of the range of contact entries (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching contact entries
-	 */
-	public static List<ContactEntry> findByContactId(
-		long contactId, int start, int end,
-		OrderByComparator<ContactEntry> orderByComparator) {
-
-		return getPersistence().findByContactId(
-			contactId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the contact entries where contactId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
-	 * </p>
-	 *
-	 * @param contactId the contact ID
-	 * @param start the lower bound of the range of contact entries
-	 * @param end the upper bound of the range of contact entries (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching contact entries
+	 * @return the matching contact entry, or <code>null</code> if a matching contact entry could not be found
 	 */
-	public static List<ContactEntry> findByContactId(
-		long contactId, int start, int end,
-		OrderByComparator<ContactEntry> orderByComparator,
-		boolean useFinderCache) {
+	public static ContactEntry fetchByContactId(
+		long contactId, boolean useFinderCache) {
 
-		return getPersistence().findByContactId(
-			contactId, start, end, orderByComparator, useFinderCache);
+		return getPersistence().fetchByContactId(contactId, useFinderCache);
 	}
 
 	/**
-	 * Returns the first contact entry in the ordered set where contactId = &#63;.
+	 * Removes the contact entry where contactId = &#63; from the database.
 	 *
 	 * @param contactId the contact ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching contact entry
-	 * @throws NoSuchContactEntryException if a matching contact entry could not be found
+	 * @return the contact entry that was removed
 	 */
-	public static ContactEntry findByContactId_First(
-			long contactId, OrderByComparator<ContactEntry> orderByComparator)
+	public static ContactEntry removeByContactId(long contactId)
 		throws com.liferay.contact.management.exception.
 			NoSuchContactEntryException {
 
-		return getPersistence().findByContactId_First(
-			contactId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first contact entry in the ordered set where contactId = &#63;.
-	 *
-	 * @param contactId the contact ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching contact entry, or <code>null</code> if a matching contact entry could not be found
-	 */
-	public static ContactEntry fetchByContactId_First(
-		long contactId, OrderByComparator<ContactEntry> orderByComparator) {
-
-		return getPersistence().fetchByContactId_First(
-			contactId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last contact entry in the ordered set where contactId = &#63;.
-	 *
-	 * @param contactId the contact ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching contact entry
-	 * @throws NoSuchContactEntryException if a matching contact entry could not be found
-	 */
-	public static ContactEntry findByContactId_Last(
-			long contactId, OrderByComparator<ContactEntry> orderByComparator)
-		throws com.liferay.contact.management.exception.
-			NoSuchContactEntryException {
-
-		return getPersistence().findByContactId_Last(
-			contactId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last contact entry in the ordered set where contactId = &#63;.
-	 *
-	 * @param contactId the contact ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching contact entry, or <code>null</code> if a matching contact entry could not be found
-	 */
-	public static ContactEntry fetchByContactId_Last(
-		long contactId, OrderByComparator<ContactEntry> orderByComparator) {
-
-		return getPersistence().fetchByContactId_Last(
-			contactId, orderByComparator);
-	}
-
-	/**
-	 * Returns the contact entries before and after the current contact entry in the ordered set where contactId = &#63;.
-	 *
-	 * @param entryId the primary key of the current contact entry
-	 * @param contactId the contact ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next contact entry
-	 * @throws NoSuchContactEntryException if a contact entry with the primary key could not be found
-	 */
-	public static ContactEntry[] findByContactId_PrevAndNext(
-			long entryId, long contactId,
-			OrderByComparator<ContactEntry> orderByComparator)
-		throws com.liferay.contact.management.exception.
-			NoSuchContactEntryException {
-
-		return getPersistence().findByContactId_PrevAndNext(
-			entryId, contactId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the contact entries where contactId = &#63; from the database.
-	 *
-	 * @param contactId the contact ID
-	 */
-	public static void removeByContactId(long contactId) {
-		getPersistence().removeByContactId(contactId);
+		return getPersistence().removeByContactId(contactId);
 	}
 
 	/**
