@@ -5,12 +5,10 @@
 
 package com.liferay.contact.management.service.impl;
 
-import com.liferay.contact.management.exception.ContactAddressException;
-import com.liferay.contact.management.exception.ContactEntryFamilyRelationshipException;
-import com.liferay.contact.management.exception.ContactIdException;
-import com.liferay.contact.management.exception.ContactPhoneException;
+import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactEntryLocalServiceBaseImpl;
+import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -98,13 +96,47 @@ public class ContactEntryLocalServiceImpl
 		if (Validator.isNull(phone)) {
 			return;
 		}
+
+		char[] arrayPhoneChar = Long.toString(phone).toCharArray();
+
+		for (char a : arrayPhoneChar) {
+			if (!Validator.isDigit(a)) {
+				throw new ContactPhoneException.MustOnlyContainDigits();
+			}
+		}
+
+		if (arrayPhoneChar.length > 30) {
+			throw new ContactPhoneException.MustBeLessThan30Characters();
+		}
+
+		if (ContactUtil.fetchByPhone(phone) != null) {
+			throw new ContactPhoneException.MustNotBeDuplicate(phone);
+		}
+
 	}
 
 	private void _validateAddress(String address) throws PortalException {
 
 		if (Validator.isNull(address)) {
-			throw new ContactAddressException();
+			throw new ContactAddressException.MustNotBeNull();
 		}
+
+		char[] arrayAddressChar = address.toCharArray();
+
+		for (char a : arrayAddressChar) {
+			if (!Validator.isChar(a) && !Validator.isDigit(a))  {
+				throw new ContactAddressException.MustOnlyContainLettersAndDigits();
+			}
+		}
+
+		if (arrayAddressChar.length > 60) {
+			throw new ContactAddressException.MustBeLessThan60Characters();
+		}
+
+		if (ContactUtil.fetchByAddress(address) != null) {
+			throw new ContactEmailException.MustNotBeDuplicate(address);
+		}
+
 	}
 
 	private void _validateContactId(long contactId) throws PortalException {
