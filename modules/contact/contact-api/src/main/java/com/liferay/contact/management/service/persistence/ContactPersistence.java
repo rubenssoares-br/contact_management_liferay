@@ -258,6 +258,91 @@ public interface ContactPersistence extends BasePersistence<Contact> {
 	public int countByEmail(String email);
 
 	/**
+	 * Returns the contact where phone = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param phone the phone
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	public Contact findByPhone(long phone) throws NoSuchContactException;
+
+	/**
+	 * Returns the contact where phone = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param phone the phone
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public Contact fetchByPhone(long phone);
+
+	/**
+	 * Returns the contact where phone = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param phone the phone
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public Contact fetchByPhone(long phone, boolean useFinderCache);
+
+	/**
+	 * Removes the contact where phone = &#63; from the database.
+	 *
+	 * @param phone the phone
+	 * @return the contact that was removed
+	 */
+	public Contact removeByPhone(long phone) throws NoSuchContactException;
+
+	/**
+	 * Returns the number of contacts where phone = &#63;.
+	 *
+	 * @param phone the phone
+	 * @return the number of matching contacts
+	 */
+	public int countByPhone(long phone);
+
+	/**
+	 * Returns the contact where address = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param address the address
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	public Contact findByAddress(String address) throws NoSuchContactException;
+
+	/**
+	 * Returns the contact where address = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param address the address
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public Contact fetchByAddress(String address);
+
+	/**
+	 * Returns the contact where address = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param address the address
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public Contact fetchByAddress(String address, boolean useFinderCache);
+
+	/**
+	 * Removes the contact where address = &#63; from the database.
+	 *
+	 * @param address the address
+	 * @return the contact that was removed
+	 */
+	public Contact removeByAddress(String address)
+		throws NoSuchContactException;
+
+	/**
+	 * Returns the number of contacts where address = &#63;.
+	 *
+	 * @param address the address
+	 * @return the number of matching contacts
+	 */
+	public int countByAddress(String address);
+
+	/**
 	 * Caches the contact in the entity cache if it is enabled.
 	 *
 	 * @param contact the contact

@@ -168,6 +168,22 @@ public class ContactPersistenceTest {
 	}
 
 	@Test
+	public void testCountByPhone() throws Exception {
+		_persistence.countByPhone(RandomTestUtil.nextLong());
+
+		_persistence.countByPhone(0L);
+	}
+
+	@Test
+	public void testCountByAddress() throws Exception {
+		_persistence.countByAddress("");
+
+		_persistence.countByAddress("null");
+
+		_persistence.countByAddress((String)null);
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		Contact newContact = addContact();
 
@@ -459,6 +475,18 @@ public class ContactPersistenceTest {
 			ReflectionTestUtil.invoke(
 				contact, "getColumnOriginalValue",
 				new Class<?>[] {String.class}, "email"));
+
+		Assert.assertEquals(
+			Long.valueOf(contact.getPhone()),
+			ReflectionTestUtil.<Long>invoke(
+				contact, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "phone"));
+
+		Assert.assertEquals(
+			contact.getAddress(),
+			ReflectionTestUtil.invoke(
+				contact, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "address"));
 	}
 
 	protected Contact addContact() throws Exception {

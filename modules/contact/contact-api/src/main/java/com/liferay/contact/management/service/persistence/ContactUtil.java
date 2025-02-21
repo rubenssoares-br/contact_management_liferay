@@ -384,6 +384,120 @@ public class ContactUtil {
 	}
 
 	/**
+	 * Returns the contact where phone = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param phone the phone
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	public static Contact findByPhone(long phone)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().findByPhone(phone);
+	}
+
+	/**
+	 * Returns the contact where phone = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param phone the phone
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchByPhone(long phone) {
+		return getPersistence().fetchByPhone(phone);
+	}
+
+	/**
+	 * Returns the contact where phone = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param phone the phone
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchByPhone(long phone, boolean useFinderCache) {
+		return getPersistence().fetchByPhone(phone, useFinderCache);
+	}
+
+	/**
+	 * Removes the contact where phone = &#63; from the database.
+	 *
+	 * @param phone the phone
+	 * @return the contact that was removed
+	 */
+	public static Contact removeByPhone(long phone)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().removeByPhone(phone);
+	}
+
+	/**
+	 * Returns the number of contacts where phone = &#63;.
+	 *
+	 * @param phone the phone
+	 * @return the number of matching contacts
+	 */
+	public static int countByPhone(long phone) {
+		return getPersistence().countByPhone(phone);
+	}
+
+	/**
+	 * Returns the contact where address = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param address the address
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	public static Contact findByAddress(String address)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().findByAddress(address);
+	}
+
+	/**
+	 * Returns the contact where address = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param address the address
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchByAddress(String address) {
+		return getPersistence().fetchByAddress(address);
+	}
+
+	/**
+	 * Returns the contact where address = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param address the address
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchByAddress(
+		String address, boolean useFinderCache) {
+
+		return getPersistence().fetchByAddress(address, useFinderCache);
+	}
+
+	/**
+	 * Removes the contact where address = &#63; from the database.
+	 *
+	 * @param address the address
+	 * @return the contact that was removed
+	 */
+	public static Contact removeByAddress(String address)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().removeByAddress(address);
+	}
+
+	/**
+	 * Returns the number of contacts where address = &#63;.
+	 *
+	 * @param address the address
+	 * @return the number of matching contacts
+	 */
+	public static int countByAddress(String address) {
+		return getPersistence().countByAddress(address);
+	}
+
+	/**
 	 * Caches the contact in the entity cache if it is enabled.
 	 *
 	 * @param contact the contact

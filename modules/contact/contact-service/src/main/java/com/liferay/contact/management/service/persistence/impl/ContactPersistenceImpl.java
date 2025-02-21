@@ -1083,6 +1083,451 @@ public class ContactPersistenceImpl
 	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 =
 		"(contact.email IS NULL OR contact.email = '')";
 
+	private FinderPath _finderPathFetchByPhone;
+	private FinderPath _finderPathCountByPhone;
+
+	/**
+	 * Returns the contact where phone = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param phone the phone
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	@Override
+	public Contact findByPhone(long phone) throws NoSuchContactException {
+		Contact contact = fetchByPhone(phone);
+
+		if (contact == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("phone=");
+			sb.append(phone);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchContactException(sb.toString());
+		}
+
+		return contact;
+	}
+
+	/**
+	 * Returns the contact where phone = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param phone the phone
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public Contact fetchByPhone(long phone) {
+		return fetchByPhone(phone, true);
+	}
+
+	/**
+	 * Returns the contact where phone = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param phone the phone
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public Contact fetchByPhone(long phone, boolean useFinderCache) {
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {phone};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByPhone, finderArgs, this);
+		}
+
+		if (result instanceof Contact) {
+			Contact contact = (Contact)result;
+
+			if (phone != contact.getPhone()) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_CONTACT_WHERE);
+
+			sb.append(_FINDER_COLUMN_PHONE_PHONE_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(phone);
+
+				List<Contact> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByPhone, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {phone};
+							}
+
+							_log.warn(
+								"ContactPersistenceImpl.fetchByPhone(long, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Contact contact = list.get(0);
+
+					result = contact;
+
+					cacheResult(contact);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Contact)result;
+		}
+	}
+
+	/**
+	 * Removes the contact where phone = &#63; from the database.
+	 *
+	 * @param phone the phone
+	 * @return the contact that was removed
+	 */
+	@Override
+	public Contact removeByPhone(long phone) throws NoSuchContactException {
+		Contact contact = findByPhone(phone);
+
+		return remove(contact);
+	}
+
+	/**
+	 * Returns the number of contacts where phone = &#63;.
+	 *
+	 * @param phone the phone
+	 * @return the number of matching contacts
+	 */
+	@Override
+	public int countByPhone(long phone) {
+		FinderPath finderPath = _finderPathCountByPhone;
+
+		Object[] finderArgs = new Object[] {phone};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONTACT_WHERE);
+
+			sb.append(_FINDER_COLUMN_PHONE_PHONE_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(phone);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_PHONE_PHONE_2 =
+		"contact.phone = ?";
+
+	private FinderPath _finderPathFetchByAddress;
+	private FinderPath _finderPathCountByAddress;
+
+	/**
+	 * Returns the contact where address = &#63; or throws a <code>NoSuchContactException</code> if it could not be found.
+	 *
+	 * @param address the address
+	 * @return the matching contact
+	 * @throws NoSuchContactException if a matching contact could not be found
+	 */
+	@Override
+	public Contact findByAddress(String address) throws NoSuchContactException {
+		Contact contact = fetchByAddress(address);
+
+		if (contact == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("address=");
+			sb.append(address);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchContactException(sb.toString());
+		}
+
+		return contact;
+	}
+
+	/**
+	 * Returns the contact where address = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param address the address
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public Contact fetchByAddress(String address) {
+		return fetchByAddress(address, true);
+	}
+
+	/**
+	 * Returns the contact where address = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param address the address
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public Contact fetchByAddress(String address, boolean useFinderCache) {
+		address = Objects.toString(address, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {address};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByAddress, finderArgs, this);
+		}
+
+		if (result instanceof Contact) {
+			Contact contact = (Contact)result;
+
+			if (!Objects.equals(address, contact.getAddress())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_CONTACT_WHERE);
+
+			boolean bindAddress = false;
+
+			if (address.isEmpty()) {
+				sb.append(_FINDER_COLUMN_ADDRESS_ADDRESS_3);
+			}
+			else {
+				bindAddress = true;
+
+				sb.append(_FINDER_COLUMN_ADDRESS_ADDRESS_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindAddress) {
+					queryPos.add(address);
+				}
+
+				List<Contact> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByAddress, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {address};
+							}
+
+							_log.warn(
+								"ContactPersistenceImpl.fetchByAddress(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Contact contact = list.get(0);
+
+					result = contact;
+
+					cacheResult(contact);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Contact)result;
+		}
+	}
+
+	/**
+	 * Removes the contact where address = &#63; from the database.
+	 *
+	 * @param address the address
+	 * @return the contact that was removed
+	 */
+	@Override
+	public Contact removeByAddress(String address)
+		throws NoSuchContactException {
+
+		Contact contact = findByAddress(address);
+
+		return remove(contact);
+	}
+
+	/**
+	 * Returns the number of contacts where address = &#63;.
+	 *
+	 * @param address the address
+	 * @return the number of matching contacts
+	 */
+	@Override
+	public int countByAddress(String address) {
+		address = Objects.toString(address, "");
+
+		FinderPath finderPath = _finderPathCountByAddress;
+
+		Object[] finderArgs = new Object[] {address};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONTACT_WHERE);
+
+			boolean bindAddress = false;
+
+			if (address.isEmpty()) {
+				sb.append(_FINDER_COLUMN_ADDRESS_ADDRESS_3);
+			}
+			else {
+				bindAddress = true;
+
+				sb.append(_FINDER_COLUMN_ADDRESS_ADDRESS_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindAddress) {
+					queryPos.add(address);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ADDRESS_ADDRESS_2 =
+		"contact.address = ?";
+
+	private static final String _FINDER_COLUMN_ADDRESS_ADDRESS_3 =
+		"(contact.address IS NULL OR contact.address = '')";
+
 	public ContactPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -1113,6 +1558,14 @@ public class ContactPersistenceImpl
 
 		finderCache.putResult(
 			_finderPathFetchByEmail, new Object[] {contact.getEmail()},
+			contact);
+
+		finderCache.putResult(
+			_finderPathFetchByPhone, new Object[] {contact.getPhone()},
+			contact);
+
+		finderCache.putResult(
+			_finderPathFetchByAddress, new Object[] {contact.getAddress()},
 			contact);
 	}
 
@@ -1193,6 +1646,17 @@ public class ContactPersistenceImpl
 
 		finderCache.putResult(_finderPathCountByEmail, args, Long.valueOf(1));
 		finderCache.putResult(_finderPathFetchByEmail, args, contactModelImpl);
+
+		args = new Object[] {contactModelImpl.getPhone()};
+
+		finderCache.putResult(_finderPathCountByPhone, args, Long.valueOf(1));
+		finderCache.putResult(_finderPathFetchByPhone, args, contactModelImpl);
+
+		args = new Object[] {contactModelImpl.getAddress()};
+
+		finderCache.putResult(_finderPathCountByAddress, args, Long.valueOf(1));
+		finderCache.putResult(
+			_finderPathFetchByAddress, args, contactModelImpl);
 	}
 
 	/**
@@ -1667,6 +2131,24 @@ public class ContactPersistenceImpl
 		_finderPathCountByEmail = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
 			new String[] {String.class.getName()}, new String[] {"email"},
+			false);
+
+		_finderPathFetchByPhone = new FinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByPhone",
+			new String[] {Long.class.getName()}, new String[] {"phone"}, true);
+
+		_finderPathCountByPhone = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPhone",
+			new String[] {Long.class.getName()}, new String[] {"phone"}, false);
+
+		_finderPathFetchByAddress = new FinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByAddress",
+			new String[] {String.class.getName()}, new String[] {"address"},
+			true);
+
+		_finderPathCountByAddress = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAddress",
+			new String[] {String.class.getName()}, new String[] {"address"},
 			false);
 
 		ContactUtil.setPersistence(this);
