@@ -65,8 +65,8 @@
 
 		<!-- Finder methods -->
 
-		<finder name="ContactId" return-type="Collection">
-			<finder-column name="contactId" />
+		<finder name="FamilyRelationship" return-type="ContactEntry">
+			<finder-column name="familyRelationship" />
 		</finder>
 
 		<!-- References -->
