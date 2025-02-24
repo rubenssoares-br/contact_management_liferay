@@ -202,6 +202,9 @@ public interface ContactEntryLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ContactEntry> getAllContactEntries() throws PortalException;
+
 	/**
 	 * Returns a range of all the contact entries.
 	 *

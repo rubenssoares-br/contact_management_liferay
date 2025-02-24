@@ -220,6 +220,12 @@ public class ContactEntryLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static List<ContactEntry> getAllContactEntries()
+		throws PortalException {
+
+		return getService().getAllContactEntries();
+	}
+
 	/**
 	 * Returns a range of all the contact entries.
 	 *

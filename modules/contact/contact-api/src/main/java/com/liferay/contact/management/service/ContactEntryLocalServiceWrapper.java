@@ -246,6 +246,14 @@ public class ContactEntryLocalServiceWrapper
 		return _contactEntryLocalService.getActionableDynamicQuery();
 	}
 
+	@Override
+	public java.util.List<com.liferay.contact.management.model.ContactEntry>
+			getAllContactEntries()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactEntryLocalService.getAllContactEntries();
+	}
+
 	/**
 	 * Returns a range of all the contact entries.
 	 *
