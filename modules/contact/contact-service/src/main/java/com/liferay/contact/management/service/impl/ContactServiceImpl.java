@@ -19,6 +19,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
+import java.util.List;
+
 /**
  * @author Rubens Soares
  */
@@ -55,7 +57,10 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 		return contactLocalService.updateContact(name, contactId, email, phone, address, serviceContext);
 	}
 
+	public List<Contact> getAllContacts() throws PortalException {
 
+		return contactLocalService.getAllContacts();
+	}
 
 	@Reference
 	private volatile ModelResourcePermission<Contact>
