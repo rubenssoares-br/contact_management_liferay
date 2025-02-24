@@ -13,6 +13,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.List;
+
 /**
  * @author Rubens Soares
  */
@@ -42,5 +44,10 @@ public class ContactEntryServiceImpl extends ContactEntryServiceBaseImpl {
 	public ContactEntry getContactEntry(long entryId, ServiceContext serviceContext) throws PortalException {
 
 		return contactEntryLocalService.getContactEntry(entryId);
+	}
+
+	public List<ContactEntry> getAllContactsEntries() throws PortalException {
+
+		return contactEntryLocalService.getAllContactEntries();
 	}
 }
