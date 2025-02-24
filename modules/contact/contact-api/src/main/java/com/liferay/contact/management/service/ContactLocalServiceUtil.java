@@ -217,6 +217,10 @@ public class ContactLocalServiceUtil {
 		return getService().getActionableDynamicQuery();
 	}
 
+	public static List<Contact> getAllContacts() throws PortalException {
+		return getService().getAllContacts();
+	}
+
 	/**
 	 * Returns the contact with the primary key.
 	 *

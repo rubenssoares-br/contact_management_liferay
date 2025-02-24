@@ -241,6 +241,14 @@ public class ContactLocalServiceWrapper
 		return _contactLocalService.getActionableDynamicQuery();
 	}
 
+	@Override
+	public java.util.List<com.liferay.contact.management.model.Contact>
+			getAllContacts()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactLocalService.getAllContacts();
+	}
+
 	/**
 	 * Returns the contact with the primary key.
 	 *
