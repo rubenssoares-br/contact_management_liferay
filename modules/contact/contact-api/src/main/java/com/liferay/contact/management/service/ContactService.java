@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 
+import java.util.List;
+
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -47,6 +49,9 @@ public interface ContactService extends BaseService {
 		throws PortalException;
 
 	public void deleteContact(long contactId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Contact> getAllContacts() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Contact getContact(long contactId, ServiceContext serviceContext)
