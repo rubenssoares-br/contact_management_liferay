@@ -44,6 +44,14 @@ public class ContactEntryServiceWrapper
 	}
 
 	@Override
+	public java.util.List<com.liferay.contact.management.model.ContactEntry>
+			getAllContactsEntries()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactEntryService.getAllContactsEntries();
+	}
+
+	@Override
 	public com.liferay.contact.management.model.ContactEntry getContactEntry(
 			long entryId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)

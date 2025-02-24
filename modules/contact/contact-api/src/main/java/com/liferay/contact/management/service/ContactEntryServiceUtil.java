@@ -9,6 +9,8 @@ import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.module.service.Snapshot;
 
+import java.util.List;
+
 /**
  * Provides the remote service utility for ContactEntry. This utility wraps
  * <code>com.liferay.contact.management.service.impl.ContactEntryServiceImpl</code> and is an
@@ -40,6 +42,12 @@ public class ContactEntryServiceUtil {
 
 	public static void deleteContactEntry(long entryId) throws PortalException {
 		getService().deleteContactEntry(entryId);
+	}
+
+	public static List<ContactEntry> getAllContactsEntries()
+		throws PortalException {
+
+		return getService().getAllContactsEntries();
 	}
 
 	public static ContactEntry getContactEntry(

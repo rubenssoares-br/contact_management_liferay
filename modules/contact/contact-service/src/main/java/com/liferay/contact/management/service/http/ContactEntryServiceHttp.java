@@ -206,6 +206,47 @@ public class ContactEntryServiceHttp {
 		}
 	}
 
+	public static java.util.List
+		<com.liferay.contact.management.model.ContactEntry>
+				getAllContactsEntries(HttpPrincipal httpPrincipal)
+			throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ContactEntryServiceUtil.class, "getAllContactsEntries",
+				_getAllContactsEntriesParameterTypes4);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List
+				<com.liferay.contact.management.model.ContactEntry>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	private static Log _log = LogFactoryUtil.getLog(
 		ContactEntryServiceHttp.class);
 
@@ -225,5 +266,7 @@ public class ContactEntryServiceHttp {
 		new Class[] {
 			long.class, com.liferay.portal.kernel.service.ServiceContext.class
 		};
+	private static final Class<?>[] _getAllContactsEntriesParameterTypes4 =
+		new Class[] {};
 
 }
