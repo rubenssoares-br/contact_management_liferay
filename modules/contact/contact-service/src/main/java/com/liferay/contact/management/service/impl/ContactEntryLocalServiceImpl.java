@@ -17,6 +17,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.Validator;
 import org.osgi.service.component.annotations.Component;
 
+import java.util.List;
+
 /**
  * @author Rubens Soares
  */
@@ -71,6 +73,11 @@ public class ContactEntryLocalServiceImpl
 	public ContactEntry getContactEntry(long entryId) throws PortalException {
 
 		return contactEntryPersistence.findByPrimaryKey(entryId);
+	}
+
+	public List<ContactEntry> getAllContactEntries() throws PortalException {
+
+		return contactEntryPersistence.findAll();
 	}
 
 	private void _validateParameters(String familyRelationship, long phone, String address, long contactId) throws PortalException {
