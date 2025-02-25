@@ -6,12 +6,10 @@
 package com.liferay.contact.management.service.impl;
 
 
-import com.liferay.contact.management.exception.ContactAddressException;
-import com.liferay.contact.management.exception.ContactEmailException;
-import com.liferay.contact.management.exception.ContactNameException;
-import com.liferay.contact.management.exception.ContactPhoneException;
+import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.service.base.ContactLocalServiceBaseImpl;
+import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -68,11 +66,9 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		return entity;
 	}
 
-	public Contact deleteContact(Contact entity) throws PortalException {
-
-		contactPersistence.remove(entity);
-
-		return entity;
+	public Contact deleteContact(long contactId) throws PortalException {
+		
+		return contactPersistence.remove(contactId);
 	}
 
 	public Contact getContact(long contactId) throws PortalException {
