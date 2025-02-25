@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.liferay.portal.kernel.util.Validator;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.List;
 
@@ -67,11 +68,15 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	}
 
 	public Contact deleteContact(long contactId) throws PortalException {
+
+		_validateContactId(contactId);
 		
 		return contactPersistence.remove(contactId);
 	}
 
 	public Contact getContact(long contactId) throws PortalException {
+
+		_validateContactId(contactId);
 
 		return contactPersistence.findByPrimaryKey(contactId);
 	}
@@ -184,6 +189,30 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		if (ContactUtil.fetchByAddress(address) != null) {
 			throw new ContactEmailException.MustNotBeDuplicate(address);
 		}
+	}
+
+	private void _validateContactId(long contactId) throws PortalException {
+
+		if (Validator.isNull(contactId)) {
+			throw new ContactIdException.MustNotBeNull();
+		}
+
+		char[] arrayContactIdChar = Long.toString(contactId).toCharArray();
+
+		for (char a : arrayContactIdChar) {
+			if (!Validator.isDigit(a)) {
+				throw new ContactIdException.MustOnlyContainDigits();
+			}
+		}
+
+		if (arrayContactIdChar.length > 30) {
+			throw new ContactIdException.MustBeLessThan30Characters();
+		}
+
+		if (ContactUtil.findByPrimaryKey(contactId) == null) {
+			throw new ContactIdException.MustBeValid();
+		}
+
 	}
 
 }
