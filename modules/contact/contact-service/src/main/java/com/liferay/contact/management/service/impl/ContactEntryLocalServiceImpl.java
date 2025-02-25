@@ -63,11 +63,10 @@ public class ContactEntryLocalServiceImpl
 		return entity;
 	}
 
-	public ContactEntry deleteContactEntry(ContactEntry entity) throws PortalException {
+	public ContactEntry deleteContactEntry(long entryId) throws PortalException {
+		
 
-		contactEntryPersistence.remove(entity);
-
-		return entity;
+		return contactEntryPersistence.remove(entryId);
 	}
 
 	public ContactEntry getContactEntry(long entryId) throws PortalException {
