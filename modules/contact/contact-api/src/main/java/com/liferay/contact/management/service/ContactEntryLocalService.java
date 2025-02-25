@@ -97,11 +97,9 @@ public interface ContactEntryLocalService
 	 *
 	 * @param contactEntry the contact entry
 	 * @return the contact entry that was removed
-	 * @throws PortalException
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public ContactEntry deleteContactEntry(ContactEntry contactEntry)
-		throws PortalException;
+	public ContactEntry deleteContactEntry(ContactEntry contactEntry);
 
 	/**
 	 * Deletes the contact entry with the primary key from the database. Also notifies the appropriate model listeners.

@@ -90,11 +90,8 @@ public class ContactEntryLocalServiceUtil {
 	 *
 	 * @param contactEntry the contact entry
 	 * @return the contact entry that was removed
-	 * @throws PortalException
 	 */
-	public static ContactEntry deleteContactEntry(ContactEntry contactEntry)
-		throws PortalException {
-
+	public static ContactEntry deleteContactEntry(ContactEntry contactEntry) {
 		return getService().deleteContactEntry(contactEntry);
 	}
 
