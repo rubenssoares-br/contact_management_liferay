@@ -89,11 +89,8 @@ public class ContactLocalServiceUtil {
 	 *
 	 * @param contact the contact
 	 * @return the contact that was removed
-	 * @throws PortalException
 	 */
-	public static Contact deleteContact(Contact contact)
-		throws PortalException {
-
+	public static Contact deleteContact(Contact contact) {
 		return getService().deleteContact(contact);
 	}
 

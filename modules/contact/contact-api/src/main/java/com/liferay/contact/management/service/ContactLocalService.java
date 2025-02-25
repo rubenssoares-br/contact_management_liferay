@@ -5,6 +5,7 @@
 
 package com.liferay.contact.management.service;
 
+import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.Contact;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
@@ -96,10 +97,9 @@ public interface ContactLocalService
 	 *
 	 * @param contact the contact
 	 * @return the contact that was removed
-	 * @throws PortalException
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	public Contact deleteContact(Contact contact) throws PortalException;
+	public Contact deleteContact(Contact contact);
 
 	/**
 	 * Deletes the contact with the primary key from the database. Also notifies the appropriate model listeners.
