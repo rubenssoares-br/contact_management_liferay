@@ -83,5 +83,6 @@
 		<exception>ContactAddress</exception>
 		<exception>ContactId</exception>
 		<exception>ContactEntryFamilyRelationship</exception>
+		<exception>ContactEntryId</exception>
 	</exceptions>
 </service-builder>
