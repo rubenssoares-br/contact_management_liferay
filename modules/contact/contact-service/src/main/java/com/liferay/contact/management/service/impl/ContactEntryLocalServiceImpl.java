@@ -10,6 +10,7 @@ import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactEntryLocalServiceBaseImpl;
 import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
+import com.liferay.petra.executor.PortalExecutorConfig;
 import com.liferay.portal.aop.AopService;
 
 import com.liferay.portal.kernel.exception.PortalException;
@@ -50,6 +51,10 @@ public class ContactEntryLocalServiceImpl
 
 	public ContactEntry updateContactEntry( String familyRelationship, long entryId, long phone, String address, long contactId, ServiceContext serviceContext) throws PortalException {
 
+		_validateEntryId(entryId);
+
+		_validateParameters(familyRelationship, phone, address, contactId);
+
 		ContactEntry entity = contactEntryPersistence.findByPrimaryKey(entryId);
 
 		entity.setExpandoBridgeAttributes(serviceContext);
@@ -64,12 +69,14 @@ public class ContactEntryLocalServiceImpl
 	}
 
 	public ContactEntry deleteContactEntry(long entryId) throws PortalException {
-		
+
+		_validateEntryId(entryId);
 
 		return contactEntryPersistence.remove(entryId);
 	}
 
 	public ContactEntry getContactEntry(long entryId) throws PortalException {
+		_validateEntryId(entryId);
 
 		return contactEntryPersistence.findByPrimaryKey(entryId);
 	}
@@ -185,6 +192,30 @@ public class ContactEntryLocalServiceImpl
 			throw new ContactIdException.MustBeValid();
 		}
 		
+	}
+
+	private void _validateEntryId(long entryId) throws PortalException {
+
+		if (Validator.isNull(entryId)) {
+			throw new ContactEntryIdException.MustNotBeNull();
+		}
+
+		char[] arrayEntryIdChar = Long.toString(entryId).toCharArray();
+
+		for (char a : arrayEntryIdChar) {
+			if (!Validator.isDigit(a)) {
+				throw new ContactEntryIdException.MustOnlyContainDigits();
+			}
+		}
+
+		if (arrayEntryIdChar.length > 30) {
+			throw new ContactEntryIdException.MustBeLessThan30Characters();
+		}
+
+		if (ContactEntryUtil.fetchByPrimaryKey(entryId) == null) {
+			throw new ContactEntryIdException.MustBeValid();
+		}
+
 	}
 
 }
