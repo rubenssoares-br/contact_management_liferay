@@ -548,6 +548,503 @@ public class ContactEntryPersistenceImpl
 	private static final String _FINDER_COLUMN_CONTACTID_CONTACTID_2 =
 		"contactEntry.contactId = ?";
 
+	private FinderPath _finderPathWithPaginationFindByAllContactIds;
+	private FinderPath _finderPathWithoutPaginationFindByAllContactIds;
+	private FinderPath _finderPathCountByAllContactIds;
+
+	/**
+	 * Returns all the contact entries where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @return the matching contact entries
+	 */
+	@Override
+	public List<ContactEntry> findByAllContactIds(long contactId) {
+		return findByAllContactIds(
+			contactId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the contact entries where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @return the range of matching contact entries
+	 */
+	@Override
+	public List<ContactEntry> findByAllContactIds(
+		long contactId, int start, int end) {
+
+		return findByAllContactIds(contactId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the contact entries where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching contact entries
+	 */
+	@Override
+	public List<ContactEntry> findByAllContactIds(
+		long contactId, int start, int end,
+		OrderByComparator<ContactEntry> orderByComparator) {
+
+		return findByAllContactIds(
+			contactId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the contact entries where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching contact entries
+	 */
+	@Override
+	public List<ContactEntry> findByAllContactIds(
+		long contactId, int start, int end,
+		OrderByComparator<ContactEntry> orderByComparator,
+		boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByAllContactIds;
+				finderArgs = new Object[] {contactId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByAllContactIds;
+			finderArgs = new Object[] {
+				contactId, start, end, orderByComparator
+			};
+		}
+
+		List<ContactEntry> list = null;
+
+		if (useFinderCache) {
+			list = (List<ContactEntry>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ContactEntry contactEntry : list) {
+					if (contactId != contactEntry.getContactId()) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_CONTACTENTRY_WHERE);
+
+			sb.append(_FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(ContactEntryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(contactId);
+
+				list = (List<ContactEntry>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first contact entry in the ordered set where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching contact entry
+	 * @throws NoSuchContactEntryException if a matching contact entry could not be found
+	 */
+	@Override
+	public ContactEntry findByAllContactIds_First(
+			long contactId, OrderByComparator<ContactEntry> orderByComparator)
+		throws NoSuchContactEntryException {
+
+		ContactEntry contactEntry = fetchByAllContactIds_First(
+			contactId, orderByComparator);
+
+		if (contactEntry != null) {
+			return contactEntry;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("contactId=");
+		sb.append(contactId);
+
+		sb.append("}");
+
+		throw new NoSuchContactEntryException(sb.toString());
+	}
+
+	/**
+	 * Returns the first contact entry in the ordered set where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching contact entry, or <code>null</code> if a matching contact entry could not be found
+	 */
+	@Override
+	public ContactEntry fetchByAllContactIds_First(
+		long contactId, OrderByComparator<ContactEntry> orderByComparator) {
+
+		List<ContactEntry> list = findByAllContactIds(
+			contactId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last contact entry in the ordered set where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching contact entry
+	 * @throws NoSuchContactEntryException if a matching contact entry could not be found
+	 */
+	@Override
+	public ContactEntry findByAllContactIds_Last(
+			long contactId, OrderByComparator<ContactEntry> orderByComparator)
+		throws NoSuchContactEntryException {
+
+		ContactEntry contactEntry = fetchByAllContactIds_Last(
+			contactId, orderByComparator);
+
+		if (contactEntry != null) {
+			return contactEntry;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("contactId=");
+		sb.append(contactId);
+
+		sb.append("}");
+
+		throw new NoSuchContactEntryException(sb.toString());
+	}
+
+	/**
+	 * Returns the last contact entry in the ordered set where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching contact entry, or <code>null</code> if a matching contact entry could not be found
+	 */
+	@Override
+	public ContactEntry fetchByAllContactIds_Last(
+		long contactId, OrderByComparator<ContactEntry> orderByComparator) {
+
+		int count = countByAllContactIds(contactId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ContactEntry> list = findByAllContactIds(
+			contactId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the contact entries before and after the current contact entry in the ordered set where contactId = &#63;.
+	 *
+	 * @param entryId the primary key of the current contact entry
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next contact entry
+	 * @throws NoSuchContactEntryException if a contact entry with the primary key could not be found
+	 */
+	@Override
+	public ContactEntry[] findByAllContactIds_PrevAndNext(
+			long entryId, long contactId,
+			OrderByComparator<ContactEntry> orderByComparator)
+		throws NoSuchContactEntryException {
+
+		ContactEntry contactEntry = findByPrimaryKey(entryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ContactEntry[] array = new ContactEntryImpl[3];
+
+			array[0] = getByAllContactIds_PrevAndNext(
+				session, contactEntry, contactId, orderByComparator, true);
+
+			array[1] = contactEntry;
+
+			array[2] = getByAllContactIds_PrevAndNext(
+				session, contactEntry, contactId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ContactEntry getByAllContactIds_PrevAndNext(
+		Session session, ContactEntry contactEntry, long contactId,
+		OrderByComparator<ContactEntry> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_CONTACTENTRY_WHERE);
+
+		sb.append(_FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(ContactEntryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(contactId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(contactEntry)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ContactEntry> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the contact entries where contactId = &#63; from the database.
+	 *
+	 * @param contactId the contact ID
+	 */
+	@Override
+	public void removeByAllContactIds(long contactId) {
+		for (ContactEntry contactEntry :
+				findByAllContactIds(
+					contactId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			remove(contactEntry);
+		}
+	}
+
+	/**
+	 * Returns the number of contact entries where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @return the number of matching contact entries
+	 */
+	@Override
+	public int countByAllContactIds(long contactId) {
+		FinderPath finderPath = _finderPathCountByAllContactIds;
+
+		Object[] finderArgs = new Object[] {contactId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_CONTACTENTRY_WHERE);
+
+			sb.append(_FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(contactId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2 =
+		"contactEntry.contactId = ?";
+
 	public ContactEntryPersistenceImpl() {
 		setModelClass(ContactEntry.class);
 
@@ -1108,6 +1605,24 @@ public class ContactEntryPersistenceImpl
 
 		_finderPathCountByContactId = new FinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByContactId",
+			new String[] {Long.class.getName()}, new String[] {"contactId"},
+			false);
+
+		_finderPathWithPaginationFindByAllContactIds = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAllContactIds",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			},
+			new String[] {"contactId"}, true);
+
+		_finderPathWithoutPaginationFindByAllContactIds = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAllContactIds",
+			new String[] {Long.class.getName()}, new String[] {"contactId"},
+			true);
+
+		_finderPathCountByAllContactIds = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAllContactIds",
 			new String[] {Long.class.getName()}, new String[] {"contactId"},
 			false);
 

@@ -159,6 +159,13 @@ public class ContactEntryPersistenceTest {
 	}
 
 	@Test
+	public void testCountByAllContactIds() throws Exception {
+		_persistence.countByAllContactIds(RandomTestUtil.nextLong());
+
+		_persistence.countByAllContactIds(0L);
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		ContactEntry newContactEntry = addContactEntry();
 
