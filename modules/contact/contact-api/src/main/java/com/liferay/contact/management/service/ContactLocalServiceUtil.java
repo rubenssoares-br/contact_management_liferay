@@ -253,6 +253,13 @@ public class ContactLocalServiceUtil {
 		return getService().getContactsCount();
 	}
 
+	public static List<com.liferay.contact.management.model.ContactEntry>
+			getEntriesByContactId(long contactId)
+		throws PortalException {
+
+		return getService().getEntriesByContactId(contactId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {
