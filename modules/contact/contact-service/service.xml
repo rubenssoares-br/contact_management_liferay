@@ -73,6 +73,10 @@
 			<finder-column name="contactId"></finder-column>
 		</finder>
 
+		<finder name="AllContactIds" return-type="Collection">
+			<finder-column name="contactId"></finder-column>
+		</finder>
+
 		<!-- References -->
 
 	</entity>
