@@ -8,6 +8,7 @@ package com.liferay.contact.management.service.impl;
 
 import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.Contact;
+import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactLocalServiceBaseImpl;
 import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
@@ -83,6 +84,13 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	public List<Contact> getAllContacts() throws PortalException{
 
 		return contactPersistence.findAll();
+	}
+
+	public List<ContactEntry> getEntriesByContactId(long contactId) throws PortalException {
+
+		_validateContactId(contactId);
+
+		return ContactEntryUtil.findByAllContactIds(contactId);
 	}
 
 	private void _validateParameters(String name, String email, long phone, String address) throws PortalException {
