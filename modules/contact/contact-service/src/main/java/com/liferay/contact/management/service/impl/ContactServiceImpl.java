@@ -6,6 +6,7 @@
 package com.liferay.contact.management.service.impl;
 
 import com.liferay.contact.management.model.Contact;
+import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 
@@ -60,6 +61,11 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 	public List<Contact> getAllContacts() throws PortalException {
 
 		return contactLocalService.getAllContacts();
+	}
+
+	public List<ContactEntry> getEntriesByContactId(long contactId) throws PortalException {
+
+		return contactLocalService.getEntriesByContactId(contactId);
 	}
 
 	@Reference
