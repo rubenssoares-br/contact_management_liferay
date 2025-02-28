@@ -6,6 +6,7 @@
 package com.liferay.contact.management.service;
 
 import com.liferay.contact.management.model.Contact;
+import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
@@ -55,6 +56,10 @@ public interface ContactService extends BaseService {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Contact getContact(long contactId, ServiceContext serviceContext)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<ContactEntry> getEntriesByContactId(long contactId)
 		throws PortalException;
 
 	/**
