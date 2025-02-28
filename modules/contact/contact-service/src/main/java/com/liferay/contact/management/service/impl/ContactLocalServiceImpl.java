@@ -193,10 +193,6 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		if (arrayAddressChar.length > 60) {
 			throw new ContactAddressException.MustBeLessThan60Characters();
 		}
-
-		if (ContactUtil.fetchByAddress(address) != null) {
-			throw new ContactEmailException.MustNotBeDuplicate(address);
-		}
 	}
 
 	private void _validateContactId(long contactId) throws PortalException {
