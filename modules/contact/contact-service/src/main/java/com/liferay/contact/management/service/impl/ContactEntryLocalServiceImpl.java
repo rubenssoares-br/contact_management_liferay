@@ -184,7 +184,7 @@ public class ContactEntryLocalServiceImpl
 			throw new ContactIdException.MustBeLessThan30Characters();
 		}
 
-		if (ContactEntryUtil.fetchByContactId(contactId) == null) {
+		if (ContactUtil.findByPrimaryKey(contactId) == null) {
 			throw new ContactIdException.MustBeValid();
 		}
 		
