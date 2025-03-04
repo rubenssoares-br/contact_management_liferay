@@ -1,5 +1,6 @@
 package contact.rest.internal.resource.v1_0;
 
+import com.liferay.contact.management.service.ContactService;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -12,6 +13,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
 /**
@@ -62,5 +64,8 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 	}
 
 	private static final Map<Integer, Contact> _contacts = new Hashtable<Integer, Contact>();
+
+	@Reference
+	private ContactService _contactService;
 
 }
