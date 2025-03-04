@@ -40,6 +40,7 @@ paths:
             operationId: getContact
             responses:
                 200:
+                    description: Get all contacts
                     content:
                         application/json:
                             schema:
@@ -64,6 +65,7 @@ paths:
                             $ref: "#/components/schemas/Contact"
             responses:
                 200:
+                    description: Create a new Contact
                     content:
                         application/json:
                             schema:
@@ -83,6 +85,7 @@ paths:
                       type: integer
             responses:
                 204:
+                    description: Contact has been deleted successfully
                     content:
                         application/json: {}
                         application/xml: {}
@@ -97,6 +100,7 @@ paths:
                       type: integer
             responses:
                 200:
+                    description: Get a specific contact
                     content:
                         application/json:
                             schema:
@@ -123,6 +127,7 @@ paths:
                             $ref: "#/components/schemas/Contact"
             responses:
                 200:
+                    description: Update a specific contact
                     content:
                         application/json:
                             schema:
@@ -142,6 +147,7 @@ paths:
                       type: integer
             responses:
                 200:
+                    description: Get all contact entries related to a specific contact
                     content:
                         application/json:
                             schema:
@@ -172,6 +178,7 @@ paths:
                                 $ref: "#/components/schemas/ContactEntry"
             responses:
                 200:
+                    description: Post a contact entry to a specific contact
                     content:
                         application/json:
                             schema:
@@ -191,6 +198,7 @@ paths:
                       type: integer
             responses:
                 204:
+                    description: Contact entry has been deleted successfully
                     content:
                         application/json: {}
                         application/xml: {}
@@ -205,6 +213,7 @@ paths:
                       type: integer
             responses:
                 200:
+                    description: get a specific contact entry
                     content:
                         application/json:
                             schema:
@@ -231,6 +240,7 @@ paths:
                             $ref: "#/components/schemas/ContactEntry"
             responses:
                 200:
+                    description: Update a specific contact entry
                     content:
                         application/json:
                             schema:
