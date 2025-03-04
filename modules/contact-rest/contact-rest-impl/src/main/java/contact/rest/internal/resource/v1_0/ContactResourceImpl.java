@@ -36,7 +36,7 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 
 	@Override
 	public void deleteContact(Integer contactId) throws Exception {
-         _contacts.remove(contactId);
+		_contactService.deleteContact(contactId);
     }
 	@Override
 	public Contact postContact(Contact contact) {
