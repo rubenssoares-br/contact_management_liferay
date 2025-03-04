@@ -1,3 +1,4 @@
 dependencies {
+	api project(":modules:contact:contact-api")
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 }
