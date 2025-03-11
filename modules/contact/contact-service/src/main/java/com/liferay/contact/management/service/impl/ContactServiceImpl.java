@@ -11,14 +11,10 @@ import com.liferay.contact.management.service.base.ContactServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferencePolicy;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 import java.util.List;
 
@@ -41,7 +37,7 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 		return contactLocalService.addContact(name, email, phone, address, serviceContext);
 	}
 
-	public Contact getContact(long contactId, ServiceContext serviceContext)
+	public Contact getContact(long contactId)
 			throws PortalException {
 
 		return contactLocalService.getContact(contactId);
