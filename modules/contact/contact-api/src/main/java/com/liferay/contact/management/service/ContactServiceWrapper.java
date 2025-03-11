@@ -52,11 +52,10 @@ public class ContactServiceWrapper
 
 	@Override
 	public com.liferay.contact.management.model.Contact getContact(
-			long contactId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+			long contactId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _contactService.getContact(contactId, serviceContext);
+		return _contactService.getContact(contactId);
 	}
 
 	@Override

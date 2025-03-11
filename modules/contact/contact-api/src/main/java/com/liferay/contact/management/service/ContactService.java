@@ -55,8 +55,7 @@ public interface ContactService extends BaseService {
 	public List<Contact> getAllContacts() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Contact getContact(long contactId, ServiceContext serviceContext)
-		throws PortalException;
+	public Contact getContact(long contactId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ContactEntry> getEntriesByContactId(long contactId)

@@ -84,8 +84,7 @@ public class ContactServiceHttp {
 	}
 
 	public static com.liferay.contact.management.model.Contact getContact(
-			HttpPrincipal httpPrincipal, long contactId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+			HttpPrincipal httpPrincipal, long contactId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -94,7 +93,7 @@ public class ContactServiceHttp {
 				_getContactParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, contactId, serviceContext);
+				methodKey, contactId);
 
 			Object returnObj = null;
 
@@ -293,7 +292,7 @@ public class ContactServiceHttp {
 		com.liferay.portal.kernel.service.ServiceContext.class
 	};
 	private static final Class<?>[] _getContactParameterTypes1 = new Class[] {
-		long.class, com.liferay.portal.kernel.service.ServiceContext.class
+		long.class
 	};
 	private static final Class<?>[] _deleteContactParameterTypes2 =
 		new Class[] {long.class};

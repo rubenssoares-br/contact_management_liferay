@@ -47,12 +47,8 @@ public class ContactServiceUtil {
 		return getService().getAllContacts();
 	}
 
-	public static Contact getContact(
-			long contactId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().getContact(contactId, serviceContext);
+	public static Contact getContact(long contactId) throws PortalException {
+		return getService().getContact(contactId);
 	}
 
 	public static List<com.liferay.contact.management.model.ContactEntry>
