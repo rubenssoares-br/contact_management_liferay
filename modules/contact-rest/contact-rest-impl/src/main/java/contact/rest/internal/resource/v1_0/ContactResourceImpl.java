@@ -1,6 +1,8 @@
 package contact.rest.internal.resource.v1_0;
 
 import com.liferay.contact.management.service.ContactService;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -30,8 +32,8 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 	}
 
 	@Override
-	public Contact getIdContact(Integer contactId) {
-		return _contacts.get(contactId);
+	public Contact getIdContact(Integer contactId) throws Exception {
+		return _toContact(_contactService.getContact(contactId));
 	}
 
 	@Override
@@ -60,10 +62,18 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 		return contact;
 	}
 
+	private Contact _toContact(com.liferay.contact.management.model.Contact serviceBuilderContact) throws Exception {
+
+		return _contactResourceDTOConverter.toDTO(serviceBuilderContact);
+	}
+
 	public void setContextBatchUnsafeBiConsumer(UnsafeBiConsumer<Collection<Contact>, UnsafeFunction<Contact, Contact, Exception>, Exception> unsafeBiConsumer) {
 	}
 
 	private static final Map<Integer, Contact> _contacts = new Hashtable<Integer, Contact>();
+
+	@Reference
+	private DTOConverter<com.liferay.contact.management.model.Contact, Contact> _contactResourceDTOConverter;
 
 	@Reference
 	private ContactService _contactService;
