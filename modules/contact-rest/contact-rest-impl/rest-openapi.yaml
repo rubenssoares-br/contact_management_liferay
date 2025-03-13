@@ -37,7 +37,7 @@ openapi: 3.0.1
 paths:
     "/contact":
         get:
-            operationId: getContact
+            operationId: getAllContacts
             responses:
                 200:
                     description: Get all contacts
