@@ -43,7 +43,7 @@ public interface ContactResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Contact> getContact() throws Exception;
+	public Page<Contact> getAllContacts() throws Exception;
 
 	public Contact postContact(Contact contact) throws Exception;
 

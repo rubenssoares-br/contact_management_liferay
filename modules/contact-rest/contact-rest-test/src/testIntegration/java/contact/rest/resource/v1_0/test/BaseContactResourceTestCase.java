@@ -180,16 +180,16 @@ public abstract class BaseContactResourceTestCase {
 	}
 
 	@Test
-	public void testGetContact() throws Exception {
-		Page<Contact> page = contactResource.getContact();
+	public void testGetAllContacts() throws Exception {
+		Page<Contact> page = contactResource.getAllContacts();
 
 		long totalCount = page.getTotalCount();
 
-		Contact contact1 = testGetContact_addContact(randomContact());
+		Contact contact1 = testGetAllContacts_addContact(randomContact());
 
-		Contact contact2 = testGetContact_addContact(randomContact());
+		Contact contact2 = testGetAllContacts_addContact(randomContact());
 
-		page = contactResource.getContact();
+		page = contactResource.getAllContacts();
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
@@ -198,7 +198,7 @@ public abstract class BaseContactResourceTestCase {
 		assertValid(page);
 	}
 
-	protected Contact testGetContact_addContact(Contact contact)
+	protected Contact testGetAllContacts_addContact(Contact contact)
 		throws Exception {
 
 		throw new UnsupportedOperationException(

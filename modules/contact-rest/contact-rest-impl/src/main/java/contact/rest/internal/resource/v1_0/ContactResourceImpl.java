@@ -27,7 +27,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 )
 public class ContactResourceImpl extends BaseContactResourceImpl {
 	@Override
-	public Page<Contact> getContact() throws Exception {
+	public Page<Contact> getAllContacts() throws Exception {
 		return Page.of(_contacts.values());
 	}
 

@@ -67,7 +67,7 @@ public abstract class BaseContactResourceImpl
 	@javax.ws.rs.Path("/contact")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<Contact> getContact() throws Exception {
+	public Page<Contact> getAllContacts() throws Exception {
 		return Page.of(Collections.emptyList());
 	}
 

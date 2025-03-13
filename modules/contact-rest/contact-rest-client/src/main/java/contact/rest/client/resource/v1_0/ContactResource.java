@@ -25,9 +25,10 @@ public interface ContactResource {
 		return new Builder();
 	}
 
-	public Page<Contact> getContact() throws Exception;
+	public Page<Contact> getAllContacts() throws Exception;
 
-	public HttpInvoker.HttpResponse getContactHttpResponse() throws Exception;
+	public HttpInvoker.HttpResponse getAllContactsHttpResponse()
+		throws Exception;
 
 	public Contact postContact(Contact contact) throws Exception;
 
@@ -143,8 +144,9 @@ public interface ContactResource {
 
 	public static class ContactResourceImpl implements ContactResource {
 
-		public Page<Contact> getContact() throws Exception {
-			HttpInvoker.HttpResponse httpResponse = getContactHttpResponse();
+		public Page<Contact> getAllContacts() throws Exception {
+			HttpInvoker.HttpResponse httpResponse =
+				getAllContactsHttpResponse();
 
 			String content = httpResponse.getContent();
 
@@ -183,7 +185,7 @@ public interface ContactResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getContactHttpResponse()
+		public HttpInvoker.HttpResponse getAllContactsHttpResponse()
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
