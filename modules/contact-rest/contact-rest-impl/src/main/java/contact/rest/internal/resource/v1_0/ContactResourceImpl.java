@@ -72,7 +72,7 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 
 	private static final Map<Integer, Contact> _contacts = new Hashtable<Integer, Contact>();
 
-	@Reference
+	@Reference(target = "(component.name=contact.rest.dto.v1_0.converter.ContactResourceDTOConverter)")
 	private DTOConverter<com.liferay.contact.management.model.Contact, Contact> _contactResourceDTOConverter;
 
 	@Reference
