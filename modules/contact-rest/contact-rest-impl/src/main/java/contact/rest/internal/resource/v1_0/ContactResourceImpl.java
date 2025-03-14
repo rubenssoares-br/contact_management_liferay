@@ -1,7 +1,6 @@
 package contact.rest.internal.resource.v1_0;
 
 import com.liferay.contact.management.service.ContactService;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.petra.function.UnsafeBiConsumer;
@@ -10,9 +9,7 @@ import com.liferay.petra.function.UnsafeFunction;
 import contact.rest.dto.v1_0.Contact;
 import contact.rest.resource.v1_0.ContactResource;
 
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Map;
+import java.util.*;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -28,7 +25,15 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class ContactResourceImpl extends BaseContactResourceImpl {
 	@Override
 	public Page<Contact> getAllContacts() throws Exception {
-		return Page.of(_contacts.values());
+		List<com.liferay.contact.management.model.Contact> contactsService = _contactService.getAllContacts();
+
+		List<Contact> contactsRest = new ArrayList<>();
+
+		for (com.liferay.contact.management.model.Contact contactDto : contactsService) {
+			contactsRest.add(_contactResourceDTOConverter.toDTO(contactDto));
+		}
+
+		return Page.of(contactsRest);
 	}
 
 	@Override
