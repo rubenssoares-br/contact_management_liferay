@@ -1,6 +1,8 @@
 package contact.rest.internal.resource.v1_0;
 
 import com.liferay.contact.management.service.ContactService;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.petra.function.UnsafeBiConsumer;
@@ -46,14 +48,10 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 		_contactService.deleteContact(contactId);
     }
 	@Override
-	public Contact postContact(Contact contact) {
-		if (_contacts.containsKey(contact.getContactId())) {
-			throw new IllegalArgumentException("Duplicate contact ID " + contact.getContactId());
-		}
+	public Contact postContact(Contact contact) throws Exception {
+		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.addContact(contact.getName(), contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(Contact.class.getName(), contextHttpServletRequest));
 
-		_contacts.put(contact.getContactId(), contact);
-
-		return contact;
+		return _toContact(serviceBuilderContact);
 	}
 
 	@Override
