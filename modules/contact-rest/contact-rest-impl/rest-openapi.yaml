@@ -4,6 +4,7 @@ components:
             properties:
                 contactId:
                     type: integer
+                    readOnly: true
                 name:
                     type: string
                 email:
