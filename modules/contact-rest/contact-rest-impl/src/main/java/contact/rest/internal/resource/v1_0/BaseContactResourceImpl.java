@@ -74,7 +74,7 @@ public abstract class BaseContactResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact' -d $'{"address": ___, "contactId": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact' -d $'{"address": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
@@ -237,7 +237,7 @@ public abstract class BaseContactResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}' -d $'{"address": ___, "contactId": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}' -d $'{"address": ___, "email": ___, "name": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
