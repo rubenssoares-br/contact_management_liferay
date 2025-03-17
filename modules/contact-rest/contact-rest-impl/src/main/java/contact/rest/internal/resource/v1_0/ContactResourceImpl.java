@@ -55,14 +55,10 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 	}
 
 	@Override
-	public Contact putContact(Integer contactId, Contact contact) {
-		if (_contacts.containsKey(contact.getContactId())) {
-			throw new IllegalArgumentException("Duplicate contact ID " + contact.getContactId());
-		}
-
-		_contacts.put(contactId, contact);
+	public Contact putContact(Integer contactId, Contact contact) throws Exception {
+		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.updateContact(contact.getName(), contactId, contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(Contact.class.getName(), contextHttpServletRequest));
 		
-		return contact;
+		return _toContact(serviceBuilderContact);
 	}
 
 	private Contact _toContact(com.liferay.contact.management.model.Contact serviceBuilderContact) throws Exception {
