@@ -1,5 +1,6 @@
 package contact.rest.internal.resource.v1_0;
 
+import com.liferay.contact.management.service.ContactEntryService;
 import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -8,6 +9,7 @@ import contact.rest.dto.v1_0.ContactEntry;
 import contact.rest.resource.v1_0.ContactEntryResource;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
 import java.util.*;
@@ -39,7 +41,7 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	public void deleteContactEntry(Integer entryId) throws PortalException {
-		_contactEntries.remove(entryId);
+		_contactEntryService.deleteContactEntry(entryId);
 	}
 
 	@Override
@@ -68,4 +70,7 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	private static final Map<Integer, ContactEntry> _contactEntries = new Hashtable<Integer, ContactEntry>();
+
+	@Reference
+	private ContactEntryService _contactEntryService;
 }
