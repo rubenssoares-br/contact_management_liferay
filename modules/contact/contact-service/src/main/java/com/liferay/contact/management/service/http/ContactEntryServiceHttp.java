@@ -165,9 +165,7 @@ public class ContactEntryServiceHttp {
 	}
 
 	public static com.liferay.contact.management.model.ContactEntry
-			getContactEntry(
-				HttpPrincipal httpPrincipal, long entryId,
-				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+			getContactEntry(HttpPrincipal httpPrincipal, long entryId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -175,8 +173,7 @@ public class ContactEntryServiceHttp {
 				ContactEntryServiceUtil.class, "getContactEntry",
 				_getContactEntryParameterTypes3);
 
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, entryId, serviceContext);
+			MethodHandler methodHandler = new MethodHandler(methodKey, entryId);
 
 			Object returnObj = null;
 
@@ -263,9 +260,7 @@ public class ContactEntryServiceHttp {
 	private static final Class<?>[] _deleteContactEntryParameterTypes2 =
 		new Class[] {long.class};
 	private static final Class<?>[] _getContactEntryParameterTypes3 =
-		new Class[] {
-			long.class, com.liferay.portal.kernel.service.ServiceContext.class
-		};
+		new Class[] {long.class};
 	private static final Class<?>[] _getAllContactsEntriesParameterTypes4 =
 		new Class[] {};
 

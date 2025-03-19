@@ -50,12 +50,10 @@ public class ContactEntryServiceUtil {
 		return getService().getAllContactsEntries();
 	}
 
-	public static ContactEntry getContactEntry(
-			long entryId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+	public static ContactEntry getContactEntry(long entryId)
 		throws PortalException {
 
-		return getService().getContactEntry(entryId, serviceContext);
+		return getService().getContactEntry(entryId);
 	}
 
 	/**

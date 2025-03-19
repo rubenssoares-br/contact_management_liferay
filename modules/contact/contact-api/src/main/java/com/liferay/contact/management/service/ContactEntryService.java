@@ -54,9 +54,7 @@ public interface ContactEntryService extends BaseService {
 	public List<ContactEntry> getAllContactsEntries() throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public ContactEntry getContactEntry(
-			long entryId, ServiceContext serviceContext)
-		throws PortalException;
+	public ContactEntry getContactEntry(long entryId) throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.
