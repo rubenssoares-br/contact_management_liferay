@@ -4,6 +4,7 @@ import com.liferay.contact.management.service.ContactEntryService;
 import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.pagination.Page;
 import contact.rest.dto.v1_0.ContactEntry;
 import contact.rest.resource.v1_0.ContactEntryResource;
@@ -36,8 +37,8 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	@Override
-	public ContactEntry getContactEntryId(Integer entryId) throws PortalException {
-		return _contactEntries.get(entryId);
+	public ContactEntry getContactEntryId(Integer entryId) throws Exception {
+		return _toContactEntry(_contactEntryService.getContactEntry(entryId));
 	}
 
 	public void deleteContactEntry(Integer entryId) throws PortalException {
@@ -69,7 +70,15 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	public void setContextBatchUnsafeBiConsumer(UnsafeBiConsumer<Collection<ContactEntry>, UnsafeFunction<ContactEntry, ContactEntry, Exception>, Exception> unsafeBiConsumer) {
 	}
 
+	private ContactEntry _toContactEntry(com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry) throws Exception {
+
+		return _contactEntryResourceDTOConverter.toDTO(serviceBuilderContactEntry);
+	}
+
 	private static final Map<Integer, ContactEntry> _contactEntries = new Hashtable<Integer, ContactEntry>();
+
+	@Reference(target = "(component.name=contact.rest.dto.v1_0.converter.ContactEntryResourceDTOConverter)")
+	private DTOConverter<com.liferay.contact.management.model.ContactEntry, ContactEntry> _contactEntryResourceDTOConverter;
 
 	@Reference
 	private ContactEntryService _contactEntryService;
