@@ -41,7 +41,7 @@ public class ContactEntryServiceImpl extends ContactEntryServiceBaseImpl {
 		contactEntryLocalService.deleteContactEntry(entryId);
 	}
 
-	public ContactEntry getContactEntry(long entryId, ServiceContext serviceContext) throws PortalException {
+	public ContactEntry getContactEntry(long entryId) throws PortalException {
 
 		return contactEntryLocalService.getContactEntry(entryId);
 	}
