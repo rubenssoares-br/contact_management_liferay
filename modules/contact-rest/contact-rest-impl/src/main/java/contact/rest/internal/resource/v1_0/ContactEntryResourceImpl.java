@@ -25,15 +25,16 @@ import java.util.*;
 public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 
 	@Override
-	public Page<ContactEntry> getContactEntries(Integer contactId) throws PortalException {
-		List<ContactEntry> contactsEntries = new ArrayList<>();
+	public Page<ContactEntry> getAllContactEntries() throws Exception {
+	List<com.liferay.contact.management.model.ContactEntry> contactsEntryService = _contactEntryService.getAllContactsEntries();
 
-		for (ContactEntry contactEntry : _contactEntries.values()) {
-			if (Objects.equals(contactId, contactEntry.getContactId())) {
-				contactsEntries.add(contactEntry);
-			}
-		}
-		return Page.of(contactsEntries);
+	List<ContactEntry> contactEntriesRest = new ArrayList<>();
+
+	for (com.liferay.contact.management.model.ContactEntry contactsEntryDTO : contactsEntryService) {
+		contactEntriesRest.add(_toContactEntry(contactsEntryDTO));
+	}
+
+	return Page.of(contactEntriesRest);
 	}
 
 	@Override
