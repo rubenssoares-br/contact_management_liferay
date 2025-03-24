@@ -123,7 +123,7 @@ public class ContactEntry implements Serializable {
 	}
 
 	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer entryId;
 
 	@Schema

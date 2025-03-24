@@ -252,6 +252,21 @@ public abstract class BaseContactResourceTestCase {
 		Assert.assertTrue(false);
 	}
 
+	@Test
+	public void testGetEntriesByContactId() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGraphQLGetEntriesByContactId() throws Exception {
+		Assert.assertTrue(true);
+	}
+
+	@Test
+	public void testGraphQLGetEntriesByContactIdNotFound() throws Exception {
+		Assert.assertTrue(true);
+	}
+
 	protected void assertContains(Contact contact, List<Contact> contacts) {
 		boolean contains = false;
 

@@ -213,7 +213,8 @@ public interface ContactEntryResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/contact-rest/v1.0/contactEntry");
+					_builder._port +
+						"/o/contact-rest/v1.0/contact/contactEntry");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -374,7 +375,7 @@ public interface ContactEntryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/contact-rest/v1.0/contactEntry/{entryId}");
+						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}");
 
 			httpInvoker.path("entryId", entryId);
 
@@ -453,7 +454,7 @@ public interface ContactEntryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/contact-rest/v1.0/contactEntry/{entryId}/batch");
+						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}/batch");
 
 			httpInvoker.path("entryId", entryId);
 
@@ -534,7 +535,7 @@ public interface ContactEntryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/contact-rest/v1.0/contactEntry/{entryId}");
+						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}");
 
 			httpInvoker.path("entryId", entryId);
 
@@ -618,7 +619,7 @@ public interface ContactEntryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/contact-rest/v1.0/contactEntry/{entryId}");
+						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}");
 
 			httpInvoker.path("entryId", entryId);
 
@@ -696,7 +697,7 @@ public interface ContactEntryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
-						"/o/contact-rest/v1.0/contactEntry/{entryId}/batch");
+						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}/batch");
 
 			httpInvoker.path("entryId", entryId);
 

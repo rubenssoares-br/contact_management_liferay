@@ -57,13 +57,13 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/contactEntry'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/contactEntry")
+	@javax.ws.rs.Path("/contact/contactEntry")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<ContactEntry> getAllContactEntries() throws Exception {
@@ -73,7 +73,7 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry' -d $'{"address": ___, "contactId": ___, "entryId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry' -d $'{"address": ___, "contactId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -105,7 +105,7 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}'  -u 'test@liferay.com:test'
+	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contact/contactEntry/{entryId}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -119,7 +119,7 @@ public abstract class BaseContactEntryResourceImpl
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/contactEntry/{entryId}")
+	@javax.ws.rs.Path("/contact/contactEntry/{entryId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public void deleteContactEntry(
@@ -133,7 +133,7 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}/batch'  -u 'test@liferay.com:test'
+	 * curl -X 'DELETE' 'http://localhost:8080/o/contact-rest/v1.0/contact/contactEntry/{entryId}/batch'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -152,7 +152,7 @@ public abstract class BaseContactEntryResourceImpl
 	)
 	@javax.ws.rs.Consumes("application/json")
 	@javax.ws.rs.DELETE
-	@javax.ws.rs.Path("/contactEntry/{entryId}/batch")
+	@javax.ws.rs.Path("/contact/contactEntry/{entryId}/batch")
 	@javax.ws.rs.Produces("application/json")
 	@Override
 	public Response deleteContactEntryBatch(
@@ -185,7 +185,7 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/contactEntry/{entryId}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -199,7 +199,7 @@ public abstract class BaseContactEntryResourceImpl
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/contactEntry/{entryId}")
+	@javax.ws.rs.Path("/contact/contactEntry/{entryId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ContactEntry getContactEntryId(
@@ -215,7 +215,7 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}' -d $'{"address": ___, "contactId": ___, "entryId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/contactEntry/{entryId}' -d $'{"address": ___, "contactId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -229,7 +229,7 @@ public abstract class BaseContactEntryResourceImpl
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.Consumes({"application/json", "application/xml"})
-	@javax.ws.rs.Path("/contactEntry/{entryId}")
+	@javax.ws.rs.Path("/contact/contactEntry/{entryId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
@@ -247,7 +247,7 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contactEntry/{entryId}/batch'  -u 'test@liferay.com:test'
+	 * curl -X 'PUT' 'http://localhost:8080/o/contact-rest/v1.0/contact/contactEntry/{entryId}/batch'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -265,7 +265,7 @@ public abstract class BaseContactEntryResourceImpl
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
 	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/contactEntry/{entryId}/batch")
+	@javax.ws.rs.Path("/contact/contactEntry/{entryId}/batch")
 	@javax.ws.rs.Produces("application/json")
 	@javax.ws.rs.PUT
 	@Override
