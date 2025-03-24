@@ -18,7 +18,7 @@ components:
             properties:
                 entryId:
                     type: integer
-                    readonly: true
+                    readOnly: true
                 familyRelationship:
                     type: string
                 phone:
@@ -138,7 +138,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Contact"
             tags: ["Contact"]
-    "/contactEntry":
+    "/contact/contactEntry":
         get:
             operationId: getAllContactEntries
             responses:
@@ -184,7 +184,26 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/ContactEntry"
             tags: ["ContactEntry"]
-    "/contactEntry/{entryId}":
+        get:
+            operationId: getEntriesByContactId
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: Get all entries by a specific contact
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+            tags: ["Contact"]
+    "/contact/contactEntry/{entryId}":
         delete:
             operationId: deleteContactEntry
             parameters:
@@ -246,7 +265,3 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/ContactEntry"
             tags: ["ContactEntry"]
-
-                
-
-
