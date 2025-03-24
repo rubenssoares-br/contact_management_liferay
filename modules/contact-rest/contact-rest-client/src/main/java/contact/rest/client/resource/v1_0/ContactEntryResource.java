@@ -25,11 +25,9 @@ public interface ContactEntryResource {
 		return new Builder();
 	}
 
-	public Page<ContactEntry> getContactEntries(Integer contactId)
-		throws Exception;
+	public Page<ContactEntry> getAllContactEntries() throws Exception;
 
-	public HttpInvoker.HttpResponse getContactEntriesHttpResponse(
-			Integer contactId)
+	public HttpInvoker.HttpResponse getAllContactEntriesHttpResponse()
 		throws Exception;
 
 	public ContactEntry postContactEntry(
@@ -148,11 +146,9 @@ public interface ContactEntryResource {
 	public static class ContactEntryResourceImpl
 		implements ContactEntryResource {
 
-		public Page<ContactEntry> getContactEntries(Integer contactId)
-			throws Exception {
-
+		public Page<ContactEntry> getAllContactEntries() throws Exception {
 			HttpInvoker.HttpResponse httpResponse =
-				getContactEntriesHttpResponse(contactId);
+				getAllContactEntriesHttpResponse();
 
 			String content = httpResponse.getContent();
 
@@ -191,8 +187,7 @@ public interface ContactEntryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getContactEntriesHttpResponse(
-				Integer contactId)
+		public HttpInvoker.HttpResponse getAllContactEntriesHttpResponse()
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -218,10 +213,7 @@ public interface ContactEntryResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/contact-rest/v1.0/contact/{contactId}/contactEntry");
-
-			httpInvoker.path("contactId", contactId);
+					_builder._port + "/o/contact-rest/v1.0/contactEntry");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

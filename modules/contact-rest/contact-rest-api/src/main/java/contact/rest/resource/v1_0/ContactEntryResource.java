@@ -43,8 +43,7 @@ public interface ContactEntryResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<ContactEntry> getContactEntries(Integer contactId)
-		throws Exception;
+	public Page<ContactEntry> getAllContactEntries() throws Exception;
 
 	public ContactEntry postContactEntry(
 			Integer contactId, ContactEntry contactEntry)

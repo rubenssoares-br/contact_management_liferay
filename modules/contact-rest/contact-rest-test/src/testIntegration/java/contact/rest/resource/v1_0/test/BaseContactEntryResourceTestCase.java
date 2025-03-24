@@ -178,69 +178,32 @@ public abstract class BaseContactEntryResourceTestCase {
 	}
 
 	@Test
-	public void testGetContactEntries() throws Exception {
-		Integer contactId = testGetContactEntries_getContactId();
-		Integer irrelevantContactId =
-			testGetContactEntries_getIrrelevantContactId();
+	public void testGetAllContactEntries() throws Exception {
+		Page<ContactEntry> page = contactEntryResource.getAllContactEntries();
 
-		Page<ContactEntry> page = contactEntryResource.getContactEntries(
-			contactId);
+		long totalCount = page.getTotalCount();
 
-		Assert.assertEquals(0, page.getTotalCount());
+		ContactEntry contactEntry1 = testGetAllContactEntries_addContactEntry(
+			randomContactEntry());
 
-		if (irrelevantContactId != null) {
-			ContactEntry irrelevantContactEntry =
-				testGetContactEntries_addContactEntry(
-					irrelevantContactId, randomIrrelevantContactEntry());
+		ContactEntry contactEntry2 = testGetAllContactEntries_addContactEntry(
+			randomContactEntry());
 
-			page = contactEntryResource.getContactEntries(irrelevantContactId);
+		page = contactEntryResource.getAllContactEntries();
 
-			Assert.assertEquals(1, page.getTotalCount());
+		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
-			assertEquals(
-				Arrays.asList(irrelevantContactEntry),
-				(List<ContactEntry>)page.getItems());
-			assertValid(page);
-		}
-
-		ContactEntry contactEntry1 = testGetContactEntries_addContactEntry(
-			contactId, randomContactEntry());
-
-		ContactEntry contactEntry2 = testGetContactEntries_addContactEntry(
-			contactId, randomContactEntry());
-
-		page = contactEntryResource.getContactEntries(contactId);
-
-		Assert.assertEquals(2, page.getTotalCount());
-
-		assertEqualsIgnoringOrder(
-			Arrays.asList(contactEntry1, contactEntry2),
-			(List<ContactEntry>)page.getItems());
+		assertContains(contactEntry1, (List<ContactEntry>)page.getItems());
+		assertContains(contactEntry2, (List<ContactEntry>)page.getItems());
 		assertValid(page);
 	}
 
-	protected ContactEntry testGetContactEntries_addContactEntry(
-			Integer contactId, ContactEntry contactEntry)
+	protected ContactEntry testGetAllContactEntries_addContactEntry(
+			ContactEntry contactEntry)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	protected Integer testGetContactEntries_getContactId() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected Integer testGetContactEntries_getIrrelevantContactId()
-		throws Exception {
-
-		return null;
-	}
-
-	@Test
-	public void testGraphQLGetContactEntries() throws Exception {
-		Assert.assertTrue(false);
 	}
 
 	@Test
