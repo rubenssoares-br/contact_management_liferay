@@ -18,6 +18,7 @@ components:
             properties:
                 entryId:
                     type: integer
+                    readonly: true
                 familyRelationship:
                     type: string
                 phone:
@@ -137,18 +138,12 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Contact"
             tags: ["Contact"]
-    "/contact/{contactId}/contactEntry":
+    "/contactEntry":
         get:
-            operationId: getContactEntries
-            parameters:
-                - in: path
-                  name: contactId
-                  required: true
-                  schema:
-                      type: integer
+            operationId: getAllContactEntries
             responses:
                 200:
-                    description: Get all contact entries related to a specific contact
+                    description: Get all contact entries
                     content:
                         application/json:
                             schema:
@@ -161,6 +156,7 @@ paths:
                                     $ref: "#/components/schemas/ContactEntry"
                                 type: array
             tags: ["ContactEntry"]
+    "/contact/{contactId}/contactEntry":
         post:
             operationId: postContactEntry
             parameters:
@@ -172,11 +168,11 @@ paths:
             requestBody:
                 content:
                     application/json:
-                            schema:
-                                $ref: "#/components/schemas/ContactEntry"
+                        schema:
+                            $ref: "#/components/schemas/ContactEntry"
                     application/xml:
-                            schema:
-                                $ref: "#/components/schemas/ContactEntry"
+                        schema:
+                            $ref: "#/components/schemas/ContactEntry"
             responses:
                 200:
                     description: Post a contact entry to a specific contact
@@ -222,7 +218,7 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/ContactEntry"
-            tags: ["ContactEntry"] 
+            tags: ["ContactEntry"]
         put:
             operationId: putContactEntry
             parameters:
