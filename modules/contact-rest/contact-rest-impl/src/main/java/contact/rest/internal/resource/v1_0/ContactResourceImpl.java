@@ -9,6 +9,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 
 import contact.rest.dto.v1_0.Contact;
+import contact.rest.dto.v1_0.ContactEntry;
 import contact.rest.resource.v1_0.ContactResource;
 
 import java.util.*;
@@ -59,6 +60,12 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.updateContact(contact.getName(), contactId, contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(Contact.class.getName(), contextHttpServletRequest));
 		
 		return _toContact(serviceBuilderContact);
+	}
+
+	// test if getEntriesByContactId method works properly
+	@Override
+	public Contact getEntriesByContactId(Integer contactId) throws Exception {
+		return _toContact(_contactService.getContact(contactId));
 	}
 
 	private Contact _toContact(com.liferay.contact.management.model.Contact serviceBuilderContact) throws Exception {
