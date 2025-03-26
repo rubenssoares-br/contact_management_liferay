@@ -4,6 +4,7 @@ import com.liferay.contact.management.service.ContactEntryService;
 import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
 import com.liferay.portal.vulcan.pagination.Page;
 import contact.rest.dto.v1_0.ContactEntry;
@@ -47,16 +48,10 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	@Override
-	public ContactEntry postContactEntry(Integer contactId, ContactEntry contactEntry) throws PortalException {
-		if (_contactEntries.containsKey(contactEntry.getEntryId())) {
-			throw new IllegalArgumentException("Duplicate entry ID" + contactEntry.getEntryId());
-		}
+	public ContactEntry postContactEntry(Integer contactId, ContactEntry contactEntry) throws Exception {
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.addContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getPhone(), contactEntry.getAddress(), contactId, ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
 
-		contactEntry.setContactId(contactId);
-
-		_contactEntries.put(contactEntry.getEntryId(), contactEntry);
-
-		return contactEntry;
+		return _toContactEntry(serviceBuilderContactEntry);
 	}
 
 	@Override
