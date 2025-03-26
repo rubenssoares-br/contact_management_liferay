@@ -55,10 +55,10 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	@Override
-	public ContactEntry putContactEntry(Integer entryId, ContactEntry contactEntry) throws PortalException{
-		_contactEntries.put(entryId, contactEntry);
+	public ContactEntry putContactEntry(Integer entryId, ContactEntry contactEntry) throws Exception{
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), entryId, contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
 
-		return contactEntry;
+		return _toContactEntry(serviceBuilderContactEntry);
 	}
 
 
