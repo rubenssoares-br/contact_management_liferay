@@ -24,6 +24,7 @@ public class ContactResourceDTOConverter implements DTOConverter<com.liferay.con
                setEmail(serviceBuilderContact::getEmail);
                setPhone(Math.toIntExact(serviceBuilderContact.getPhone()));
                setAddress(serviceBuilderContact::getAddress);
+               setContactId(Math.toIntExact(serviceBuilderContact.getContactId()));
             }
         };
     }
