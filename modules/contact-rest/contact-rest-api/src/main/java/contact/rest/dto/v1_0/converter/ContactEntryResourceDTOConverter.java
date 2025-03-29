@@ -24,6 +24,7 @@ public class ContactEntryResourceDTOConverter implements DTOConverter<com.lifera
                setPhone(Math.toIntExact(serviceBuilderContactEntry.getPhone()));
                setAddress(serviceBuilderContactEntry::getAddress);
                setContactId(Math.toIntExact(serviceBuilderContactEntry.getContactId()));
+               setEntryId(Math.toIntExact(serviceBuilderContactEntry.getEntryId()));
             }
         };
     }
