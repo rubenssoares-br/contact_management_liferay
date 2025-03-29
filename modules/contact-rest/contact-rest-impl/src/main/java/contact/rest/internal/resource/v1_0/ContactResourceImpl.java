@@ -1,6 +1,8 @@
 package contact.rest.internal.resource.v1_0;
 
+import com.liferay.contact.management.service.ContactEntryService;
 import com.liferay.contact.management.service.ContactService;
+import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.vulcan.dto.converter.DTOConverter;
@@ -62,15 +64,31 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 		return _toContact(serviceBuilderContact);
 	}
 
-	// test if getEntriesByContactId method works properly
 	@Override
-	public Contact getEntriesByContactId(Integer contactId) throws Exception {
-		return _toContact(_contactService.getContact(contactId));
+	public Page<ContactEntry> getEntriesByContactId(Integer contactId) throws Exception {
+
+		List<com.liferay.contact.management.model.ContactEntry> contactsEntryService = _contactEntryService.getAllContactsEntries();
+
+		List<ContactEntry> contactEntriesByContactId = new ArrayList<>();
+
+		for (com.liferay.contact.management.model.ContactEntry contactsEntryDTOByContactId : contactsEntryService) {
+
+			if (contactsEntryDTOByContactId.getContactId() == contactId) {
+				contactEntriesByContactId.add(_toContactEntry(contactsEntryDTOByContactId));
+			}
+		}
+
+		return Page.of(contactEntriesByContactId);
 	}
 
 	private Contact _toContact(com.liferay.contact.management.model.Contact serviceBuilderContact) throws Exception {
 
 		return _contactResourceDTOConverter.toDTO(serviceBuilderContact);
+	}
+
+	private ContactEntry _toContactEntry(com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry) throws Exception {
+
+		return _contactEntryResourceDTOConverter.toDTO(serviceBuilderContactEntry);
 	}
 
 	public void setContextBatchUnsafeBiConsumer(UnsafeBiConsumer<Collection<Contact>, UnsafeFunction<Contact, Contact, Exception>, Exception> unsafeBiConsumer) {
@@ -81,7 +99,13 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 	@Reference(target = "(component.name=contact.rest.dto.v1_0.converter.ContactResourceDTOConverter)")
 	private DTOConverter<com.liferay.contact.management.model.Contact, Contact> _contactResourceDTOConverter;
 
+	@Reference(target = "(component.name=contact.rest.dto.v1_0.converter.ContactEntryResourceDTOConverter)")
+	private DTOConverter<com.liferay.contact.management.model.ContactEntry, ContactEntry> _contactEntryResourceDTOConverter;
+
 	@Reference
 	private ContactService _contactService;
+
+	@Reference
+	private ContactEntryService _contactEntryService;
 
 }
