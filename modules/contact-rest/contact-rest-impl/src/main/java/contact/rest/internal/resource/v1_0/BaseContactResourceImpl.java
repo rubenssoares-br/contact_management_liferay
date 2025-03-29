@@ -330,14 +330,14 @@ public abstract class BaseContactResourceImpl
 	@javax.ws.rs.Path("/contact/{contactId}/contactEntry")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Contact getEntriesByContactId(
+	public Page<Contact> getEntriesByContactId(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("contactId")
 			Integer contactId)
 		throws Exception {
 
-		return new Contact();
+		return Page.of(Collections.emptyList());
 	}
 
 	@Override

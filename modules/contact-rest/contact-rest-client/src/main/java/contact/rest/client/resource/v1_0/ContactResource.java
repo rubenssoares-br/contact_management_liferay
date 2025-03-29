@@ -73,7 +73,8 @@ public interface ContactResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public Contact getEntriesByContactId(Integer contactId) throws Exception;
+	public Page<Contact> getEntriesByContactId(Integer contactId)
+		throws Exception;
 
 	public HttpInvoker.HttpResponse getEntriesByContactIdHttpResponse(
 			Integer contactId)
@@ -765,7 +766,7 @@ public interface ContactResource {
 			return httpInvoker.invoke();
 		}
 
-		public Contact getEntriesByContactId(Integer contactId)
+		public Page<Contact> getEntriesByContactId(Integer contactId)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
@@ -797,7 +798,7 @@ public interface ContactResource {
 			}
 
 			try {
-				return ContactSerDes.toDTO(content);
+				return Page.of(content, ContactSerDes::toDTO);
 			}
 			catch (Exception e) {
 				_logger.log(

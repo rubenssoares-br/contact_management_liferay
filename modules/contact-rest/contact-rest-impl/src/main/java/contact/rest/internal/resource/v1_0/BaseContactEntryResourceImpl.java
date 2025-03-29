@@ -364,7 +364,7 @@ public abstract class BaseContactEntryResourceImpl
 		throws Exception {
 
 		for (ContactEntry contactEntry : contactEntries) {
-			putContactEntry(contactEntry.getEntryId(), contactEntry);
+			putContactEntry(entryId, contactEntry);
 		}
 	}
 
@@ -496,6 +496,21 @@ public abstract class BaseContactEntryResourceImpl
 		UnsafeFunction<T, R, Exception> unsafeFunction) {
 
 		return TransformUtil.transform(collection, unsafeFunction);
+	}
+
+	protected <T, R> R[] transform(
+		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction,
+		Class<?> clazz) {
+
+		return TransformUtil.transform(array, unsafeFunction, clazz);
+	}
+
+	protected <T, R> R[] transformToArray(
+		java.util.Collection<T> collection,
+		UnsafeFunction<T, R, Exception> unsafeFunction, Class<?> clazz) {
+
+		return TransformUtil.transformToArray(
+			collection, unsafeFunction, clazz);
 	}
 
 	protected <T, R> List<R> transformToList(

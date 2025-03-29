@@ -84,18 +84,18 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {entriesByContactId(contactId: ___){contactId, name, email, phone, address}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {entriesByContactId(contactId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField
-	public Contact entriesByContactId(
+	public ContactPage entriesByContactId(
 			@GraphQLName("contactId") Integer contactId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_contactResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			contactResource -> contactResource.getEntriesByContactId(
-				contactId));
+			contactResource -> new ContactPage(
+				contactResource.getEntriesByContactId(contactId)));
 	}
 
 	/**
@@ -148,23 +148,24 @@ public class Query {
 
 	}
 
-	@GraphQLTypeExtension(ContactEntry.class)
+	@GraphQLTypeExtension(Contact.class)
 	public class GetEntriesByContactIdTypeExtension {
 
-		public GetEntriesByContactIdTypeExtension(ContactEntry contactEntry) {
-			_contactEntry = contactEntry;
+		public GetEntriesByContactIdTypeExtension(Contact contact) {
+			_contact = contact;
 		}
 
 		@GraphQLField
-		public Contact entriesByContactId() throws Exception {
+		public ContactPage entriesByContactId() throws Exception {
 			return _applyComponentServiceObjects(
 				_contactResourceComponentServiceObjects,
 				Query.this::_populateResourceContext,
-				contactResource -> contactResource.getEntriesByContactId(
-					_contactEntry.getContactId()));
+				contactResource -> new ContactPage(
+					contactResource.getEntriesByContactId(
+						_contact.getContactId())));
 		}
 
-		private ContactEntry _contactEntry;
+		private Contact _contact;
 
 	}
 

@@ -198,10 +198,14 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/Contact"
+                                items:
+                                    $ref: "#/components/schemas/Contact"
+                                type: array
                         application/xml:
                             schema:
-                                $ref: "#/components/schemas/Contact"
+                                items:
+                                    $ref: "#/components/schemas/Contact"
+                                type: array
             tags: ["Contact"]
     "/contact/contactEntry/{entryId}":
         delete:
