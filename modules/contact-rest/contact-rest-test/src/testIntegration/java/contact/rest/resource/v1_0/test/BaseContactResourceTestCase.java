@@ -252,66 +252,6 @@ public abstract class BaseContactResourceTestCase {
 		Assert.assertTrue(false);
 	}
 
-	@Test
-	public void testGetEntriesByContactId() throws Exception {
-		Integer contactId = testGetEntriesByContactId_getContactId();
-		Integer irrelevantContactId =
-			testGetEntriesByContactId_getIrrelevantContactId();
-
-		Page<Contact> page = contactResource.getEntriesByContactId(contactId);
-
-		Assert.assertEquals(0, page.getTotalCount());
-
-		if (irrelevantContactId != null) {
-			Contact irrelevantContact = testGetEntriesByContactId_addContact(
-				irrelevantContactId, randomIrrelevantContact());
-
-			page = contactResource.getEntriesByContactId(irrelevantContactId);
-
-			Assert.assertEquals(1, page.getTotalCount());
-
-			assertEquals(
-				Arrays.asList(irrelevantContact),
-				(List<Contact>)page.getItems());
-			assertValid(page);
-		}
-
-		Contact contact1 = testGetEntriesByContactId_addContact(
-			contactId, randomContact());
-
-		Contact contact2 = testGetEntriesByContactId_addContact(
-			contactId, randomContact());
-
-		page = contactResource.getEntriesByContactId(contactId);
-
-		Assert.assertEquals(2, page.getTotalCount());
-
-		assertEqualsIgnoringOrder(
-			Arrays.asList(contact1, contact2), (List<Contact>)page.getItems());
-		assertValid(page);
-	}
-
-	protected Contact testGetEntriesByContactId_addContact(
-			Integer contactId, Contact contact)
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected Integer testGetEntriesByContactId_getContactId()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected Integer testGetEntriesByContactId_getIrrelevantContactId()
-		throws Exception {
-
-		return null;
-	}
-
 	protected void assertContains(Contact contact, List<Contact> contacts) {
 		boolean contains = false;
 

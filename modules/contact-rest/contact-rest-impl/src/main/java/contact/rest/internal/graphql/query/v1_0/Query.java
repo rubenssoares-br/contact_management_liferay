@@ -84,23 +84,6 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {entriesByContactId(contactId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField
-	public ContactPage entriesByContactId(
-			@GraphQLName("contactId") Integer contactId)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_contactResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			contactResource -> new ContactPage(
-				contactResource.getEntriesByContactId(contactId)));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {allContactEntries{items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField
@@ -110,6 +93,23 @@ public class Query {
 			this::_populateResourceContext,
 			contactEntryResource -> new ContactEntryPage(
 				contactEntryResource.getAllContactEntries()));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {entriesByContactId(contactId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public ContactEntryPage entriesByContactId(
+			@GraphQLName("contactId") Integer contactId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactEntryResource -> new ContactEntryPage(
+				contactEntryResource.getEntriesByContactId(contactId)));
 	}
 
 	/**
@@ -156,12 +156,12 @@ public class Query {
 		}
 
 		@GraphQLField
-		public ContactPage entriesByContactId() throws Exception {
+		public ContactEntryPage entriesByContactId() throws Exception {
 			return _applyComponentServiceObjects(
-				_contactResourceComponentServiceObjects,
+				_contactEntryResourceComponentServiceObjects,
 				Query.this::_populateResourceContext,
-				contactResource -> new ContactPage(
-					contactResource.getEntriesByContactId(
+				contactEntryResource -> new ContactEntryPage(
+					contactEntryResource.getEntriesByContactId(
 						_contact.getContactId())));
 		}
 

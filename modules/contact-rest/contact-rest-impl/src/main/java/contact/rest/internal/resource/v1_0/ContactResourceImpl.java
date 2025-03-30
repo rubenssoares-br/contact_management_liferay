@@ -64,23 +64,6 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 		return _toContact(serviceBuilderContact);
 	}
 
-	@Override
-	public Page<ContactEntry> getEntriesByContactId(Integer contactId) throws Exception {
-
-		List<com.liferay.contact.management.model.ContactEntry> contactsEntryService = _contactEntryService.getAllContactsEntries();
-
-		List<ContactEntry> contactEntriesByContactId = new ArrayList<>();
-
-		for (com.liferay.contact.management.model.ContactEntry contactsEntryDTOByContactId : contactsEntryService) {
-
-			if (contactsEntryDTOByContactId.getContactId() == contactId) {
-				contactEntriesByContactId.add(_toContactEntry(contactsEntryDTOByContactId));
-			}
-		}
-
-		return Page.of(contactEntriesByContactId);
-	}
-
 	private Contact _toContact(com.liferay.contact.management.model.Contact serviceBuilderContact) throws Exception {
 
 		return _contactResourceDTOConverter.toDTO(serviceBuilderContact);

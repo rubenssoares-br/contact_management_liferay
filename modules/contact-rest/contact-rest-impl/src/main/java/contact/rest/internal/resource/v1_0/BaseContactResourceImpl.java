@@ -310,36 +310,6 @@ public abstract class BaseContactResourceImpl
 		).build();
 	}
 
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
-				name = "contactId"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Contact")}
-	)
-	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/contact/{contactId}/contactEntry")
-	@javax.ws.rs.Produces({"application/json", "application/xml"})
-	@Override
-	public Page<Contact> getEntriesByContactId(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.PathParam("contactId")
-			Integer contactId)
-		throws Exception {
-
-		return Page.of(Collections.emptyList());
-	}
-
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(

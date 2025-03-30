@@ -207,6 +207,70 @@ public abstract class BaseContactEntryResourceTestCase {
 	}
 
 	@Test
+	public void testGetEntriesByContactId() throws Exception {
+		Integer contactId = testGetEntriesByContactId_getContactId();
+		Integer irrelevantContactId =
+			testGetEntriesByContactId_getIrrelevantContactId();
+
+		Page<ContactEntry> page = contactEntryResource.getEntriesByContactId(
+			contactId);
+
+		Assert.assertEquals(0, page.getTotalCount());
+
+		if (irrelevantContactId != null) {
+			ContactEntry irrelevantContactEntry =
+				testGetEntriesByContactId_addContactEntry(
+					irrelevantContactId, randomIrrelevantContactEntry());
+
+			page = contactEntryResource.getEntriesByContactId(
+				irrelevantContactId);
+
+			Assert.assertEquals(1, page.getTotalCount());
+
+			assertEquals(
+				Arrays.asList(irrelevantContactEntry),
+				(List<ContactEntry>)page.getItems());
+			assertValid(page);
+		}
+
+		ContactEntry contactEntry1 = testGetEntriesByContactId_addContactEntry(
+			contactId, randomContactEntry());
+
+		ContactEntry contactEntry2 = testGetEntriesByContactId_addContactEntry(
+			contactId, randomContactEntry());
+
+		page = contactEntryResource.getEntriesByContactId(contactId);
+
+		Assert.assertEquals(2, page.getTotalCount());
+
+		assertEqualsIgnoringOrder(
+			Arrays.asList(contactEntry1, contactEntry2),
+			(List<ContactEntry>)page.getItems());
+		assertValid(page);
+	}
+
+	protected ContactEntry testGetEntriesByContactId_addContactEntry(
+			Integer contactId, ContactEntry contactEntry)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected Integer testGetEntriesByContactId_getContactId()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected Integer testGetEntriesByContactId_getIrrelevantContactId()
+		throws Exception {
+
+		return null;
+	}
+
+	@Test
 	public void testPostContactEntry() throws Exception {
 		ContactEntry randomContactEntry = randomContactEntry();
 

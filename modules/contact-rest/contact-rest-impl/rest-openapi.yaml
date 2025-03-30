@@ -206,7 +206,7 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/ContactEntry"
                                 type: array
-            tags: [ "ContactEntry" ]
+            tags: ["ContactEntry"]
     "/contact/contactEntry/{entryId}":
         delete:
             operationId: deleteContactEntry

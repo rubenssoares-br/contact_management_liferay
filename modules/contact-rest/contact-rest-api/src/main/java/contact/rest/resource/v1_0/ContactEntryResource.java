@@ -45,6 +45,9 @@ public interface ContactEntryResource {
 
 	public Page<ContactEntry> getAllContactEntries() throws Exception;
 
+	public Page<ContactEntry> getEntriesByContactId(Integer contactId)
+		throws Exception;
+
 	public ContactEntry postContactEntry(
 			Integer contactId, ContactEntry contactEntry)
 		throws Exception;

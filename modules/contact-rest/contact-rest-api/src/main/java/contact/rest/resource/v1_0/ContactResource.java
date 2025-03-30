@@ -63,9 +63,6 @@ public interface ContactResource {
 	public Response putContactBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public Page<Contact> getEntriesByContactId(Integer contactId)
-		throws Exception;
-
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
 	}

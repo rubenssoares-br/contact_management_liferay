@@ -73,6 +73,36 @@ public abstract class BaseContactEntryResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/contact/{contactId}/contactEntry")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public Page<ContactEntry> getEntriesByContactId(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactId")
+			Integer contactId)
+		throws Exception {
+
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry' -d $'{"address": ___, "contactId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
@@ -364,7 +394,7 @@ public abstract class BaseContactEntryResourceImpl
 		throws Exception {
 
 		for (ContactEntry contactEntry : contactEntries) {
-			putContactEntry(entryId, contactEntry);
+			putContactEntry(contactEntry.getEntryId(), contactEntry);
 		}
 	}
 
@@ -497,22 +527,6 @@ public abstract class BaseContactEntryResourceImpl
 
 		return TransformUtil.transform(collection, unsafeFunction);
 	}
-
-	protected <T, R> R[] transform(
-		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction,
-		Class<?> clazz) {
-
-		return TransformUtil.transform(array, unsafeFunction, clazz);
-	}
-
-	protected <T, R> R[] transformToArray(
-		java.util.Collection<T> collection,
-		UnsafeFunction<T, R, Exception> unsafeFunction, Class<?> clazz) {
-
-		return TransformUtil.transformToArray(
-			collection, unsafeFunction, clazz);
-	}
-
 	protected <T, R> List<R> transformToList(
 		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction) {
 
