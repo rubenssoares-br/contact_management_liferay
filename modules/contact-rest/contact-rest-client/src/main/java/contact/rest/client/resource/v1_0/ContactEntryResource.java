@@ -37,11 +37,12 @@ public interface ContactEntryResource {
 			Integer contactId)
 		throws Exception;
 
-	public ContactEntry postContactEntry(ContactEntry contactEntry)
+	public ContactEntry postContactEntry(
+			Integer contactId, ContactEntry contactEntry)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postContactEntryHttpResponse(
-			ContactEntry contactEntry)
+			Integer contactId, ContactEntry contactEntry)
 		throws Exception;
 
 	public void deleteContactEntry(Integer entryId) throws Exception;
@@ -309,11 +310,12 @@ public interface ContactEntryResource {
 			return httpInvoker.invoke();
 		}
 
-		public ContactEntry postContactEntry(ContactEntry contactEntry)
+		public ContactEntry postContactEntry(
+				Integer contactId, ContactEntry contactEntry)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postContactEntryHttpResponse(contactEntry);
+				postContactEntryHttpResponse(contactId, contactEntry);
 
 			String content = httpResponse.getContent();
 
@@ -353,7 +355,7 @@ public interface ContactEntryResource {
 		}
 
 		public HttpInvoker.HttpResponse postContactEntryHttpResponse(
-				ContactEntry contactEntry)
+				Integer contactId, ContactEntry contactEntry)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -383,6 +385,8 @@ public interface ContactEntryResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
 						"/o/contact-rest/v1.0/contact/{contactId}/contactEntry");
+
+			httpInvoker.path("contactId", contactId);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

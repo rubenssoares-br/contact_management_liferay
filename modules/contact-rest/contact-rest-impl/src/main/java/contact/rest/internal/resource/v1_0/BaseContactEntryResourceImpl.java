@@ -105,6 +105,14 @@ public abstract class BaseContactEntryResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/contact-rest/v1.0/contact/{contactId}/contactEntry' -d $'{"address": ___, "contactId": ___, "familyRelationship": ___, "phone": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactId"
+			)
+		}
+	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactEntry")}
 	)
@@ -113,7 +121,12 @@ public abstract class BaseContactEntryResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public ContactEntry postContactEntry(ContactEntry contactEntry)
+	public ContactEntry postContactEntry(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactId")
+			Integer contactId,
+			ContactEntry contactEntry)
 		throws Exception {
 
 		return new ContactEntry();

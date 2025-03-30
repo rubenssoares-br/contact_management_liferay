@@ -124,6 +124,7 @@ public class Mutation {
 
 	@GraphQLField
 	public ContactEntry createContactEntry(
+			@GraphQLName("contactId") Integer contactId,
 			@GraphQLName("contactEntry") ContactEntry contactEntry)
 		throws Exception {
 
@@ -131,7 +132,7 @@ public class Mutation {
 			_contactEntryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			contactEntryResource -> contactEntryResource.postContactEntry(
-				contactEntry));
+				contactId, contactEntry));
 	}
 
 	@GraphQLField

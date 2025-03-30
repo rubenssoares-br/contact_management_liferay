@@ -48,7 +48,8 @@ public interface ContactEntryResource {
 	public Page<ContactEntry> getEntriesByContactId(Integer contactId)
 		throws Exception;
 
-	public ContactEntry postContactEntry(ContactEntry contactEntry)
+	public ContactEntry postContactEntry(
+			Integer contactId, ContactEntry contactEntry)
 		throws Exception;
 
 	public void deleteContactEntry(Integer entryId) throws Exception;

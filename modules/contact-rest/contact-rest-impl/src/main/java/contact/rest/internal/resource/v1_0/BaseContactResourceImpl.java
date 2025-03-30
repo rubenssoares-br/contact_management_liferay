@@ -525,6 +525,7 @@ public abstract class BaseContactResourceImpl
 
 		return TransformUtil.transform(collection, unsafeFunction);
 	}
+
 	protected <T, R> List<R> transformToList(
 		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction) {
 
