@@ -238,6 +238,12 @@ paths:
             tags: ["ContactEntry"]
         put:
             operationId: putContactEntry
+            parameters:
+                - in: path
+                  name: entryId
+                  required: true
+                  schema:
+                      type: integer
             requestBody:
                 content:
                     application/json:
