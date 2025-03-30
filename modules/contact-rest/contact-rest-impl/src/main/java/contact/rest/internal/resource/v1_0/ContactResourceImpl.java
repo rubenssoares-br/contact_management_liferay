@@ -69,11 +69,6 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 		return _contactResourceDTOConverter.toDTO(serviceBuilderContact);
 	}
 
-	private ContactEntry _toContactEntry(com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry) throws Exception {
-
-		return _contactEntryResourceDTOConverter.toDTO(serviceBuilderContactEntry);
-	}
-
 	public void setContextBatchUnsafeBiConsumer(UnsafeBiConsumer<Collection<Contact>, UnsafeFunction<Contact, Contact, Exception>, Exception> unsafeBiConsumer) {
 	}
 
@@ -81,9 +76,6 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
 
 	@Reference(target = "(component.name=contact.rest.dto.v1_0.converter.ContactResourceDTOConverter)")
 	private DTOConverter<com.liferay.contact.management.model.Contact, Contact> _contactResourceDTOConverter;
-
-	@Reference(target = "(component.name=contact.rest.dto.v1_0.converter.ContactEntryResourceDTOConverter)")
-	private DTOConverter<com.liferay.contact.management.model.ContactEntry, ContactEntry> _contactEntryResourceDTOConverter;
 
 	@Reference
 	private ContactService _contactService;
