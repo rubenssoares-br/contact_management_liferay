@@ -199,14 +199,14 @@ paths:
                         application/json:
                             schema:
                                 items:
-                                    $ref: "#/components/schemas/Contact"
+                                    $ref: "#/components/schemas/ContactEntry"
                                 type: array
                         application/xml:
                             schema:
                                 items:
-                                    $ref: "#/components/schemas/Contact"
+                                    $ref: "#/components/schemas/ContactEntry"
                                 type: array
-            tags: ["Contact"]
+            tags: [ "ContactEntry" ]
     "/contact/contactEntry/{entryId}":
         delete:
             operationId: deleteContactEntry
