@@ -159,6 +159,12 @@ paths:
     "/contact/{contactId}/contactEntry":
         post:
             operationId: postContactEntry
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      type: integer
             requestBody:
                 content:
                     application/json:
