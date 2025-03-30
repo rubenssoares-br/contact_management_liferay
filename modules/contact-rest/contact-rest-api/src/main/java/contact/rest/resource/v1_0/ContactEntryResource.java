@@ -59,10 +59,12 @@ public interface ContactEntryResource {
 
 	public ContactEntry getContactEntryId(Integer entryId) throws Exception;
 
-	public ContactEntry putContactEntry(ContactEntry contactEntry)
+	public ContactEntry putContactEntry(
+			Integer entryId, ContactEntry contactEntry)
 		throws Exception;
 
-	public Response putContactEntryBatch(String callbackURL, Object object)
+	public Response putContactEntryBatch(
+			Integer entryId, String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

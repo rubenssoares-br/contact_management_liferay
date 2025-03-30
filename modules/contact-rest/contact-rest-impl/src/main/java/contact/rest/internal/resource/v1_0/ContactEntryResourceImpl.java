@@ -14,6 +14,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
+import javax.ws.rs.core.Response;
 import java.util.*;
 
 /**
@@ -72,8 +73,8 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	@Override
-	public ContactEntry putContactEntry(ContactEntry contactEntry) throws Exception{
-		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getEntryId(), contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
+	public ContactEntry putContactEntry(Integer entryId, ContactEntry contactEntry) throws Exception{
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), entryId, contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
 
 		return _toContactEntry(serviceBuilderContactEntry);
 	}
