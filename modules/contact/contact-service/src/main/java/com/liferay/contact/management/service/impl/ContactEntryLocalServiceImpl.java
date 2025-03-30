@@ -116,10 +116,6 @@ public class ContactEntryLocalServiceImpl
 			throw new ContactEntryFamilyRelationshipException.MustBeLessThan50Characters();
 		}
 
-		if (ContactEntryUtil.fetchByFamilyRelationship(familyRelationship) != null) {
-			throw new ContactEntryFamilyRelationshipException.MustNotBeDuplicate(familyRelationship);
-		}
-
 	}
 
 	private void _validatePhone(long phone) throws PortalException {
