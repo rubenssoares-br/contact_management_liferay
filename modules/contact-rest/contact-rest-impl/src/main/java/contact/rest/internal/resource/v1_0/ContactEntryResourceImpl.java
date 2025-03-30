@@ -65,15 +65,15 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	}
 
 	@Override
-	public ContactEntry postContactEntry(Integer contactId, ContactEntry contactEntry) throws Exception {
-		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.addContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getPhone(), contactEntry.getAddress(), contactId, ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
+	public ContactEntry postContactEntry(ContactEntry contactEntry) throws Exception {
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.addContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
 
 		return _toContactEntry(serviceBuilderContactEntry);
 	}
 
 	@Override
-	public ContactEntry putContactEntry(Integer entryId, ContactEntry contactEntry) throws Exception{
-		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), entryId, contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
+	public ContactEntry putContactEntry(ContactEntry contactEntry) throws Exception{
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getEntryId(), contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
 
 		return _toContactEntry(serviceBuilderContactEntry);
 	}

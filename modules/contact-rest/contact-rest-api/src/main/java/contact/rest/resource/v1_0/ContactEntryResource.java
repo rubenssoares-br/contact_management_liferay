@@ -48,8 +48,7 @@ public interface ContactEntryResource {
 	public Page<ContactEntry> getEntriesByContactId(Integer contactId)
 		throws Exception;
 
-	public ContactEntry postContactEntry(
-			Integer contactId, ContactEntry contactEntry)
+	public ContactEntry postContactEntry(ContactEntry contactEntry)
 		throws Exception;
 
 	public void deleteContactEntry(Integer entryId) throws Exception;
@@ -60,12 +59,10 @@ public interface ContactEntryResource {
 
 	public ContactEntry getContactEntryId(Integer entryId) throws Exception;
 
-	public ContactEntry putContactEntry(
-			Integer entryId, ContactEntry contactEntry)
+	public ContactEntry putContactEntry(ContactEntry contactEntry)
 		throws Exception;
 
-	public Response putContactEntryBatch(
-			Integer entryId, String callbackURL, Object object)
+	public Response putContactEntryBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

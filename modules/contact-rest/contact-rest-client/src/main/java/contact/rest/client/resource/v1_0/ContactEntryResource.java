@@ -37,12 +37,11 @@ public interface ContactEntryResource {
 			Integer contactId)
 		throws Exception;
 
-	public ContactEntry postContactEntry(
-			Integer contactId, ContactEntry contactEntry)
+	public ContactEntry postContactEntry(ContactEntry contactEntry)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postContactEntryHttpResponse(
-			Integer contactId, ContactEntry contactEntry)
+			ContactEntry contactEntry)
 		throws Exception;
 
 	public void deleteContactEntry(Integer entryId) throws Exception;
@@ -65,20 +64,18 @@ public interface ContactEntryResource {
 			Integer entryId)
 		throws Exception;
 
-	public ContactEntry putContactEntry(
-			Integer entryId, ContactEntry contactEntry)
+	public ContactEntry putContactEntry(ContactEntry contactEntry)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse putContactEntryHttpResponse(
-			Integer entryId, ContactEntry contactEntry)
+			ContactEntry contactEntry)
 		throws Exception;
 
-	public void putContactEntryBatch(
-			Integer entryId, String callbackURL, Object object)
+	public void putContactEntryBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse putContactEntryBatchHttpResponse(
-			Integer entryId, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public static class Builder {
@@ -310,12 +307,11 @@ public interface ContactEntryResource {
 			return httpInvoker.invoke();
 		}
 
-		public ContactEntry postContactEntry(
-				Integer contactId, ContactEntry contactEntry)
+		public ContactEntry postContactEntry(ContactEntry contactEntry)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postContactEntryHttpResponse(contactId, contactEntry);
+				postContactEntryHttpResponse(contactEntry);
 
 			String content = httpResponse.getContent();
 
@@ -355,7 +351,7 @@ public interface ContactEntryResource {
 		}
 
 		public HttpInvoker.HttpResponse postContactEntryHttpResponse(
-				Integer contactId, ContactEntry contactEntry)
+				ContactEntry contactEntry)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -385,8 +381,6 @@ public interface ContactEntryResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
 						"/o/contact-rest/v1.0/contact/{contactId}/contactEntry");
-
-			httpInvoker.path("contactId", contactId);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -633,12 +627,11 @@ public interface ContactEntryResource {
 			return httpInvoker.invoke();
 		}
 
-		public ContactEntry putContactEntry(
-				Integer entryId, ContactEntry contactEntry)
+		public ContactEntry putContactEntry(ContactEntry contactEntry)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putContactEntryHttpResponse(
-				entryId, contactEntry);
+				contactEntry);
 
 			String content = httpResponse.getContent();
 
@@ -678,7 +671,7 @@ public interface ContactEntryResource {
 		}
 
 		public HttpInvoker.HttpResponse putContactEntryHttpResponse(
-				Integer entryId, ContactEntry contactEntry)
+				ContactEntry contactEntry)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -709,20 +702,17 @@ public interface ContactEntryResource {
 					_builder._port +
 						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}");
 
-			httpInvoker.path("entryId", entryId);
-
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
 
 			return httpInvoker.invoke();
 		}
 
-		public void putContactEntryBatch(
-				Integer entryId, String callbackURL, Object object)
+		public void putContactEntryBatch(String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putContactEntryBatchHttpResponse(entryId, callbackURL, object);
+				putContactEntryBatchHttpResponse(callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -751,7 +741,7 @@ public interface ContactEntryResource {
 		}
 
 		public HttpInvoker.HttpResponse putContactEntryBatchHttpResponse(
-				Integer entryId, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -786,8 +776,6 @@ public interface ContactEntryResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
 						"/o/contact-rest/v1.0/contact/contactEntry/{entryId}/batch");
-
-			httpInvoker.path("entryId", entryId);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

@@ -124,7 +124,6 @@ public class Mutation {
 
 	@GraphQLField
 	public ContactEntry createContactEntry(
-			@GraphQLName("contactId") Integer contactId,
 			@GraphQLName("contactEntry") ContactEntry contactEntry)
 		throws Exception {
 
@@ -132,7 +131,7 @@ public class Mutation {
 			_contactEntryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			contactEntryResource -> contactEntryResource.postContactEntry(
-				contactId, contactEntry));
+				contactEntry));
 	}
 
 	@GraphQLField
@@ -165,7 +164,6 @@ public class Mutation {
 
 	@GraphQLField
 	public ContactEntry updateContactEntry(
-			@GraphQLName("entryId") Integer entryId,
 			@GraphQLName("contactEntry") ContactEntry contactEntry)
 		throws Exception {
 
@@ -173,12 +171,11 @@ public class Mutation {
 			_contactEntryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			contactEntryResource -> contactEntryResource.putContactEntry(
-				entryId, contactEntry));
+				contactEntry));
 	}
 
 	@GraphQLField
 	public Response updateContactEntryBatch(
-			@GraphQLName("entryId") Integer entryId,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -187,7 +184,7 @@ public class Mutation {
 			_contactEntryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			contactEntryResource -> contactEntryResource.putContactEntryBatch(
-				entryId, callbackURL, object));
+				callbackURL, object));
 	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
