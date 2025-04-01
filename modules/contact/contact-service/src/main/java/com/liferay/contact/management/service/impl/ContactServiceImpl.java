@@ -59,11 +59,6 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 		return contactLocalService.getAllContacts();
 	}
 
-	public List<ContactEntry> getEntriesByContactId(long contactId) throws PortalException {
-
-		return contactLocalService.getEntriesByContactId(contactId);
-	}
-
 	@Reference
 	private volatile ModelResourcePermission<Contact>
 			_contactModelResourcePermission;

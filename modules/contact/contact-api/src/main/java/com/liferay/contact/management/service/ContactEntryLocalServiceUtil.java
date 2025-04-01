@@ -260,6 +260,12 @@ public class ContactEntryLocalServiceUtil {
 		return getService().getContactEntry(entryId);
 	}
 
+	public static List<ContactEntry> getEntriesByContactId(long contactId)
+		throws PortalException {
+
+		return getService().getEntriesByContactId(contactId);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {

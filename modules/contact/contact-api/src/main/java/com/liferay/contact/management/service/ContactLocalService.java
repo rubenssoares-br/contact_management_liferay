@@ -7,7 +7,6 @@ package com.liferay.contact.management.service;
 
 import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.Contact;
-import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -235,10 +234,6 @@ public interface ContactLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getContactsCount();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<ContactEntry> getEntriesByContactId(long contactId)
-		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();

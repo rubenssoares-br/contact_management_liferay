@@ -291,14 +291,6 @@ public class ContactLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<com.liferay.contact.management.model.ContactEntry>
-			getEntriesByContactId(long contactId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _contactLocalService.getEntriesByContactId(contactId);
-	}
-
-	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 

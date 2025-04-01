@@ -56,6 +56,12 @@ public class ContactEntryServiceUtil {
 		return getService().getContactEntry(entryId);
 	}
 
+	public static List<ContactEntry> getEntriesByContactId(long contactId)
+		throws PortalException {
+
+		return getService().getEntriesByContactId(contactId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *

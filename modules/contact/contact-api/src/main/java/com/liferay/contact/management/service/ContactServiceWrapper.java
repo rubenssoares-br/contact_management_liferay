@@ -58,14 +58,6 @@ public class ContactServiceWrapper
 		return _contactService.getContact(contactId);
 	}
 
-	@Override
-	public java.util.List<com.liferay.contact.management.model.ContactEntry>
-			getEntriesByContactId(long contactId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _contactService.getEntriesByContactId(contactId);
-	}
-
 	/**
 	 * Returns the OSGi service identifier.
 	 *

@@ -50,4 +50,9 @@ public class ContactEntryServiceImpl extends ContactEntryServiceBaseImpl {
 
 		return contactEntryLocalService.getAllContactEntries();
 	}
+
+	public List<ContactEntry> getEntriesByContactId(long contactId) throws PortalException {
+
+		return contactEntryLocalService.getEntriesByContactId(contactId);
+	}
 }

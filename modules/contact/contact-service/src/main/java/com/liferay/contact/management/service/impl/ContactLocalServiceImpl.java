@@ -86,13 +86,6 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		return contactPersistence.findAll();
 	}
 
-	public List<ContactEntry> getEntriesByContactId(long contactId) throws PortalException {
-
-		_validateContactId(contactId);
-
-		return ContactEntryUtil.findByAllContactIds(contactId);
-	}
-
 	private void _validateParameters(String name, String email, long phone, String address) throws PortalException {
 
 		_validateName(name);

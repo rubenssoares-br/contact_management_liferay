@@ -51,13 +51,6 @@ public class ContactServiceUtil {
 		return getService().getContact(contactId);
 	}
 
-	public static List<com.liferay.contact.management.model.ContactEntry>
-			getEntriesByContactId(long contactId)
-		throws PortalException {
-
-		return getService().getEntriesByContactId(contactId);
-	}
-
 	/**
 	 * Returns the OSGi service identifier.
 	 *
