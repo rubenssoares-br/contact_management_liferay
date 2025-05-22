@@ -35,6 +35,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		_validateParameters(name, email, phone, address);
 
+		_validateUniqueParametersForNewContacts(name, email, phone, address);
+
 		long contactId = counterLocalService.increment();
 
 		Contact entity = contactPersistence.create(contactId);
@@ -54,6 +56,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	public Contact updateContact( String name,long contactId, String email, long phone, String address, ServiceContext serviceContext) throws PortalException {
 
 		_validateParameters(name, email, phone, address);
+
+		_validateUniqueParametersForExistingContacts(name, email, phone, address, contactId);
 
 		Contact entity = contactPersistence.findByPrimaryKey(contactId);
 
@@ -98,6 +102,16 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 	}
 
+	private void _validateUniqueParametersForNewContacts(String name, String email, long phone, String address) throws PortalException {
+
+		_validateUniqueName(name);
+	}
+
+	private void _validateUniqueParametersForExistingContacts(String name, String email, long phone, String address, long contactId) throws PortalException {
+
+		_validateNameMustNotBeDuplicate(name, contactId);
+	}
+
 	private void _validateName(String name) throws PortalException {
 
 		if (Validator.isNull(name)) {
@@ -116,12 +130,21 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 			throw new ContactNameException.MustBeLessThan50Characters();
 		}
 
-		Contact contactName = contactPersistence.fetchByName(name);
+	}
 
-		if (contactName != null) {
+	private void _validateUniqueName(String name) throws PortalException {
+		if (ContactUtil.fetchByName(name) != null) {
 			throw new ContactNameException.MustNotBeDuplicate(name);
 		}
+	}
 
+	private void _validateNameMustNotBeDuplicate(String name, long contactId) throws PortalException {
+
+		if (name.equals(ContactUtil.findByPrimaryKey(contactId).getName())) {
+			return;
+		}
+
+		_validateUniqueName(name);
 	}
 
 	private void _validateEmailAddress(String email) throws PortalException {
