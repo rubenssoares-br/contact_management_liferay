@@ -107,6 +107,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		_validateUniqueName(name);
 
 		_validateUniqueEmail(email);
+
+		_validateUniquePhone(phone);
 	}
 
 	private void _validateUniqueParametersForExistingContacts(String name, String email, long phone, String address, long contactId) throws PortalException {
@@ -114,6 +116,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		_validateNameMustNotBeDuplicate(name, contactId);
 
 		_validateEmailMustNotBeDuplicate(email, contactId);
+
+		_validatePhoneMustNotBeDuplicate(phone, contactId);
 	}
 
 	private void _validateName(String name) throws PortalException {
@@ -148,6 +152,12 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		}
 	}
 
+	private void _validateUniquePhone(long phone) throws PortalException {
+		if (ContactUtil.fetchByPhone(phone) != null) {
+			throw new ContactPhoneException.MustNotBeDuplicate(phone);
+		}
+	}
+
 	private void _validateNameMustNotBeDuplicate(String name, long contactId) throws PortalException {
 
 		if (name.equals(ContactUtil.findByPrimaryKey(contactId).getName())) {
@@ -164,6 +174,15 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		}
 
 		_validateUniqueEmail(email);
+	}
+
+	private void _validatePhoneMustNotBeDuplicate(long phone, long contactId) throws PortalException {
+
+		if (phone == (ContactUtil.findByPrimaryKey(contactId).getPhone())) {
+			return;
+		}
+
+		_validateUniquePhone(phone);
 	}
 
 	private void _validateEmailAddress(String email) throws PortalException {
@@ -199,10 +218,6 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		if (arrayPhoneChar.length > 30) {
 			throw new ContactPhoneException.MustBeLessThan30Characters();
-		}
-
-		if (ContactUtil.fetchByPhone(phone) != null) {
-			throw new ContactPhoneException.MustNotBeDuplicate(phone);
 		}
 	}
 
