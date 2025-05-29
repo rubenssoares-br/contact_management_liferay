@@ -128,16 +128,15 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		char[] arrayNameChar = name.toCharArray();
 
+		if (arrayNameChar.length > 50) {
+			throw new ContactNameException.MustBeLessThan50Characters();
+		}
+
 		for (char a : arrayNameChar) {
 			if (!Validator.isChar(a) && !Validator.isDigit(a))  {
 				throw new ContactNameException.MustOnlyContainLettersAndDigits();
 			}
 		}
-
-		if (arrayNameChar.length > 50) {
-			throw new ContactNameException.MustBeLessThan50Characters();
-		}
-
 	}
 
 	private void _validateUniqueName(String name) throws PortalException {
@@ -210,14 +209,14 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		char[] arrayPhoneChar = Long.toString(phone).toCharArray();
 
+		if (arrayPhoneChar.length > 30) {
+			throw new ContactPhoneException.MustBeLessThan30Characters();
+		}
+
 		for (char a : arrayPhoneChar) {
 			if (!Validator.isDigit(a)) {
 				throw new ContactPhoneException.MustOnlyContainDigits();
 			}
-		}
-
-		if (arrayPhoneChar.length > 30) {
-			throw new ContactPhoneException.MustBeLessThan30Characters();
 		}
 	}
 
@@ -229,14 +228,14 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		char[] arrayAddressChar = address.toCharArray();
 
+		if (arrayAddressChar.length > 60) {
+			throw new ContactAddressException.MustBeLessThan60Characters();
+		}
+
 		for (char a : arrayAddressChar) {
 			if (!Validator.isChar(a) && !Validator.isDigit(a))  {
 				throw new ContactAddressException.MustOnlyContainLettersAndDigits();
 			}
-		}
-
-		if (arrayAddressChar.length > 60) {
-			throw new ContactAddressException.MustBeLessThan60Characters();
 		}
 	}
 
@@ -248,20 +247,19 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		char[] arrayContactIdChar = Long.toString(contactId).toCharArray();
 
+		if (arrayContactIdChar.length > 30) {
+			throw new ContactIdException.MustBeLessThan30Characters();
+		}
+
 		for (char a : arrayContactIdChar) {
 			if (!Validator.isDigit(a)) {
 				throw new ContactIdException.MustOnlyContainDigits();
 			}
 		}
 
-		if (arrayContactIdChar.length > 30) {
-			throw new ContactIdException.MustBeLessThan30Characters();
-		}
-
 		if (ContactUtil.findByPrimaryKey(contactId) == null) {
 			throw new ContactIdException.MustBeValid();
 		}
-
 	}
 
 }
