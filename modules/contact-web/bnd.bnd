@@ -1,0 +1,7 @@
+Bundle-Name: contact-web
+Bundle-SymbolicName: com.liferay.contact.management
+Bundle-Version: 1.0.0
+Export-Package: com.liferay.contact.management.constants
+Provide-Capability:\
+	liferay.language.resources;\
+		resource.bundle.base.name="content.Language"
