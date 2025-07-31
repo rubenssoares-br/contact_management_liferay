@@ -7,7 +7,7 @@
 <p>
 	<b><liferay-ui:message key="contact.caption"/></b>
 
-	<p>"lorem ipsum"</p>
+	<p>"lorem ipsum in view.jsp"</p>
 
 	 <aui:button-row>
            <aui:button onClick="<%= addContactURL.toString() %>" value="Add Contact"></aui:button>
