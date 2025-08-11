@@ -8,7 +8,7 @@
 	<p>"lorem ipsum in edit_contact.jsp"</p>
 </p>
 
-<portlet:actionURL name="AddContact" var="addContactURL"></portlet:actionURL>
+<portlet:actionURL name="addContact" var="addContactURL"></portlet:actionURL>
 
 <aui:form action="<%= addContactURL %>" name="<portlet:mvcPath />fm">
         <aui:fieldset>
