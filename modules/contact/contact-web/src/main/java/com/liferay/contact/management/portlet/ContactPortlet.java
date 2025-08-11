@@ -23,12 +23,12 @@ import java.util.logging.Logger;
  */
 @Component(
 	property = {
-		"com.liferay.portlet.display-category=category.sample",
+		"com.liferay.portlet.display-category=category.social",
 		"com.liferay.portlet.header-portlet-css=/css/main.css",
-		"com.liferay.portlet.instanceable=true",
+		"com.liferay.portlet.instanceable=false",
 		"javax.portlet.display-name=Contact",
 		"javax.portlet.init-param.template-path=/",
-		"javax.portlet.init-param.view-template=/view.jsp",
+		"javax.portlet.init-param.view-template=/contactwebportlet/view.jsp",
 		"javax.portlet.name=" + ContactPortletKeys.CONTACT,
 		"javax.portlet.resource-bundle=content.Language",
 		"javax.portlet.security-role-ref=power-user,user"
