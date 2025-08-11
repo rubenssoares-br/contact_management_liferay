@@ -1,4 +1,4 @@
-<%@ include file="/init.jsp" %>
+<%@ include file="../init.jsp" %>
 
 <portlet:renderURL var="addContactURL">
     <portlet:param name="mvcPath" value="/edit_contact.jsp"></portlet:param>
