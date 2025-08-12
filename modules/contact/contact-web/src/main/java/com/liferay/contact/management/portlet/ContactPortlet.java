@@ -2,14 +2,25 @@ package com.liferay.contact.management.portlet;
 
 import com.liferay.contact.management.constants.ContactPortletKeys;
 
+import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.model.Entry;
+import com.liferay.contact.management.service.ContactEntryLocalService;
+import com.liferay.contact.management.service.ContactLocalService;
+import com.liferay.contact.management.service.impl.ContactEntryLocalServiceImpl;
+import com.liferay.contact.management.service.impl.ContactLocalServiceImpl;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.*;
 
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 
+import com.liferay.portal.kernel.util.PortalUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,47 +49,52 @@ import java.util.logging.Logger;
 public class ContactPortlet extends MVCPortlet {
 
 	public void addContact(ActionRequest request, ActionResponse response) {
-		try {
-			PortletPreferences prefs = request.getPreferences();
 
-			String[] contactEntries = prefs.getValues("contact-entries", new String[4]);
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(Contact.class.getName(), request);
 
-			ArrayList<String> entries = new ArrayList<>();
+		String name = ParamUtil.getString(request, "name");
+		String email = ParamUtil.getString(request, "email");
+		long phone = ParamUtil.getLong(request, "phone");
+		String address = ParamUtil.getString(request, "address");
+		long contactId = ParamUtil.getLong(request, "contactId");
 
-			if (contactEntries[0] != null) {
-				entries = new ArrayList<>(Arrays.asList(prefs.getValues("contact-entries", new String[4])));
-			}
-
-			String name = ParamUtil.getString(request, "name");
-			String email = ParamUtil.getString(request, "email");
-			String phone = ParamUtil.getString(request, "phone");
-			String address = ParamUtil.getString(request, "address");
-
-			String entry = name + "^" + email + "^" + phone + "^" + address;
-
-			entries.add(entry);
-
-			String[] array = entries.toArray(new String[entries.size()]);
-
-			prefs.setValue("contact-entries", Arrays.toString(array));
+		if (contactId > 0) {
 
 			try {
-				prefs.store();
-			}
-			catch (IOException e) {
-				Logger.getLogger(ContactPortlet.class.getName()).log(
-						Level.SEVERE, null, e);
-			}
-			catch (ValidatorException e) {
-				Logger.getLogger(ContactPortlet.class.getName()).log(
-						Level.SEVERE, null, e);
-			}
+				_contactLocalService.updateContact(
+						name, contactId, email, phone, address, serviceContext);
 
+				response.setRenderParameter("contactId", Long.toString(contactId));
+			}
+			catch (Exception e) {
+				System.out.println(e);
 
-		} catch (ReadOnlyException e) {
-			Logger.getLogger(ContactPortlet.class.getName()).log(
-					Level.SEVERE, null, e);
-        }
+				PortalUtil.copyRequestParameters(request, response);
+
+				response.setRenderParameter(
+						"mvcPath", "contactwebportlet/edit_contact.jsp");
+			}
+		} else {
+
+			try {
+				_contactLocalService.addContact(
+						name, email, phone, address, serviceContext);
+
+				SessionMessages.add(request, "contactAdded");
+
+				response.setRenderParameter("contactId", Long.toString(contactId));
+
+			}
+			catch (Exception e) {
+				SessionErrors.add(request, e.getClass().getName());
+
+				PortalUtil.copyRequestParameters(request, response);
+
+				response.setRenderParameter(
+						"mvcPath", "contactwebportlet/edit_contact.jsp");
+			}
+		}
+
     }
 
 	private List<Entry> parseEntries(String[] contactEntries) {
@@ -106,4 +122,13 @@ public class ContactPortlet extends MVCPortlet {
 
 		super.render(renderRequest, renderResponse);
 	}
+
+
+	@Reference
+	private ContactLocalService _contactLocalService;
+
+	@Reference
+	private ContactEntryLocalService _contactEntryLocalService;
+
+
 }
