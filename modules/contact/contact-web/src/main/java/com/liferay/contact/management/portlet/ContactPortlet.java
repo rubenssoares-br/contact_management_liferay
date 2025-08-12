@@ -8,6 +8,7 @@ import com.liferay.contact.management.service.ContactEntryLocalService;
 import com.liferay.contact.management.service.ContactLocalService;
 import com.liferay.contact.management.service.impl.ContactEntryLocalServiceImpl;
 import com.liferay.contact.management.service.impl.ContactLocalServiceImpl;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.*;
@@ -48,7 +49,7 @@ import java.util.logging.Logger;
 )
 public class ContactPortlet extends MVCPortlet {
 
-	public void addContact(ActionRequest request, ActionResponse response) {
+	public void addContact(ActionRequest request, ActionResponse response) throws PortalException {
 
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Contact.class.getName(), request);
 
@@ -94,19 +95,25 @@ public class ContactPortlet extends MVCPortlet {
 						"mvcPath", "contactwebportlet/edit_contact.jsp");
 			}
 		}
-
     }
 
-	private List<Entry> parseEntries(String[] contactEntries) {
-		List<Entry> entries = new ArrayList<>();
+	public void deleteContact(ActionRequest request, ActionResponse response) throws PortalException {
 
-		for (String entry : contactEntries) {
-			String[] parts = entry.split("\\^", 4);
-			Entry gbEntry  = new Entry(parts[0], parts[1], parts[2], parts[3]);
-			entries.add(gbEntry);
+		long contactId = ParamUtil.getLong(request, "contactId");
+
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(Contact.class.getName(), request);
+
+		try {
+			response.setRenderParameter(
+					"contactId", Long.toString(contactId));
+
+			_contactLocalService.deleteContact(contactId);
 		}
 
-		return entries;
+		catch (Exception e) {
+			Logger.getLogger(ContactPortlet.class.getName()).log(
+					Level.SEVERE, null, e);
+		}
 	}
 
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
