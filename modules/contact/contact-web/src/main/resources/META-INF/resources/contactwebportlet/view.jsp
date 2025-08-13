@@ -1,36 +1,44 @@
 <%@ include file="../init.jsp" %>
 
-<portlet:renderURL var="addContactURL">
-    <portlet:param name="mvcPath" value="/contactwebportlet/edit_contact.jsp"></portlet:param>
-</portlet:renderURL>
+<%
+long contactId = Long.valueOf((Long) renderRequest.getAttribute("contactId"));
 
-<p>
-	<b><liferay-ui:message key="contact.caption"/></b>
+List<com.liferay.contact.management.model.Contact> contacts = ContactLocalServiceUtil.getContacts(searchContainer.getStart(), searchContainer.getEnd());
+%>
 
-	<p>"lorem ipsum in view.jsp"</p>
+<aui:button-row cssClass="contact-buttons">
 
-	<jsp:useBean id="entries" class="java.util.ArrayList" scope="request"/>
+    <portlet:renderURL var="addContactURL">
+        <portlet:param name="mvcPath" value="/contactwebportlet/edit_contact.jsp"></portlet:param>
+        <portlet:param name="contactId"
+            value="<%=String.valueOf(contactId)%>" />
+    </portlet:renderURL>
 
-	<liferay-ui:search-container>
-	    <liferay-ui:search-container-results results="<%= entries %>" />
+    <aui:button onClick="<%= addContactURL.toString() %>" value="Add Contact"></aui:button>
 
-	    <liferay-ui:search-container-row
-	        className="com.liferay.contact.management.model.Entry"
-	        modelVar="entry"
-	    >
-	        <liferay-ui:search-container-column-text property="_name" />
+</aui:button-row>
 
-	        <liferay-ui:search-container-column-text property="_email" />
 
-	        <liferay-ui:search-container-column-text property="_phone" />
+<liferay-ui:search-container total="<%= contacts.size() %>">
+<liferay-ui:search-container-results results="<%= contacts %>" />
 
-	        <liferay-ui:search-container-column-text property="_address" />
-        </liferay-ui:search-container-row>
+<liferay-ui:search-container-row className="com.liferay.contact.management.model.Contact" modelVar="contact">
 
-        <liferay-ui:search-iterator />
-    </liferay-ui:search-container>
+     <liferay-ui:search-container-column-text property="name" />
 
-	 <aui:button-row>
-           <aui:button onClick="<%= addContactURL.toString() %>" value="Add Contact"></aui:button>
-     </aui:button-row>
-</p>
+     <liferay-ui:search-container-column-text property="email" />
+
+     <liferay-ui:search-container-column-text property="phone" />
+
+     <liferay-ui:search-container-column-text property="address" />
+
+</liferay-ui:search-container-row>
+
+<liferay-ui:search-iterator />
+
+</liferay-ui:search-container>
+
+
+
+
+
