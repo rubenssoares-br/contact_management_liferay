@@ -3,7 +3,6 @@ package com.liferay.contact.management.portlet;
 import com.liferay.contact.management.constants.ContactPortletKeys;
 
 import com.liferay.contact.management.model.Contact;
-import com.liferay.contact.management.model.Entry;
 import com.liferay.contact.management.service.ContactEntryLocalService;
 import com.liferay.contact.management.service.ContactLocalService;
 import com.liferay.contact.management.service.impl.ContactEntryLocalServiceImpl;
@@ -118,16 +117,35 @@ public class ContactPortlet extends MVCPortlet {
 
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
 
-		PortletPreferences prefs = renderRequest.getPreferences();
+		try {
+			ServiceContext serviceContext = ServiceContextFactory.getInstance(
+					Contact.class.getName(), renderRequest);
 
-		String[] contactEntries = prefs.getValues("contact-entries", new String[4]);
+			String name = ParamUtil.getString(renderRequest, "name");
+			String email = ParamUtil.getString(renderRequest, "email");
+			long phone = ParamUtil.getLong(renderRequest, "phone");
+			String address = ParamUtil.getString(renderRequest, "address");
+			long contactId = ParamUtil.getLong(renderRequest, "contactId");
 
-		if (contactEntries[0] != null) {
-			List<Entry> entries = parseEntries(contactEntries);
-			renderRequest.setAttribute("entries", entries);
-		}
+			List<Contact> contacts = _contactLocalService.getAllContacts();
 
-		super.render(renderRequest, renderResponse);
+			if (contacts.isEmpty()) {
+				Contact contact = _contactLocalService.addContact(name, email, phone, address, serviceContext);
+
+				contactId = contact.getContactId();
+			}
+
+			if (contactId == 0) {
+				contactId = contacts.get(0).getContactId();
+			}
+
+			renderRequest.setAttribute("contactId", contactId);
+
+		} catch (PortalException e) {
+            throw new RuntimeException(e);
+        }
+
+        super.render(renderRequest, renderResponse);
 	}
 
 
