@@ -2,12 +2,11 @@
 
 
 <%
-
 long contactId = ParamUtil.getLong(renderRequest, "contactId");
 
-Contact contact = null;
+Contact contactModel = null;
 if (contactId > 0) {
-  contact = ContactLocalServiceUtil.getContact(contactId);
+  contactModel = ContactLocalServiceUtil.getContact(contactId);
 }
 %>
 
@@ -23,7 +22,7 @@ if (contactId > 0) {
 
 <aui:form action="<%= addContactURL %>" name="<portlet:namespace />fm">
 
-<aui:model-context bean="<%= contact %>" model="<%= Contact.class %>" />
+<aui:model-context bean="<%= contactModel %>" model="<%= com.liferay.contact.management.model.Contact.class %>" />
 
         <aui:fieldset>
 
@@ -31,7 +30,7 @@ if (contactId > 0) {
             <aui:input name="email"></aui:input>
             <aui:input name="phone"></aui:input>
             <aui:input name="address"></aui:input>
-            <aui:input name="contactId" type="hidden" value='<%= contact == null ? contactId : contact.getContactId() %>'/>
+            <aui:input name="contactId" type="hidden" value='<%= contactModel == null ? contactId : contactModel.getContactId() %>'/>
 
         </aui:fieldset>
 
