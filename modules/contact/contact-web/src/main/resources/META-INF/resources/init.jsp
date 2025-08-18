@@ -6,6 +6,15 @@
 taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+<%@ page import="com.liferay.contact.management.service.ContactLocalServiceUtil" %>
+<%@ page import="com.liferay.contact.management.model.Contact" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
+<%@ page import="com.liferay.portal.kernel.util.HtmlUtil" %>
+<%@ page import="com.liferay.petra.string.StringPool" %>
+<%@ page import="com.liferay.portal.kernel.model.PersistedModel" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.SearchEntry" %>
+<%@ page import="com.liferay.portal.kernel.dao.search.ResultRow" %>
 
 <liferay-theme:defineObjects />
 
