@@ -2,9 +2,8 @@
 
 <%
 long contactId = Long.valueOf((Long) renderRequest.getAttribute("contactId"));
-
-List<com.liferay.contact.management.model.Contact> contacts = ContactLocalServiceUtil.getContacts(searchContainer.getStart(), searchContainer.getEnd());
 %>
+
 
 <aui:button-row cssClass="contact-buttons">
 
@@ -18,11 +17,19 @@ List<com.liferay.contact.management.model.Contact> contacts = ContactLocalServic
 
 </aui:button-row>
 
+<p>Lorem ipsum in view jsp</p>
 
-<liferay-ui:search-container total="<%= contacts.size() %>">
-<liferay-ui:search-container-results results="<%= contacts %>" />
+ <%
+ int totalContacts = ContactLocalServiceUtil.getContactsCount();
+ %>
+<liferay-ui:search-container total="<%= totalContacts %>">
+    <%
+    List<com.liferay.contact.management.model.Contact> contacts = com.liferay.contact.management.service.ContactLocalServiceUtil.getContacts(searchContainer.getStart(), searchContainer.getEnd());
+    %>
 
-<liferay-ui:search-container-row className="com.liferay.contact.management.model.Contact" modelVar="contact">
+<liferay-ui:search-container-results  results="<%= contacts %>"/>
+
+<liferay-ui:search-container-row className="com.liferay.contact.management.model.Contact" modelVar="contactModel">
 
      <liferay-ui:search-container-column-text property="name" />
 
