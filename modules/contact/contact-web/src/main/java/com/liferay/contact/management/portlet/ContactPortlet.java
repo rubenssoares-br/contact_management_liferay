@@ -117,33 +117,9 @@ public class ContactPortlet extends MVCPortlet {
 
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
 
-		try {
-			ServiceContext serviceContext = ServiceContextFactory.getInstance(
-					Contact.class.getName(), renderRequest);
+        long contactId = ParamUtil.getLong(renderRequest, "contactId");
 
-			String name = ParamUtil.getString(renderRequest, "name");
-			String email = ParamUtil.getString(renderRequest, "email");
-			long phone = ParamUtil.getLong(renderRequest, "phone");
-			String address = ParamUtil.getString(renderRequest, "address");
-			long contactId = ParamUtil.getLong(renderRequest, "contactId");
-
-			List<Contact> contacts = _contactLocalService.getAllContacts();
-
-			if (contacts.isEmpty()) {
-				Contact contact = _contactLocalService.addContact(name, email, phone, address, serviceContext);
-
-				contactId = contact.getContactId();
-			}
-
-			if (contactId == 0) {
-				contactId = contacts.get(0).getContactId();
-			}
-
-			renderRequest.setAttribute("contactId", contactId);
-
-		} catch (PortalException e) {
-            throw new RuntimeException(e);
-        }
+        renderRequest.setAttribute("contactId", contactId);
 
         super.render(renderRequest, renderResponse);
 	}
