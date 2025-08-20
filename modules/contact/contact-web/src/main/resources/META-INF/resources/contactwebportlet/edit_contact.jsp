@@ -18,6 +18,19 @@ if (contactId > 0) {
 	<p>"lorem ipsum in edit_contact.jsp"</p>
 </p>
 
+<portlet:actionURL name="deleteContact" var="deleteContactURL"></portlet:actionURL>
+
+<aui:form action="<%= deleteContactURL %>" name="<portlet:namespace />fm">
+
+<aui:model-context bean="<%= contactModel %>" model="<%= com.liferay.contact.management.model.Contact.class %>" />
+
+      <aui:input name="contactId"></aui:input>
+
+      <aui:button-row>
+         <aui:button type="submit" value="Delete"></aui:button>
+      </aui:button-row>
+</aui:form>
+
 <portlet:actionURL name="addContact" var="addContactURL"></portlet:actionURL>
 
 <aui:form action="<%= addContactURL %>" name="<portlet:namespace />fm">
