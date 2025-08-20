@@ -39,6 +39,8 @@ long contactId = Long.valueOf((Long) renderRequest.getAttribute("contactId"));
 
      <liferay-ui:search-container-column-text property="address" />
 
+     <liferay-ui:search-container-column-text property="contactId" />
+
 </liferay-ui:search-container-row>
 
 <liferay-ui:search-iterator />
