@@ -17,7 +17,7 @@ if (contactId > 0) {
     <portlet:param name="mvcPath" value="/contactwebportlet/view.jsp"></portlet:param>
 </portlet:renderURL>
 
-<portlet:actionURL name="addContact" var="addContactURL"></portlet:actionURL>
+<portlet:actionURL name="/contact/addorupdatecontact" var="addContactURL"></portlet:actionURL>
 
 <aui:form action="<%= addContactURL %>" name="<portlet:namespace />fm">
 
