@@ -48,88 +48,12 @@ import java.util.logging.Logger;
 )
 public class ContactPortlet extends MVCPortlet {
 
-	public void addContact(ActionRequest request, ActionResponse response) throws PortalException {
-
-		ServiceContext serviceContext = ServiceContextFactory.getInstance(Contact.class.getName(), request);
-
-		String name = ParamUtil.getString(request, "name");
-		String email = ParamUtil.getString(request, "email");
-		long phone = ParamUtil.getLong(request, "phone");
-		String address = ParamUtil.getString(request, "address");
-		long contactId = ParamUtil.getLong(request, "contactId");
-
-		if (contactId > 0) {
-
-			try {
-				_contactLocalService.updateContact(
-						name, contactId, email, phone, address, serviceContext);
-
-				response.setRenderParameter("contactId", Long.toString(contactId));
-			}
-			catch (Exception e) {
-				System.out.println(e);
-
-				PortalUtil.copyRequestParameters(request, response);
-
-				response.setRenderParameter(
-						"mvcPath", "contactwebportlet/edit_contact.jsp");
-			}
-		} else {
-
-			try {
-				_contactLocalService.addContact(
-						name, email, phone, address, serviceContext);
-
-				SessionMessages.add(request, "contactAdded");
-
-				response.setRenderParameter("contactId", Long.toString(contactId));
-
-			}
-			catch (Exception e) {
-				SessionErrors.add(request, e.getClass().getName());
-
-				PortalUtil.copyRequestParameters(request, response);
-
-				response.setRenderParameter(
-						"mvcPath", "contactwebportlet/edit_contact.jsp");
-			}
-		}
-    }
-
-	public void deleteContact(ActionRequest request, ActionResponse response) throws PortalException {
-
-		long contactId = ParamUtil.getLong(request, "contactId");
-
-		ServiceContext serviceContext = ServiceContextFactory.getInstance(Contact.class.getName(), request);
-
-		try {
-			response.setRenderParameter(
-					"contactId", Long.toString(contactId));
-
-			_contactLocalService.deleteContact(contactId);
-		}
-
-		catch (Exception e) {
-			Logger.getLogger(ContactPortlet.class.getName()).log(
-					Level.SEVERE, null, e);
-		}
-	}
-
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
 
-        long contactId = ParamUtil.getLong(renderRequest, "contactId");
+		long contactId = ParamUtil.getLong(renderRequest, "contactId");
 
-        renderRequest.setAttribute("contactId", contactId);
+		renderRequest.setAttribute("contactId", contactId);
 
-        super.render(renderRequest, renderResponse);
-	}
-
-
-	@Reference
-	private ContactLocalService _contactLocalService;
-
-	@Reference
-	private ContactEntryLocalService _contactEntryLocalService;
-
-
+		super.render(renderRequest, renderResponse);
+    }
 }
