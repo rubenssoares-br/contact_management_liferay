@@ -11,13 +11,14 @@ import javax.portlet.RenderResponse;
 @Component(
         property = {
                 "javax.portlet.name=" + ContactPortletKeys.CONTACT,
-                "mvc.command.name=mvcPath"
+                "mvc.command.name=contact/deletecontact"
         },
         service = MVCRenderCommand.class
 )
 public class DeleteContactMVCRenderCommand implements MVCRenderCommand {
     @Override
     public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
-        return null;
+
+        return "/contactwebportlet/edit_contact.jsp";
     }
 }
