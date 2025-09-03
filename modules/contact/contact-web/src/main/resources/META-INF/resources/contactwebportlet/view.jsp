@@ -39,7 +39,7 @@ long contactId = Long.valueOf((Long) renderRequest.getAttribute("contactId"));
 <aui:button-row cssClass="contact-buttons">
 
     <portlet:renderURL var="addContactURL">
-        <portlet:param name="mvcPath" value="/contactwebportlet/edit_contact.jsp"></portlet:param>
+        <portlet:param name="mvcRenderCommandName" value="contact/addOrUpdatecontact"></portlet:param>
         <portlet:param name="contactId"
             value="<%=String.valueOf(contactId)%>" />
     </portlet:renderURL>
