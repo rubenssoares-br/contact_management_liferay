@@ -47,13 +47,4 @@ import java.util.logging.Logger;
 	service = Portlet.class
 )
 public class ContactPortlet extends MVCPortlet {
-
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
-
-		long contactId = ParamUtil.getLong(renderRequest, "contactId");
-
-		renderRequest.setAttribute("contactId", contactId);
-
-		super.render(renderRequest, renderResponse);
-    }
 }
