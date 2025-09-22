@@ -1,8 +1,5 @@
 <%@ include file="../init.jsp" %>
 
-<%
-long contactId = Long.valueOf((Long) renderRequest.getAttribute("contactId"));
-%>
 
 <p>VIEW JSP</p>
 
@@ -39,9 +36,7 @@ long contactId = Long.valueOf((Long) renderRequest.getAttribute("contactId"));
 <aui:button-row cssClass="contact-buttons">
 
     <portlet:renderURL var="addContactURL">
-        <portlet:param name="mvcRenderCommandName" value="contact/addOrUpdatecontact"></portlet:param>
-        <portlet:param name="contactId"
-            value="<%=String.valueOf(contactId)%>" />
+        <portlet:param name="mvcRenderCommandName" value="/contact/addorupdatecontact"></portlet:param>
     </portlet:renderURL>
 
     <aui:button onClick="<%= addContactURL.toString() %>" value="Go to Add Contact"></aui:button>
