@@ -42,21 +42,15 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
                 _contactLocalService.updateContact(
                         name, contactId, email, phone, address, serviceContext);
 
-                actionResponse.setRenderParameter("contactId", Long.toString(contactId));
-
-                actionResponse.setRenderParameter(
-                        "mvc.command.name", "contact/addOrUpdatecontact");
+                sendRedirect(actionRequest, actionResponse, "https://www.terra.com/");
             }
             catch (Exception e) {
                 System.out.println(e);
 
                 PortalUtil.copyRequestParameters(actionRequest, actionResponse);
 
-                actionResponse.setRenderParameter(
-                        "mvc.command.name", "contact/addOrUpdatecontact");
+                sendRedirect(actionRequest, actionResponse, "/contact/error");
 
-                actionResponse.setRenderParameter(
-                        "mvcPath", "contactwebportlet/edit_contact.jsp");
             }
         } else {
 
@@ -66,10 +60,8 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
 
                 SessionMessages.add(actionRequest, "contactAdded");
 
-                actionResponse.setRenderParameter("contactId", Long.toString(contactId));
 
-                actionResponse.setRenderParameter(
-                        "mvc.command.name", "contact/addOrUpdatecontact");
+                sendRedirect(actionRequest, actionResponse, "/contact/addorupdatecontact");
 
             }
             catch (Exception e) {
@@ -77,11 +69,7 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
 
                 PortalUtil.copyRequestParameters(actionRequest, actionResponse);
 
-                actionResponse.setRenderParameter(
-                        "mvcPath", "contactwebportlet/edit_contact.jsp");
-
-                actionResponse.setRenderParameter(
-                        "mvc.command.name", "contact/addOrUpdatecontact");
+                sendRedirect(actionRequest, actionResponse, "/contact/error");
             }
         }
     }
