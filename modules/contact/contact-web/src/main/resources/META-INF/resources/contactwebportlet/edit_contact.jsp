@@ -41,7 +41,7 @@ if (contactId > 0) {
 
 <p>DELETE CONTACT</p>
 
-<portlet:actionURL name="deleteContact" var="deleteContactURL"></portlet:actionURL>
+<portlet:actionURL name="/contact/deleteContact" var="deleteContactURL"></portlet:actionURL>
 
 <aui:form action="<%= deleteContactURL %>" name="<portlet:namespace />fm">
 
