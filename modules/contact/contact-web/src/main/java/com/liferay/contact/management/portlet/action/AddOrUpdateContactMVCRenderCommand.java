@@ -13,7 +13,7 @@ import javax.portlet.RenderResponse;
 @Component(
         property = {
                 "javax.portlet.name=" + ContactPortletKeys.CONTACT,
-                "mvc.command.name=contact/addOrUpdatecontact"
+                "mvc.command.name=/contact/addorupdatecontact"
         },
         service = MVCRenderCommand.class
 )
