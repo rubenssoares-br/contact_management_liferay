@@ -11,7 +11,7 @@ import javax.portlet.RenderResponse;
 @Component(
         property = {
                 "javax.portlet.name=" + ContactPortletKeys.CONTACT,
-                "mvc.command.name=contact/deletecontact"
+                "mvc.command.name=/contact/deleteContact"
         },
         service = MVCRenderCommand.class
 )
