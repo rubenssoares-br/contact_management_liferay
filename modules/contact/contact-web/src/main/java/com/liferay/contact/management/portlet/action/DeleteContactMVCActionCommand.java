@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @Component(
         property = {
                 "javax.portlet.name=" + ContactPortletKeys.CONTACT,
-                "mvc.command.name=deleteContact"
+                "mvc.command.name=/contact/deleteContact"
         },
         service = MVCActionCommand.class
 )
@@ -31,19 +31,15 @@ public class DeleteContactMVCActionCommand extends BaseMVCActionCommand {
 
         long contactId = ParamUtil.getLong(actionRequest, "contactId");
 
-        ServiceContext serviceContext = ServiceContextFactory.getInstance(Contact.class.getName(), actionRequest);
-
         try {
-            actionResponse.setRenderParameter("mvc.command.name", "contact/deletecontact");
-
-            actionResponse.setRenderParameter(
-                    "contactId", Long.toString(contactId));
 
             _contactLocalService.deleteContact(contactId);
+
+            sendRedirect(actionRequest, actionResponse, "contact?p_p_id=com_liferay_contact_management_ContactPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_contact_management_ContactPortlet_mvcRenderCommandName=%2Fcontact%2Faddorupdatecontact");
         }
 
         catch (Exception e) {
-            actionResponse.setRenderParameter("mvc.command.name", "contact/deletecontact");
+            sendRedirect(actionRequest, actionResponse, "/contact/error");
 
             Logger.getLogger(ContactPortlet.class.getName()).log(
                     Level.SEVERE, null, e);
