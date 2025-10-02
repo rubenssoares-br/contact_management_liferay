@@ -42,15 +42,14 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
                 _contactLocalService.updateContact(
                         name, contactId, email, phone, address, serviceContext);
 
-                sendRedirect(actionRequest, actionResponse, "https://www.terra.com/");
+                actionResponse.setRenderParameter(
+                        "mvcRenderCommandName", "/contact/addorupdatecontact");
             }
             catch (Exception e) {
                 System.out.println(e);
 
-                PortalUtil.copyRequestParameters(actionRequest, actionResponse);
-
-                sendRedirect(actionRequest, actionResponse, "/contact/error");
-
+                actionResponse.setRenderParameter(
+                        "mvcRenderCommandName", "/contact/error");
             }
         } else {
 
@@ -58,25 +57,20 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
                 _contactLocalService.addContact(
                         name, email, phone, address, serviceContext);
 
-                SessionMessages.add(actionRequest, "contactAdded");
 
-
-                sendRedirect(actionRequest, actionResponse, "/contact/addorupdatecontact");
+                actionResponse.setRenderParameter(
+                        "mvcRenderCommandName", "/contact/addorupdatecontact");
 
             }
             catch (Exception e) {
                 SessionErrors.add(actionRequest, e.getClass().getName());
 
-                PortalUtil.copyRequestParameters(actionRequest, actionResponse);
-
-                sendRedirect(actionRequest, actionResponse, "/contact/error");
+                actionResponse.setRenderParameter(
+                        "mvcRenderCommandName", "/contact/error");
             }
         }
     }
 
     @Reference
     private ContactLocalService _contactLocalService;
-
-    @Reference
-    private ContactEntryLocalService _contactEntryLocalService;
 }
