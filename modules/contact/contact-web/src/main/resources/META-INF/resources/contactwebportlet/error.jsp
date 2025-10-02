@@ -1,4 +1,4 @@
-<% include file="../init.jsp" %>
+<%@ include file="../init.jsp" %>
 
 <h2>ERROR JSP</h2>
 
