@@ -39,7 +39,13 @@
         <portlet:param name="mvcRenderCommandName" value="/contact/addorupdatecontact"></portlet:param>
     </portlet:renderURL>
 
+    <portlet:renderURL var="addContactEntryURL">
+            <portlet:param name="mvcRenderCommandName" value="/contact/addorupdatecontactentry"></portlet:param>
+        </portlet:renderURL>
+
     <aui:button onClick="<%= addContactURL.toString() %>" value="Go to Add Contact"></aui:button>
+
+    <aui:button onClick="<%= addContactEntryURL.toString() %>" value="Go to Add Contact Entry"></aui:button>
 
 </aui:button-row>
 
