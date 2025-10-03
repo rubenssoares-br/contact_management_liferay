@@ -63,7 +63,7 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
 
             }
             catch (Exception e) {
-                SessionErrors.add(actionRequest, e.getClass().getName());
+                System.out.println(e);
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/error");
