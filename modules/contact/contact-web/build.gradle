@@ -6,3 +6,5 @@ dependencies {
 	compileOnly project(":modules:contact:contact-service")
 
 }
+
+apply plugin: "com.liferay.jasper.jspc"
