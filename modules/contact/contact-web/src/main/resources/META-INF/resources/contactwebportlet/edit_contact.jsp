@@ -9,9 +9,9 @@ if (contactId > 0) {
 }
 %>
 
-<p>EDIT CONTACT JSP</p>
+<h2>EDIT CONTACT JSP</h2>
 
-<p>FORM TO ADD OR UPDATE CONTACT</p>
+<h2>FORM TO ADD OR UPDATE CONTACT</h2>
 
 <portlet:renderURL var="viewURL">
     <portlet:param name="mvcPath" value="/contactwebportlet/view.jsp"></portlet:param>
@@ -39,7 +39,7 @@ if (contactId > 0) {
         </aui:button-row>
 </aui:form>
 
-<p>DELETE CONTACT</p>
+<h2>DELETE CONTACT</h2>
 
 <portlet:actionURL name="/contact/deleteContact" var="deleteContactURL"></portlet:actionURL>
 
