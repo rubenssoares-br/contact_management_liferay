@@ -1,9 +1,9 @@
 <%@ include file="../init.jsp" %>
 
 
-<p>VIEW JSP</p>
+<h2>VIEW JSP</h2>
 
-<p>ALL REGISTERED CONTACTS - LIST</p>
+<h2>ALL REGISTERED CONTACTS - LIST</h2>
 
  <%
  int totalContacts = ContactLocalServiceUtil.getContactsCount();
@@ -26,6 +26,37 @@
      <liferay-ui:search-container-column-text property="address" />
 
      <liferay-ui:search-container-column-text property="contactId" />
+
+</liferay-ui:search-container-row>
+
+<liferay-ui:search-iterator />
+
+</liferay-ui:search-container>
+
+<h2>ALL REGISTERED CONTACT ENTRIES - LIST</h2>
+
+<%
+ int totalContactEntries = ContactEntryLocalServiceUtil.getContactEntriesCount();
+%>
+
+<liferay-ui:search-container total="<%= totalContactEntries %>">
+    <%
+    List<com.liferay.contact.management.model.ContactEntry> contactEntries = com.liferay.contact.management.service.ContactEntryLocalServiceUtil.getContactEntries(searchContainer.getStart(), searchContainer.getEnd());
+    %>
+
+<liferay-ui:search-container-results  results="<%= contactEntries %>"/>
+
+<liferay-ui:search-container-row className="com.liferay.contact.management.model.ContactEntry" modelVar="contactEntryModel">
+
+     <liferay-ui:search-container-column-text property="familyRelationship" />
+
+     <liferay-ui:search-container-column-text property="phone" />
+
+     <liferay-ui:search-container-column-text property="address" />
+
+     <liferay-ui:search-container-column-text property="contactId" />
+
+     <liferay-ui:search-container-column-text property="entryId" />
 
 </liferay-ui:search-container-row>
 
