@@ -26,7 +26,7 @@ public class AddOrUpdateContactEntryMVCActionCommand extends BaseMVCActionComman
     protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
         ServiceContext serviceContext = ServiceContextFactory.getInstance(ContactEntry.class.getName(), actionRequest);
 
-        String familyRelationship = ParamUtil.getString(actionRequest, "name");
+        String familyRelationship = ParamUtil.getString(actionRequest, "familyRelationship");
         long phone = ParamUtil.getLong(actionRequest, "phone");
         String address = ParamUtil.getString(actionRequest, "address");
         long contactId = ParamUtil.getLong(actionRequest, "contactId");
