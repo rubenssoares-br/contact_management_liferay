@@ -35,11 +35,13 @@ public class DeleteContactMVCActionCommand extends BaseMVCActionCommand {
 
             _contactLocalService.deleteContact(contactId);
 
-            sendRedirect(actionRequest, actionResponse, "contact?p_p_id=com_liferay_contact_management_ContactPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_contact_management_ContactPortlet_mvcRenderCommandName=%2Fcontact%2Faddorupdatecontact");
+            actionResponse.setRenderParameter(
+                    "mvcRenderCommandName", "/contact/deleteContact");
         }
 
         catch (Exception e) {
-            sendRedirect(actionRequest, actionResponse, "/contact/error");
+            actionResponse.setRenderParameter(
+                    "mvcRenderCommandName", "/contact/error");
 
             Logger.getLogger(ContactPortlet.class.getName()).log(
                     Level.SEVERE, null, e);
