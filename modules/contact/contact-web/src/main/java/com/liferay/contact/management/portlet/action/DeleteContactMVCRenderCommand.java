@@ -19,6 +19,6 @@ public class DeleteContactMVCRenderCommand implements MVCRenderCommand {
     @Override
     public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {
 
-        return "/contactwebportlet/edit_contact.jsp";
+        return "/contactwebportlet/view.jsp";
     }
 }
