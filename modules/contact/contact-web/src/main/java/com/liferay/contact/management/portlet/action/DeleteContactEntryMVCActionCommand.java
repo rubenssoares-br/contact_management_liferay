@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 @Component(
         property = {
                 "javax.portlet.name=" + ContactPortletKeys.CONTACT,
-                "mvc.command.name=/contact/deleteContact"
+                "mvc.command.name=/contact/deleteContactEntry"
         },
         service = MVCActionCommand.class
 )
