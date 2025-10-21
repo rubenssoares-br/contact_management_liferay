@@ -5,6 +5,8 @@ import com.liferay.contact.management.portlet.ContactPortlet;
 import com.liferay.contact.management.service.ContactEntryLocalService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -33,6 +35,8 @@ public class DeleteContactEntryMVCActionCommand extends BaseMVCActionCommand {
 
             actionResponse.setRenderParameter(
                     "mvcRenderCommandName", "/contact/addorupdatecontactEntry");
+
+            SessionMessages.add(actionRequest, "deleteContactEntry");
         }
 
         catch (Exception e) {
@@ -41,6 +45,8 @@ public class DeleteContactEntryMVCActionCommand extends BaseMVCActionCommand {
 
             Logger.getLogger(ContactPortlet.class.getName()).log(
                     Level.SEVERE, null, e);
+
+            SessionErrors.add(actionRequest, e.getClass().getName());
         }
     }
 

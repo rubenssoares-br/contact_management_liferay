@@ -44,12 +44,16 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/addorupdatecontact");
+
+                SessionMessages.add(actionRequest, "contactUpdated");
             }
             catch (Exception e) {
                 System.out.println(e);
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/error");
+
+                SessionErrors.add(actionRequest, e.getClass().getName());
             }
         } else {
 
@@ -57,16 +61,18 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
                 _contactLocalService.addContact(
                         name, email, phone, address, serviceContext);
 
-
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/addorupdatecontact");
 
+                SessionMessages.add(actionRequest, "contactUpdated");
             }
             catch (Exception e) {
                 System.out.println(e);
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/error");
+
+                SessionErrors.add(actionRequest, e.getClass().getName());
             }
         }
     }

@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -40,12 +42,16 @@ public class AddOrUpdateContactEntryMVCActionCommand extends BaseMVCActionComman
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/addorupdatecontactentry");
+
+                SessionMessages.add(actionRequest, "contactEntryUpdated");
             }
             catch (Exception e) {
                 System.out.println(e);
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/error");
+
+                SessionErrors.add(actionRequest, e.getClass().getName());
             }
         } else {
 
@@ -54,12 +60,16 @@ public class AddOrUpdateContactEntryMVCActionCommand extends BaseMVCActionComman
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/addorupdatecontactentry");
+
+                SessionMessages.add(actionRequest, "contactEntryAdded");
             }
             catch (Exception e) {
                 System.out.println(e);
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/error");
+
+                SessionErrors.add(actionRequest, e.getClass().getName());
             }
 
         }
