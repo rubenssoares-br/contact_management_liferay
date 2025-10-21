@@ -1,5 +1,11 @@
 <%@ include file="../init.jsp" %>
 
+<liferay-ui:success key="contactAdded" message="contact-added/updated" />
+<liferay-ui:success key="contactUpdated" message="contact-added/updated" />
+<liferay-ui:success key="deleteContact" message="contact-deleted" />
+<liferay-ui:success key="contactEntryUpdated" message="contact-entry-added/updated" />
+<liferay-ui:success key="contactEntryAdded" message="contact-entry-added/updated" />
+<liferay-ui:success key="deleteContactEntry" message="contact-entry-deleted" />
 
 <h2>VIEW JSP</h2>
 
