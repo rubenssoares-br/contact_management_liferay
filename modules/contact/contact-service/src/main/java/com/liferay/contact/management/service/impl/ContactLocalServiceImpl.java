@@ -14,8 +14,11 @@ import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Validator;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -39,6 +42,12 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		long contactId = counterLocalService.increment();
 
+		long companyId = CompanyThreadLocal.getCompanyId();
+
+		long groupId = serviceContext.getScopeGroupId();
+
+		long userId = GetterUtil.getLong(PrincipalThreadLocal.getName());
+
 		Contact entity = contactPersistence.create(contactId);
 
 		entity.setUuid(serviceContext.getUuid());
@@ -47,6 +56,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		entity.setEmail(email);
 		entity.setPhone(phone);
 		entity.setAddress(address);
+
+		resourceLocalService.addResources(companyId, groupId, userId, Contact.class.getName(), contactId, false, true, true);
 
 		contactPersistence.update(entity);
 
