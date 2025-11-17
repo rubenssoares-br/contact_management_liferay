@@ -14,6 +14,7 @@ import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -78,6 +79,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		entity.setPhone(phone);
 		entity.setAddress(address);
 
+		resourceLocalService.updateResources(serviceContext.getCompanyId(), serviceContext.getScopeGroupId(), Contact.class.getName(), contactId, serviceContext.getModelPermissions());
+
 		contactPersistence.update(entity);
 
 		return entity;
@@ -86,6 +89,10 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	public Contact deleteContact(long contactId) throws PortalException {
 
 		_validateContactId(contactId);
+
+		long companyId = CompanyThreadLocal.getCompanyId();
+
+		resourceLocalService.deleteResource(companyId, Contact.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, contactId);
 		
 		return contactPersistence.remove(contactId);
 	}
