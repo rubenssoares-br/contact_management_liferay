@@ -5,7 +5,7 @@
     <model-resource>
         <model-name>com.liferay.contact.management.model.Contact</model-name>
         <portlet-ref>
-            <portlet-name>com_liferay_contact_management_portlet_ContactPortlet</portlet-name>
+            <portlet-name>com_liferay_contact_management_ContactPortlet</portlet-name>
         </portlet-ref>
         <root>true</root>
         <permissions>
