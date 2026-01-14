@@ -253,6 +253,73 @@ public class ContactUtil {
 	}
 
 	/**
+	 * Returns all the contacts that the user has permission to view where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the matching contacts that the user has permission to view
+	 */
+	public static List<Contact> filterFindByUuid(String uuid) {
+		return getPersistence().filterFindByUuid(uuid);
+	}
+
+	/**
+	 * Returns a range of all the contacts that the user has permission to view where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
+	 * @return the range of matching contacts that the user has permission to view
+	 */
+	public static List<Contact> filterFindByUuid(
+		String uuid, int start, int end) {
+
+		return getPersistence().filterFindByUuid(uuid, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the contacts that the user has permissions to view where uuid = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactModelImpl</code>.
+	 * </p>
+	 *
+	 * @param uuid the uuid
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching contacts that the user has permission to view
+	 */
+	public static List<Contact> filterFindByUuid(
+		String uuid, int start, int end,
+		OrderByComparator<Contact> orderByComparator) {
+
+		return getPersistence().filterFindByUuid(
+			uuid, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns the contacts before and after the current contact in the ordered set of contacts that the user has permission to view where uuid = &#63;.
+	 *
+	 * @param contactId the primary key of the current contact
+	 * @param uuid the uuid
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next contact
+	 * @throws NoSuchContactException if a contact with the primary key could not be found
+	 */
+	public static Contact[] filterFindByUuid_PrevAndNext(
+			long contactId, String uuid,
+			OrderByComparator<Contact> orderByComparator)
+		throws com.liferay.contact.management.exception.NoSuchContactException {
+
+		return getPersistence().filterFindByUuid_PrevAndNext(
+			contactId, uuid, orderByComparator);
+	}
+
+	/**
 	 * Removes all the contacts where uuid = &#63; from the database.
 	 *
 	 * @param uuid the uuid
@@ -269,6 +336,16 @@ public class ContactUtil {
 	 */
 	public static int countByUuid(String uuid) {
 		return getPersistence().countByUuid(uuid);
+	}
+
+	/**
+	 * Returns the number of contacts that the user has permission to view where uuid = &#63;.
+	 *
+	 * @param uuid the uuid
+	 * @return the number of matching contacts that the user has permission to view
+	 */
+	public static int filterCountByUuid(String uuid) {
+		return getPersistence().filterCountByUuid(uuid);
 	}
 
 	/**

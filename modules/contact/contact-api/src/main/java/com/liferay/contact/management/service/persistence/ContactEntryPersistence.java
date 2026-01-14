@@ -250,6 +250,63 @@ public interface ContactEntryPersistence extends BasePersistence<ContactEntry> {
 		throws NoSuchContactEntryException;
 
 	/**
+	 * Returns all the contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @return the matching contact entries that the user has permission to view
+	 */
+	public java.util.List<ContactEntry> filterFindByAllContactIds(
+		long contactId);
+
+	/**
+	 * Returns a range of all the contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @return the range of matching contact entries that the user has permission to view
+	 */
+	public java.util.List<ContactEntry> filterFindByAllContactIds(
+		long contactId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the contact entries that the user has permissions to view where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching contact entries that the user has permission to view
+	 */
+	public java.util.List<ContactEntry> filterFindByAllContactIds(
+		long contactId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ContactEntry>
+			orderByComparator);
+
+	/**
+	 * Returns the contact entries before and after the current contact entry in the ordered set of contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * @param entryId the primary key of the current contact entry
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next contact entry
+	 * @throws NoSuchContactEntryException if a contact entry with the primary key could not be found
+	 */
+	public ContactEntry[] filterFindByAllContactIds_PrevAndNext(
+			long entryId, long contactId,
+			com.liferay.portal.kernel.util.OrderByComparator<ContactEntry>
+				orderByComparator)
+		throws NoSuchContactEntryException;
+
+	/**
 	 * Removes all the contact entries where contactId = &#63; from the database.
 	 *
 	 * @param contactId the contact ID
@@ -263,6 +320,14 @@ public interface ContactEntryPersistence extends BasePersistence<ContactEntry> {
 	 * @return the number of matching contact entries
 	 */
 	public int countByAllContactIds(long contactId);
+
+	/**
+	 * Returns the number of contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @return the number of matching contact entries that the user has permission to view
+	 */
+	public int filterCountByAllContactIds(long contactId);
 
 	/**
 	 * Caches the contact entry in the entity cache if it is enabled.

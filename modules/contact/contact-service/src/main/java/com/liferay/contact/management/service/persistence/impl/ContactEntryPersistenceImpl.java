@@ -21,10 +21,12 @@ import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.dao.orm.SessionFactory;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
@@ -979,6 +981,337 @@ public class ContactEntryPersistenceImpl
 	}
 
 	/**
+	 * Returns all the contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @return the matching contact entries that the user has permission to view
+	 */
+	@Override
+	public List<ContactEntry> filterFindByAllContactIds(long contactId) {
+		return filterFindByAllContactIds(
+			contactId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @return the range of matching contact entries that the user has permission to view
+	 */
+	@Override
+	public List<ContactEntry> filterFindByAllContactIds(
+		long contactId, int start, int end) {
+
+		return filterFindByAllContactIds(contactId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the contact entries that the user has permissions to view where contactId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ContactEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param contactId the contact ID
+	 * @param start the lower bound of the range of contact entries
+	 * @param end the upper bound of the range of contact entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching contact entries that the user has permission to view
+	 */
+	@Override
+	public List<ContactEntry> filterFindByAllContactIds(
+		long contactId, int start, int end,
+		OrderByComparator<ContactEntry> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByAllContactIds(
+				contactId, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				3 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CONTACTENTRY_WHERE);
+		}
+		else {
+			sb.append(
+				_FILTER_SQL_SELECT_CONTACTENTRY_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(
+				_FILTER_SQL_SELECT_CONTACTENTRY_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ContactEntryModelImpl.ORDER_BY_SQL_INLINE_DISTINCT);
+			}
+			else {
+				sb.append(ContactEntryModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), ContactEntry.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(
+					_FILTER_ENTITY_ALIAS, ContactEntryImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(
+					_FILTER_ENTITY_TABLE, ContactEntryImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(contactId);
+
+			return (List<ContactEntry>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the contact entries before and after the current contact entry in the ordered set of contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * @param entryId the primary key of the current contact entry
+	 * @param contactId the contact ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next contact entry
+	 * @throws NoSuchContactEntryException if a contact entry with the primary key could not be found
+	 */
+	@Override
+	public ContactEntry[] filterFindByAllContactIds_PrevAndNext(
+			long entryId, long contactId,
+			OrderByComparator<ContactEntry> orderByComparator)
+		throws NoSuchContactEntryException {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByAllContactIds_PrevAndNext(
+				entryId, contactId, orderByComparator);
+		}
+
+		ContactEntry contactEntry = findByPrimaryKey(entryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ContactEntry[] array = new ContactEntryImpl[3];
+
+			array[0] = filterGetByAllContactIds_PrevAndNext(
+				session, contactEntry, contactId, orderByComparator, true);
+
+			array[1] = contactEntry;
+
+			array[2] = filterGetByAllContactIds_PrevAndNext(
+				session, contactEntry, contactId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ContactEntry filterGetByAllContactIds_PrevAndNext(
+		Session session, ContactEntry contactEntry, long contactId,
+		OrderByComparator<ContactEntry> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_CONTACTENTRY_WHERE);
+		}
+		else {
+			sb.append(
+				_FILTER_SQL_SELECT_CONTACTENTRY_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(
+				_FILTER_SQL_SELECT_CONTACTENTRY_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ContactEntryModelImpl.ORDER_BY_SQL_INLINE_DISTINCT);
+			}
+			else {
+				sb.append(ContactEntryModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), ContactEntry.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(_FILTER_ENTITY_ALIAS, ContactEntryImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(_FILTER_ENTITY_TABLE, ContactEntryImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(contactId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(contactEntry)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ContactEntry> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Removes all the contact entries where contactId = &#63; from the database.
 	 *
 	 * @param contactId the contact ID
@@ -1040,6 +1373,54 @@ public class ContactEntryPersistenceImpl
 		}
 
 		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of contact entries that the user has permission to view where contactId = &#63;.
+	 *
+	 * @param contactId the contact ID
+	 * @return the number of matching contact entries that the user has permission to view
+	 */
+	@Override
+	public int filterCountByAllContactIds(long contactId) {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countByAllContactIds(contactId);
+		}
+
+		StringBundler sb = new StringBundler(2);
+
+		sb.append(_FILTER_SQL_COUNT_CONTACTENTRY_WHERE);
+
+		sb.append(_FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), ContactEntry.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(contactId);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
 	}
 
 	private static final String _FINDER_COLUMN_ALLCONTACTIDS_CONTACTID_2 =
@@ -1680,7 +2061,30 @@ public class ContactEntryPersistenceImpl
 	private static final String _SQL_COUNT_CONTACTENTRY_WHERE =
 		"SELECT COUNT(contactEntry) FROM ContactEntry contactEntry WHERE ";
 
+	private static final String _FILTER_ENTITY_TABLE_FILTER_PK_COLUMN =
+		"contactEntry.entryId";
+
+	private static final String _FILTER_SQL_SELECT_CONTACTENTRY_WHERE =
+		"SELECT DISTINCT {contactEntry.*} FROM CTMG_ContactEntry contactEntry WHERE ";
+
+	private static final String
+		_FILTER_SQL_SELECT_CONTACTENTRY_NO_INLINE_DISTINCT_WHERE_1 =
+			"SELECT {CTMG_ContactEntry.*} FROM (SELECT DISTINCT contactEntry.entryId FROM CTMG_ContactEntry contactEntry WHERE ";
+
+	private static final String
+		_FILTER_SQL_SELECT_CONTACTENTRY_NO_INLINE_DISTINCT_WHERE_2 =
+			") TEMP_TABLE INNER JOIN CTMG_ContactEntry ON TEMP_TABLE.entryId = CTMG_ContactEntry.entryId";
+
+	private static final String _FILTER_SQL_COUNT_CONTACTENTRY_WHERE =
+		"SELECT COUNT(DISTINCT contactEntry.entryId) AS COUNT_VALUE FROM CTMG_ContactEntry contactEntry WHERE ";
+
+	private static final String _FILTER_ENTITY_ALIAS = "contactEntry";
+
+	private static final String _FILTER_ENTITY_TABLE = "CTMG_ContactEntry";
+
 	private static final String _ORDER_BY_ENTITY_ALIAS = "contactEntry.";
+
+	private static final String _ORDER_BY_ENTITY_TABLE = "CTMG_ContactEntry.";
 
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY =
 		"No ContactEntry exists with the primary key ";
