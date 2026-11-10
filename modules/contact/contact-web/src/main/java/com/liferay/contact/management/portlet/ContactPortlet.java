@@ -2,32 +2,11 @@ package com.liferay.contact.management.portlet;
 
 import com.liferay.contact.management.constants.ContactPortletKeys;
 
-import com.liferay.contact.management.model.Contact;
-import com.liferay.contact.management.service.ContactEntryLocalService;
-import com.liferay.contact.management.service.ContactLocalService;
-import com.liferay.contact.management.service.impl.ContactEntryLocalServiceImpl;
-import com.liferay.contact.management.service.impl.ContactLocalServiceImpl;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
-import javax.portlet.*;
+import javax.portlet.Portlet;
 
-import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
-import com.liferay.portal.kernel.util.ParamUtil;
-
-import com.liferay.portal.kernel.util.PortalUtil;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author me

@@ -2,6 +2,7 @@ Bundle-Name: contact-api
 Bundle-SymbolicName: com.liferay.contact.management.api
 Bundle-Version: 1.0.0
 Export-Package:\
+    com.liferay.contact.management.constants,\
 	com.liferay.contact.management.exception,\
 	com.liferay.contact.management.model,\
 	com.liferay.contact.management.service,\

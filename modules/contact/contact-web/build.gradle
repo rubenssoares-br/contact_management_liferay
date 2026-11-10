@@ -3,7 +3,6 @@ dependencies {
 	compileOnly 'com.liferay.portal:release.dxp.api'
 
 	compileOnly project(":modules:contact:contact-api")
-	compileOnly project(":modules:contact:contact-service")
 
 }
 
