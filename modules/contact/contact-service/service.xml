@@ -11,6 +11,18 @@
 
 		<column name="contactId" primary="true" type="long" />
 
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
 		<!-- Normal fields -->
 
 		<column name="name" type="String" />
@@ -25,6 +37,10 @@
 		</order>
 
 		<!-- Finder methods -->
+
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId" />
+		</finder>
 
 		<finder name="Name" return-type="Contact">
 			<finder-column name="name" />

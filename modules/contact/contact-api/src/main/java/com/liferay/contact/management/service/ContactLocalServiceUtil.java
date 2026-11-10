@@ -208,6 +208,19 @@ public class ContactLocalServiceUtil {
 		return getService().fetchContact(contactId);
 	}
 
+	/**
+	 * Returns the contact matching the UUID and group.
+	 *
+	 * @param uuid the contact's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	public static Contact fetchContactByUuidAndGroupId(
+		String uuid, long groupId) {
+
+		return getService().fetchContactByUuidAndGroupId(uuid, groupId);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
@@ -230,6 +243,20 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
+	 * Returns the contact matching the UUID and group.
+	 *
+	 * @param uuid the contact's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching contact
+	 * @throws PortalException if a matching contact could not be found
+	 */
+	public static Contact getContactByUuidAndGroupId(String uuid, long groupId)
+		throws PortalException {
+
+		return getService().getContactByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
 	 * Returns a range of all the contacts.
 	 *
 	 * <p>
@@ -245,12 +272,51 @@ public class ContactLocalServiceUtil {
 	}
 
 	/**
+	 * Returns all the contacts matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the contacts
+	 * @param companyId the primary key of the company
+	 * @return the matching contacts, or an empty list if no matches were found
+	 */
+	public static List<Contact> getContactsByUuidAndCompanyId(
+		String uuid, long companyId) {
+
+		return getService().getContactsByUuidAndCompanyId(uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of contacts matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the contacts
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching contacts, or an empty list if no matches were found
+	 */
+	public static List<Contact> getContactsByUuidAndCompanyId(
+		String uuid, long companyId, int start, int end,
+		OrderByComparator<Contact> orderByComparator) {
+
+		return getService().getContactsByUuidAndCompanyId(
+			uuid, companyId, start, end, orderByComparator);
+	}
+
+	/**
 	 * Returns the number of contacts.
 	 *
 	 * @return the number of contacts
 	 */
 	public static int getContactsCount() {
 		return getService().getContactsCount();
+	}
+
+	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
+		getExportActionableDynamicQuery(
+			com.liferay.exportimport.kernel.lar.PortletDataContext
+				portletDataContext) {
+
+		return getService().getExportActionableDynamicQuery(portletDataContext);
 	}
 
 	public static

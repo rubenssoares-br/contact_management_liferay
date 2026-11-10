@@ -9,14 +9,19 @@ import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.model.ContactModel;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
 import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.ModelWrapper;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
@@ -60,6 +65,9 @@ public class ContactModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"contactId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"companyId", Types.BIGINT},
+		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
+		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"name", Types.VARCHAR}, {"email", Types.VARCHAR},
 		{"phone", Types.BIGINT}, {"address", Types.VARCHAR}
 	};
@@ -70,6 +78,12 @@ public class ContactModelImpl
 	static {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("contactId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("email", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("phone", Types.BIGINT);
@@ -77,7 +91,7 @@ public class ContactModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table CTMG_Contact (uuid_ VARCHAR(75) null,contactId LONG not null primary key,name VARCHAR(75) null,email VARCHAR(75) null,phone LONG,address VARCHAR(75) null)";
+		"create table CTMG_Contact (uuid_ VARCHAR(75) null,contactId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null,email VARCHAR(75) null,phone LONG,address VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table CTMG_Contact";
 
@@ -104,25 +118,37 @@ public class ContactModelImpl
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long EMAIL_COLUMN_BITMASK = 2L;
+	public static final long COMPANYID_COLUMN_BITMASK = 2L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long NAME_COLUMN_BITMASK = 4L;
+	public static final long EMAIL_COLUMN_BITMASK = 4L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long PHONE_COLUMN_BITMASK = 8L;
+	public static final long GROUPID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long UUID_COLUMN_BITMASK = 16L;
+	public static final long NAME_COLUMN_BITMASK = 16L;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long PHONE_COLUMN_BITMASK = 32L;
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
+	 */
+	@Deprecated
+	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
@@ -233,6 +259,13 @@ public class ContactModelImpl
 
 			attributeGetterFunctions.put("uuid", Contact::getUuid);
 			attributeGetterFunctions.put("contactId", Contact::getContactId);
+			attributeGetterFunctions.put("groupId", Contact::getGroupId);
+			attributeGetterFunctions.put("companyId", Contact::getCompanyId);
+			attributeGetterFunctions.put("userId", Contact::getUserId);
+			attributeGetterFunctions.put("userName", Contact::getUserName);
+			attributeGetterFunctions.put("createDate", Contact::getCreateDate);
+			attributeGetterFunctions.put(
+				"modifiedDate", Contact::getModifiedDate);
 			attributeGetterFunctions.put("name", Contact::getName);
 			attributeGetterFunctions.put("email", Contact::getEmail);
 			attributeGetterFunctions.put("phone", Contact::getPhone);
@@ -257,6 +290,20 @@ public class ContactModelImpl
 				"uuid", (BiConsumer<Contact, String>)Contact::setUuid);
 			attributeSetterBiConsumers.put(
 				"contactId", (BiConsumer<Contact, Long>)Contact::setContactId);
+			attributeSetterBiConsumers.put(
+				"groupId", (BiConsumer<Contact, Long>)Contact::setGroupId);
+			attributeSetterBiConsumers.put(
+				"companyId", (BiConsumer<Contact, Long>)Contact::setCompanyId);
+			attributeSetterBiConsumers.put(
+				"userId", (BiConsumer<Contact, Long>)Contact::setUserId);
+			attributeSetterBiConsumers.put(
+				"userName", (BiConsumer<Contact, String>)Contact::setUserName);
+			attributeSetterBiConsumers.put(
+				"createDate",
+				(BiConsumer<Contact, Date>)Contact::setCreateDate);
+			attributeSetterBiConsumers.put(
+				"modifiedDate",
+				(BiConsumer<Contact, Date>)Contact::setModifiedDate);
 			attributeSetterBiConsumers.put(
 				"name", (BiConsumer<Contact, String>)Contact::setName);
 			attributeSetterBiConsumers.put(
@@ -314,6 +361,142 @@ public class ContactModelImpl
 		}
 
 		_contactId = contactId;
+	}
+
+	@JSON
+	@Override
+	public long getGroupId() {
+		return _groupId;
+	}
+
+	@Override
+	public void setGroupId(long groupId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_groupId = groupId;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public long getOriginalGroupId() {
+		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("groupId"));
+	}
+
+	@JSON
+	@Override
+	public long getCompanyId() {
+		return _companyId;
+	}
+
+	@Override
+	public void setCompanyId(long companyId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_companyId = companyId;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public long getOriginalCompanyId() {
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("companyId"));
+	}
+
+	@JSON
+	@Override
+	public long getUserId() {
+		return _userId;
+	}
+
+	@Override
+	public void setUserId(long userId) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_userId = userId;
+	}
+
+	@Override
+	public String getUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException portalException) {
+			return "";
+		}
+	}
+
+	@Override
+	public void setUserUuid(String userUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getUserName() {
+		if (_userName == null) {
+			return "";
+		}
+		else {
+			return _userName;
+		}
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_userName = userName;
+	}
+
+	@JSON
+	@Override
+	public Date getCreateDate() {
+		return _createDate;
+	}
+
+	@Override
+	public void setCreateDate(Date createDate) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_createDate = createDate;
+	}
+
+	@JSON
+	@Override
+	public Date getModifiedDate() {
+		return _modifiedDate;
+	}
+
+	public boolean hasSetModifiedDate() {
+		return _setModifiedDate;
+	}
+
+	@Override
+	public void setModifiedDate(Date modifiedDate) {
+		_setModifiedDate = true;
+
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_modifiedDate = modifiedDate;
 	}
 
 	@JSON
@@ -427,6 +610,12 @@ public class ContactModelImpl
 		return getColumnOriginalValue("address");
 	}
 
+	@Override
+	public StagedModelType getStagedModelType() {
+		return new StagedModelType(
+			PortalUtil.getClassNameId(Contact.class.getName()));
+	}
+
 	public long getColumnBitmask() {
 		if (_columnBitmask > 0) {
 			return _columnBitmask;
@@ -454,7 +643,7 @@ public class ContactModelImpl
 	@Override
 	public ExpandoBridge getExpandoBridge() {
 		return ExpandoBridgeFactoryUtil.getExpandoBridge(
-			0, Contact.class.getName(), getPrimaryKey());
+			getCompanyId(), Contact.class.getName(), getPrimaryKey());
 	}
 
 	@Override
@@ -485,6 +674,12 @@ public class ContactModelImpl
 
 		contactImpl.setUuid(getUuid());
 		contactImpl.setContactId(getContactId());
+		contactImpl.setGroupId(getGroupId());
+		contactImpl.setCompanyId(getCompanyId());
+		contactImpl.setUserId(getUserId());
+		contactImpl.setUserName(getUserName());
+		contactImpl.setCreateDate(getCreateDate());
+		contactImpl.setModifiedDate(getModifiedDate());
 		contactImpl.setName(getName());
 		contactImpl.setEmail(getEmail());
 		contactImpl.setPhone(getPhone());
@@ -502,6 +697,16 @@ public class ContactModelImpl
 		contactImpl.setUuid(this.<String>getColumnOriginalValue("uuid_"));
 		contactImpl.setContactId(
 			this.<Long>getColumnOriginalValue("contactId"));
+		contactImpl.setGroupId(this.<Long>getColumnOriginalValue("groupId"));
+		contactImpl.setCompanyId(
+			this.<Long>getColumnOriginalValue("companyId"));
+		contactImpl.setUserId(this.<Long>getColumnOriginalValue("userId"));
+		contactImpl.setUserName(
+			this.<String>getColumnOriginalValue("userName"));
+		contactImpl.setCreateDate(
+			this.<Date>getColumnOriginalValue("createDate"));
+		contactImpl.setModifiedDate(
+			this.<Date>getColumnOriginalValue("modifiedDate"));
 		contactImpl.setName(this.<String>getColumnOriginalValue("name"));
 		contactImpl.setEmail(this.<String>getColumnOriginalValue("email"));
 		contactImpl.setPhone(this.<Long>getColumnOriginalValue("phone"));
@@ -572,6 +777,8 @@ public class ContactModelImpl
 	public void resetOriginalValues() {
 		_columnOriginalValues = Collections.emptyMap();
 
+		_setModifiedDate = false;
+
 		_columnBitmask = 0;
 	}
 
@@ -588,6 +795,38 @@ public class ContactModelImpl
 		}
 
 		contactCacheModel.contactId = getContactId();
+
+		contactCacheModel.groupId = getGroupId();
+
+		contactCacheModel.companyId = getCompanyId();
+
+		contactCacheModel.userId = getUserId();
+
+		contactCacheModel.userName = getUserName();
+
+		String userName = contactCacheModel.userName;
+
+		if ((userName != null) && (userName.length() == 0)) {
+			contactCacheModel.userName = null;
+		}
+
+		Date createDate = getCreateDate();
+
+		if (createDate != null) {
+			contactCacheModel.createDate = createDate.getTime();
+		}
+		else {
+			contactCacheModel.createDate = Long.MIN_VALUE;
+		}
+
+		Date modifiedDate = getModifiedDate();
+
+		if (modifiedDate != null) {
+			contactCacheModel.modifiedDate = modifiedDate.getTime();
+		}
+		else {
+			contactCacheModel.modifiedDate = Long.MIN_VALUE;
+		}
 
 		contactCacheModel.name = getName();
 
@@ -678,6 +917,13 @@ public class ContactModelImpl
 
 	private String _uuid;
 	private long _contactId;
+	private long _groupId;
+	private long _companyId;
+	private long _userId;
+	private String _userName;
+	private Date _createDate;
+	private Date _modifiedDate;
+	private boolean _setModifiedDate;
 	private String _name;
 	private String _email;
 	private long _phone;
@@ -715,6 +961,12 @@ public class ContactModelImpl
 
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("contactId", _contactId);
+		_columnOriginalValues.put("groupId", _groupId);
+		_columnOriginalValues.put("companyId", _companyId);
+		_columnOriginalValues.put("userId", _userId);
+		_columnOriginalValues.put("userName", _userName);
+		_columnOriginalValues.put("createDate", _createDate);
+		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 		_columnOriginalValues.put("name", _name);
 		_columnOriginalValues.put("email", _email);
 		_columnOriginalValues.put("phone", _phone);
@@ -746,13 +998,25 @@ public class ContactModelImpl
 
 		columnBitmasks.put("contactId", 2L);
 
-		columnBitmasks.put("name", 4L);
+		columnBitmasks.put("groupId", 4L);
 
-		columnBitmasks.put("email", 8L);
+		columnBitmasks.put("companyId", 8L);
 
-		columnBitmasks.put("phone", 16L);
+		columnBitmasks.put("userId", 16L);
 
-		columnBitmasks.put("address", 32L);
+		columnBitmasks.put("userName", 32L);
+
+		columnBitmasks.put("createDate", 64L);
+
+		columnBitmasks.put("modifiedDate", 128L);
+
+		columnBitmasks.put("name", 256L);
+
+		columnBitmasks.put("email", 512L);
+
+		columnBitmasks.put("phone", 1024L);
+
+		columnBitmasks.put("address", 2048L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}

@@ -7,6 +7,11 @@ package com.liferay.contact.management.model;
 
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.GroupedModel;
+import com.liferay.portal.kernel.model.ShardedModel;
+import com.liferay.portal.kernel.model.StagedAuditedModel;
+
+import java.util.Date;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -22,7 +27,8 @@ import org.osgi.annotation.versioning.ProviderType;
  * @generated
  */
 @ProviderType
-public interface ContactModel extends BaseModel<Contact> {
+public interface ContactModel
+	extends BaseModel<Contact>, GroupedModel, ShardedModel, StagedAuditedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
@@ -50,6 +56,7 @@ public interface ContactModel extends BaseModel<Contact> {
 	 * @return the uuid of this contact
 	 */
 	@AutoEscape
+	@Override
 	public String getUuid();
 
 	/**
@@ -57,6 +64,7 @@ public interface ContactModel extends BaseModel<Contact> {
 	 *
 	 * @param uuid the uuid of this contact
 	 */
+	@Override
 	public void setUuid(String uuid);
 
 	/**
@@ -72,6 +80,119 @@ public interface ContactModel extends BaseModel<Contact> {
 	 * @param contactId the contact ID of this contact
 	 */
 	public void setContactId(long contactId);
+
+	/**
+	 * Returns the group ID of this contact.
+	 *
+	 * @return the group ID of this contact
+	 */
+	@Override
+	public long getGroupId();
+
+	/**
+	 * Sets the group ID of this contact.
+	 *
+	 * @param groupId the group ID of this contact
+	 */
+	@Override
+	public void setGroupId(long groupId);
+
+	/**
+	 * Returns the company ID of this contact.
+	 *
+	 * @return the company ID of this contact
+	 */
+	@Override
+	public long getCompanyId();
+
+	/**
+	 * Sets the company ID of this contact.
+	 *
+	 * @param companyId the company ID of this contact
+	 */
+	@Override
+	public void setCompanyId(long companyId);
+
+	/**
+	 * Returns the user ID of this contact.
+	 *
+	 * @return the user ID of this contact
+	 */
+	@Override
+	public long getUserId();
+
+	/**
+	 * Sets the user ID of this contact.
+	 *
+	 * @param userId the user ID of this contact
+	 */
+	@Override
+	public void setUserId(long userId);
+
+	/**
+	 * Returns the user uuid of this contact.
+	 *
+	 * @return the user uuid of this contact
+	 */
+	@Override
+	public String getUserUuid();
+
+	/**
+	 * Sets the user uuid of this contact.
+	 *
+	 * @param userUuid the user uuid of this contact
+	 */
+	@Override
+	public void setUserUuid(String userUuid);
+
+	/**
+	 * Returns the user name of this contact.
+	 *
+	 * @return the user name of this contact
+	 */
+	@AutoEscape
+	@Override
+	public String getUserName();
+
+	/**
+	 * Sets the user name of this contact.
+	 *
+	 * @param userName the user name of this contact
+	 */
+	@Override
+	public void setUserName(String userName);
+
+	/**
+	 * Returns the create date of this contact.
+	 *
+	 * @return the create date of this contact
+	 */
+	@Override
+	public Date getCreateDate();
+
+	/**
+	 * Sets the create date of this contact.
+	 *
+	 * @param createDate the create date of this contact
+	 */
+	@Override
+	public void setCreateDate(Date createDate);
+
+	/**
+	 * Returns the modified date of this contact.
+	 *
+	 * @return the modified date of this contact
+	 */
+	@Override
+	public Date getModifiedDate();
+
+	/**
+	 * Sets the modified date of this contact.
+	 *
+	 * @param modifiedDate the modified date of this contact
+	 */
+	@Override
+	public void setModifiedDate(Date modifiedDate);
 
 	/**
 	 * Returns the name of this contact.

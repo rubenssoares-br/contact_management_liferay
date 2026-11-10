@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
+import java.util.Date;
+
 /**
  * The cache model class for representing Contact in entity cache.
  *
@@ -49,12 +51,24 @@ public class ContactCacheModel implements CacheModel<Contact>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
 		sb.append(", contactId=");
 		sb.append(contactId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
 		sb.append(", name=");
 		sb.append(name);
 		sb.append(", email=");
@@ -80,6 +94,30 @@ public class ContactCacheModel implements CacheModel<Contact>, Externalizable {
 		}
 
 		contactImpl.setContactId(contactId);
+		contactImpl.setGroupId(groupId);
+		contactImpl.setCompanyId(companyId);
+		contactImpl.setUserId(userId);
+
+		if (userName == null) {
+			contactImpl.setUserName("");
+		}
+		else {
+			contactImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			contactImpl.setCreateDate(null);
+		}
+		else {
+			contactImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			contactImpl.setModifiedDate(null);
+		}
+		else {
+			contactImpl.setModifiedDate(new Date(modifiedDate));
+		}
 
 		if (name == null) {
 			contactImpl.setName("");
@@ -114,6 +152,15 @@ public class ContactCacheModel implements CacheModel<Contact>, Externalizable {
 		uuid = objectInput.readUTF();
 
 		contactId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
 		name = objectInput.readUTF();
 		email = objectInput.readUTF();
 
@@ -131,6 +178,22 @@ public class ContactCacheModel implements CacheModel<Contact>, Externalizable {
 		}
 
 		objectOutput.writeLong(contactId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
 
 		if (name == null) {
 			objectOutput.writeUTF("");
@@ -158,6 +221,12 @@ public class ContactCacheModel implements CacheModel<Contact>, Externalizable {
 
 	public String uuid;
 	public long contactId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
 	public String name;
 	public String email;
 	public long phone;

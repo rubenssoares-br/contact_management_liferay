@@ -18,13 +18,18 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.security.permission.InlineSQLHelperUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.util.IntegerWrapper;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.OrderByComparatorFactoryUtil;
+import com.liferay.portal.kernel.util.Time;
+import com.liferay.portal.security.permission.SimplePermissionChecker;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PersistenceTestRule;
 import com.liferay.portal.test.rule.TransactionalTestRule;
@@ -117,6 +122,18 @@ public class ContactPersistenceTest {
 
 		newContact.setUuid(RandomTestUtil.randomString());
 
+		newContact.setGroupId(RandomTestUtil.nextLong());
+
+		newContact.setCompanyId(RandomTestUtil.nextLong());
+
+		newContact.setUserId(RandomTestUtil.nextLong());
+
+		newContact.setUserName(RandomTestUtil.randomString());
+
+		newContact.setCreateDate(RandomTestUtil.nextDate());
+
+		newContact.setModifiedDate(RandomTestUtil.nextDate());
+
 		newContact.setName(RandomTestUtil.randomString());
 
 		newContact.setEmail(RandomTestUtil.randomString());
@@ -133,6 +150,20 @@ public class ContactPersistenceTest {
 		Assert.assertEquals(existingContact.getUuid(), newContact.getUuid());
 		Assert.assertEquals(
 			existingContact.getContactId(), newContact.getContactId());
+		Assert.assertEquals(
+			existingContact.getGroupId(), newContact.getGroupId());
+		Assert.assertEquals(
+			existingContact.getCompanyId(), newContact.getCompanyId());
+		Assert.assertEquals(
+			existingContact.getUserId(), newContact.getUserId());
+		Assert.assertEquals(
+			existingContact.getUserName(), newContact.getUserName());
+		Assert.assertEquals(
+			Time.getShortTimestamp(existingContact.getCreateDate()),
+			Time.getShortTimestamp(newContact.getCreateDate()));
+		Assert.assertEquals(
+			Time.getShortTimestamp(existingContact.getModifiedDate()),
+			Time.getShortTimestamp(newContact.getModifiedDate()));
 		Assert.assertEquals(existingContact.getName(), newContact.getName());
 		Assert.assertEquals(existingContact.getEmail(), newContact.getEmail());
 		Assert.assertEquals(existingContact.getPhone(), newContact.getPhone());
@@ -147,6 +178,31 @@ public class ContactPersistenceTest {
 		_persistence.countByUuid("null");
 
 		_persistence.countByUuid((String)null);
+	}
+
+	@Test
+	public void testCountByUUID_G() throws Exception {
+		_persistence.countByUUID_G("", RandomTestUtil.nextLong());
+
+		_persistence.countByUUID_G("null", 0L);
+
+		_persistence.countByUUID_G((String)null, 0L);
+	}
+
+	@Test
+	public void testCountByUuid_C() throws Exception {
+		_persistence.countByUuid_C("", RandomTestUtil.nextLong());
+
+		_persistence.countByUuid_C("null", 0L);
+
+		_persistence.countByUuid_C((String)null, 0L);
+	}
+
+	@Test
+	public void testCountByGroupId() throws Exception {
+		_persistence.countByGroupId(RandomTestUtil.nextLong());
+
+		_persistence.countByGroupId(0L);
 	}
 
 	@Test
@@ -206,10 +262,36 @@ public class ContactPersistenceTest {
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS, getOrderByComparator());
 	}
 
+	@Test
+	public void testFilterFindByGroupId() throws Exception {
+		PermissionThreadLocal.setPermissionChecker(
+			new SimplePermissionChecker() {
+				{
+					init(TestPropsValues.getUser());
+				}
+
+				@Override
+				public boolean isCompanyAdmin(long companyId) {
+					return false;
+				}
+
+			});
+
+		Assert.assertTrue(InlineSQLHelperUtil.isEnabled(0));
+
+		_persistence.filterFindByGroupId(
+			0, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+
+		_persistence.filterFindByGroupId(
+			0, QueryUtil.ALL_POS, QueryUtil.ALL_POS, getOrderByComparator());
+	}
+
 	protected OrderByComparator<Contact> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create(
-			"CTMG_Contact", "uuid", true, "contactId", true, "name", true,
-			"email", true, "phone", true, "address", true);
+			"CTMG_Contact", "uuid", true, "contactId", true, "groupId", true,
+			"companyId", true, "userId", true, "userName", true, "createDate",
+			true, "modifiedDate", true, "name", true, "email", true, "phone",
+			true, "address", true);
 	}
 
 	@Test
@@ -465,6 +547,17 @@ public class ContactPersistenceTest {
 
 	private void _assertOriginalValues(Contact contact) {
 		Assert.assertEquals(
+			contact.getUuid(),
+			ReflectionTestUtil.invoke(
+				contact, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "uuid_"));
+		Assert.assertEquals(
+			Long.valueOf(contact.getGroupId()),
+			ReflectionTestUtil.<Long>invoke(
+				contact, "getColumnOriginalValue",
+				new Class<?>[] {String.class}, "groupId"));
+
+		Assert.assertEquals(
 			contact.getName(),
 			ReflectionTestUtil.invoke(
 				contact, "getColumnOriginalValue",
@@ -495,6 +588,18 @@ public class ContactPersistenceTest {
 		Contact contact = _persistence.create(pk);
 
 		contact.setUuid(RandomTestUtil.randomString());
+
+		contact.setGroupId(RandomTestUtil.nextLong());
+
+		contact.setCompanyId(RandomTestUtil.nextLong());
+
+		contact.setUserId(RandomTestUtil.nextLong());
+
+		contact.setUserName(RandomTestUtil.randomString());
+
+		contact.setCreateDate(RandomTestUtil.nextDate());
+
+		contact.setModifiedDate(RandomTestUtil.nextDate());
 
 		contact.setName(RandomTestUtil.randomString());
 

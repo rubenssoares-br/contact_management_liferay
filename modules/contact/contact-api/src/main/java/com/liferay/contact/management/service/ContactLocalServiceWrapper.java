@@ -232,6 +232,20 @@ public class ContactLocalServiceWrapper
 		return _contactLocalService.fetchContact(contactId);
 	}
 
+	/**
+	 * Returns the contact matching the UUID and group.
+	 *
+	 * @param uuid the contact's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching contact, or <code>null</code> if a matching contact could not be found
+	 */
+	@Override
+	public com.liferay.contact.management.model.Contact
+		fetchContactByUuidAndGroupId(String uuid, long groupId) {
+
+		return _contactLocalService.fetchContactByUuidAndGroupId(uuid, groupId);
+	}
+
 	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
@@ -263,6 +277,22 @@ public class ContactLocalServiceWrapper
 	}
 
 	/**
+	 * Returns the contact matching the UUID and group.
+	 *
+	 * @param uuid the contact's UUID
+	 * @param groupId the primary key of the group
+	 * @return the matching contact
+	 * @throws PortalException if a matching contact could not be found
+	 */
+	@Override
+	public com.liferay.contact.management.model.Contact
+			getContactByUuidAndGroupId(String uuid, long groupId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _contactLocalService.getContactByUuidAndGroupId(uuid, groupId);
+	}
+
+	/**
 	 * Returns a range of all the contacts.
 	 *
 	 * <p>
@@ -281,6 +311,43 @@ public class ContactLocalServiceWrapper
 	}
 
 	/**
+	 * Returns all the contacts matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the contacts
+	 * @param companyId the primary key of the company
+	 * @return the matching contacts, or an empty list if no matches were found
+	 */
+	@Override
+	public java.util.List<com.liferay.contact.management.model.Contact>
+		getContactsByUuidAndCompanyId(String uuid, long companyId) {
+
+		return _contactLocalService.getContactsByUuidAndCompanyId(
+			uuid, companyId);
+	}
+
+	/**
+	 * Returns a range of contacts matching the UUID and company.
+	 *
+	 * @param uuid the UUID of the contacts
+	 * @param companyId the primary key of the company
+	 * @param start the lower bound of the range of contacts
+	 * @param end the upper bound of the range of contacts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the range of matching contacts, or an empty list if no matches were found
+	 */
+	@Override
+	public java.util.List<com.liferay.contact.management.model.Contact>
+		getContactsByUuidAndCompanyId(
+			String uuid, long companyId, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.contact.management.model.Contact>
+					orderByComparator) {
+
+		return _contactLocalService.getContactsByUuidAndCompanyId(
+			uuid, companyId, start, end, orderByComparator);
+	}
+
+	/**
 	 * Returns the number of contacts.
 	 *
 	 * @return the number of contacts
@@ -288,6 +355,16 @@ public class ContactLocalServiceWrapper
 	@Override
 	public int getContactsCount() {
 		return _contactLocalService.getContactsCount();
+	}
+
+	@Override
+	public com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery
+		getExportActionableDynamicQuery(
+			com.liferay.exportimport.kernel.lar.PortletDataContext
+				portletDataContext) {
+
+		return _contactLocalService.getExportActionableDynamicQuery(
+			portletDataContext);
 	}
 
 	@Override
