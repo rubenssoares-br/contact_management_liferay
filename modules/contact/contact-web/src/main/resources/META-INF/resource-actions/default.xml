@@ -6,22 +6,19 @@
         <portlet-name>com_liferay_contact_management_ContactPortlet</portlet-name>
         <permissions>
             <supports>
-                <action-key>ADD_OR_UPDATE_CONTACT</action-key>
-                <action-key>ADD_OR_UPDATE_CONTACT_ENTRY</action-key>
-                <action-key>DELETE_CONTACT</action-key>
-                <action-key>DELETE_CONTACT_ENTRY</action-key>
+                <action-key>ADD_TO_PAGE</action-key>
+                <action-key>CONFIGURATION</action-key>
                 <action-key>VIEW</action-key>
             </supports>
             <site-member-defaults>
-                <action-key>ADD_OR_UPDATE_CONTACT</action-key>
-                <action-key>ADD_OR_UPDATE_CONTACT_ENTRY</action-key>
+                <action-key>VIEW</action-key>
             </site-member-defaults>
             <guest-defaults>
                 <action-key>VIEW</action-key>
             </guest-defaults>
             <guest-unsupported>
-                <action-key>DELETE_CONTACT</action-key>
-                <action-key>DELETE_CONTACT_ENTRY</action-key>
+                <action-key>CONFIGURATION</action-key>
+                <action-key>PERMISSIONS</action-key>
             </guest-unsupported>
         </permissions>
     </portlet-resource>
