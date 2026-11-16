@@ -8,22 +8,20 @@ package com.liferay.contact.management.service.impl;
 
 import com.liferay.contact.management.exception.*;
 import com.liferay.contact.management.model.Contact;
-import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactLocalServiceBaseImpl;
-import com.liferay.contact.management.service.persistence.ContactEntryUtil;
 import com.liferay.contact.management.service.persistence.ContactUtil;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
-import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 
-import com.liferay.portal.kernel.util.GetterUtil;
+
 import com.liferay.portal.kernel.util.Validator;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,28 +39,34 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		_validateUniqueParametersForNewContacts(name, email, phone, address);
 
-		long contactId = counterLocalService.increment();
+		User user = userLocalService.getUser(serviceContext.getUserId());
 
-		long companyId = CompanyThreadLocal.getCompanyId();
+		Date date = new Date();
+
+		long contactId = counterLocalService.increment();
 
 		long groupId = serviceContext.getScopeGroupId();
 
-		long userId = GetterUtil.getLong(PrincipalThreadLocal.getName());
+		Contact contact = contactPersistence.create(contactId);
 
-		Contact entity = contactPersistence.create(contactId);
+		contact.setGroupId(groupId);
+		contact.setCompanyId(user.getCompanyId());
+		contact.setUserId(user.getUserId());
+		contact.setUserName(user.getFullName());
+		contact.setCreateDate(serviceContext.getCreateDate(date));
+		contact.setModifiedDate(serviceContext.getModifiedDate(date));
+		contact.setUuid(serviceContext.getUuid());
+		contact.setExpandoBridgeAttributes(serviceContext);
+		contact.setName(name);
+		contact.setEmail(email);
+		contact.setPhone(phone);
+		contact.setAddress(address);
 
-		entity.setUuid(serviceContext.getUuid());
-		entity.setExpandoBridgeAttributes(serviceContext);
-		entity.setName(name);
-		entity.setEmail(email);
-		entity.setPhone(phone);
-		entity.setAddress(address);
+		contactPersistence.update(contact);
 
-		resourceLocalService.addResources(companyId, groupId, userId, Contact.class.getName(), contactId, false, true, true);
+		resourceLocalService.addModelResources(contact, serviceContext);
 
-		contactPersistence.update(entity);
-
-		return entity;
+		return contact;
 	}
 
 	public Contact updateContact( String name,long contactId, String email, long phone, String address, ServiceContext serviceContext) throws PortalException {
@@ -71,30 +75,31 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		_validateUniqueParametersForExistingContacts(name, email, phone, address, contactId);
 
-		Contact entity = contactPersistence.findByPrimaryKey(contactId);
+		Contact contact = contactPersistence.findByPrimaryKey(contactId);
 
-		entity.setExpandoBridgeAttributes(serviceContext);
-		entity.setName(name);
-		entity.setEmail(email);
-		entity.setPhone(phone);
-		entity.setAddress(address);
+		contact.setExpandoBridgeAttributes(serviceContext);
+		contact.setName(name);
+		contact.setEmail(email);
+		contact.setPhone(phone);
+		contact.setAddress(address);
+		contact.setModifiedDate(serviceContext.getModifiedDate(new Date()));
 
-		resourceLocalService.updateResources(serviceContext.getCompanyId(), serviceContext.getScopeGroupId(), Contact.class.getName(), contactId, serviceContext.getModelPermissions());
+		contactPersistence.update(contact);
 
-		contactPersistence.update(entity);
-
-		return entity;
+		return contact;
 	}
 
 	public Contact deleteContact(long contactId) throws PortalException {
 
 		_validateContactId(contactId);
 
-		long companyId = CompanyThreadLocal.getCompanyId();
+		Contact contact = contactPersistence.findByPrimaryKey(contactId);
 
-		resourceLocalService.deleteResource(companyId, Contact.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, contactId);
+		contactPersistence.remove(contact);
+
+		resourceLocalService.deleteResource(contact.getCompanyId(), Contact.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, contactId);
 		
-		return contactPersistence.remove(contactId);
+		return contact;
 	}
 
 	public Contact getContact(long contactId) throws PortalException {
