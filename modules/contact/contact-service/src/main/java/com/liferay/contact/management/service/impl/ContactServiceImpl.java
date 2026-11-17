@@ -5,18 +5,22 @@
 
 package com.liferay.contact.management.service.impl;
 
+import com.liferay.contact.management.constants.ContactActionKeys;
 import com.liferay.contact.management.model.Contact;
-import com.liferay.contact.management.model.ContactEntry;
 import com.liferay.contact.management.service.base.ContactServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
-
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import java.util.List;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Rubens Soares
@@ -33,33 +37,56 @@ public class ContactServiceImpl extends ContactServiceBaseImpl {
 	public Contact addContact(String name, String email, long phone, String address, ServiceContext serviceContext)
 			throws PortalException {
 
+		_contactModelResourcePermission.getPortletResourcePermission().check(
+			getPermissionChecker(), serviceContext.getScopeGroupId(),
+			ContactActionKeys.ADD_CONTACT);
 
 		return contactLocalService.addContact(name, email, phone, address, serviceContext);
 	}
 
-	public Contact getContact(long contactId)
-			throws PortalException {
+	public Contact getContact(long contactId) throws PortalException {
+		_contactModelResourcePermission.check(
+			getPermissionChecker(), contactId, ActionKeys.VIEW);
 
 		return contactLocalService.getContact(contactId);
 	}
 
 	public void deleteContact(long contactId) throws PortalException {
+		_contactModelResourcePermission.check(
+			getPermissionChecker(), contactId, ActionKeys.DELETE);
+
 		contactLocalService.deleteContact(contactId);
 	}
 
 	public Contact updateContact(String name, long contactId, String email, long phone, String address, ServiceContext serviceContext)
 			throws PortalException {
 
+		_contactModelResourcePermission.check(
+			getPermissionChecker(), contactId, ActionKeys.UPDATE);
 
 		return contactLocalService.updateContact(name, contactId, email, phone, address, serviceContext);
 	}
 
 	public List<Contact> getAllContacts() throws PortalException {
+		List<Contact> contacts = new ArrayList<>();
 
-		return contactLocalService.getAllContacts();
+		for (Contact contact : contactLocalService.getAllContacts()) {
+			if (_contactModelResourcePermission.contains(
+					getPermissionChecker(), contact, ActionKeys.VIEW)) {
+
+				contacts.add(contact);
+			}
+		}
+
+		return contacts;
 	}
 
-	@Reference
+	@Reference(
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY,
+		target = "(model.class.name=com.liferay.contact.management.model.Contact)"
+	)
 	private volatile ModelResourcePermission<Contact>
-			_contactModelResourcePermission;
+		_contactModelResourcePermission;
+
 }
