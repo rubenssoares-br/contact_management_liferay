@@ -52,14 +52,14 @@ public class ContactResourceImpl extends BaseContactResourceImpl {
     }
 	@Override
 	public Contact postContact(Contact contact) throws Exception {
-		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.addContact(contact.getName(), contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(Contact.class.getName(), contextHttpServletRequest));
+		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.addContact(contact.getName(), contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(com.liferay.contact.management.model.Contact.class.getName(), contextHttpServletRequest));
 
 		return _toContact(serviceBuilderContact);
 	}
 
 	@Override
 	public Contact putContact(Integer contactId, Contact contact) throws Exception {
-		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.updateContact(contact.getName(), contactId, contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(Contact.class.getName(), contextHttpServletRequest));
+		com.liferay.contact.management.model.Contact serviceBuilderContact = _contactService.updateContact(contact.getName(), contactId, contact.getEmail(), contact.getPhone(), contact.getAddress(), ServiceContextFactory.getInstance(com.liferay.contact.management.model.Contact.class.getName(), contextHttpServletRequest));
 		
 		return _toContact(serviceBuilderContact);
 	}
