@@ -5,8 +5,8 @@ long entryId = ParamUtil.getLong(renderRequest, "entryId");
 
 ContactEntry contactEntrymodel = null;
 
-if (contactEntrymodel != null) {
-    contactEntrymodel = ContactEntryLocalServiceUtil.getContactEntry(entryId);
+if (entryId > 0) {
+    contactEntrymodel = ContactEntryServiceUtil.getContactEntry(entryId);
 }
 %>
 

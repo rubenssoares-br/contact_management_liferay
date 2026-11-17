@@ -42,15 +42,10 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 	@Override
 	public Page<ContactEntry> getEntriesByContactId(Integer contactId) throws Exception {
 
-		List<com.liferay.contact.management.model.ContactEntry> contactsEntryService = _contactEntryService.getAllContactsEntries();
-
 		List<ContactEntry> contactEntriesByContactId = new ArrayList<>();
 
-		for (com.liferay.contact.management.model.ContactEntry contactsEntryDTOByContactId : contactsEntryService) {
-
-			if (contactsEntryDTOByContactId.getContactId() == contactId) {
-				contactEntriesByContactId.add(_toContactEntry(contactsEntryDTOByContactId));
-			}
+		for (com.liferay.contact.management.model.ContactEntry contactEntry : _contactEntryService.getEntriesByContactId(contactId)) {
+			contactEntriesByContactId.add(_toContactEntry(contactEntry));
 		}
 
 		return Page.of(contactEntriesByContactId);
@@ -67,14 +62,14 @@ public class ContactEntryResourceImpl extends BaseContactEntryResourceImpl {
 
 	@Override
 	public ContactEntry postContactEntry(Integer contactId, ContactEntry contactEntry) throws Exception {
-		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.addContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getPhone(), contactEntry.getAddress(), contactId, ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.addContactEntry(contactEntry.getFamilyRelationship(), contactEntry.getPhone(), contactEntry.getAddress(), contactId, ServiceContextFactory.getInstance(com.liferay.contact.management.model.ContactEntry.class.getName(), contextHttpServletRequest));
 
 		return _toContactEntry(serviceBuilderContactEntry);
 	}
 
 	@Override
 	public ContactEntry putContactEntry(Integer entryId, ContactEntry contactEntry) throws Exception{
-		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), entryId, contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(ContactEntry.class.getName(), contextHttpServletRequest));
+		com.liferay.contact.management.model.ContactEntry serviceBuilderContactEntry = _contactEntryService.updateContactEntry(contactEntry.getFamilyRelationship(), entryId, contactEntry.getPhone(), contactEntry.getAddress(), contactEntry.getContactId(), ServiceContextFactory.getInstance(com.liferay.contact.management.model.ContactEntry.class.getName(), contextHttpServletRequest));
 
 		return _toContactEntry(serviceBuilderContactEntry);
 	}

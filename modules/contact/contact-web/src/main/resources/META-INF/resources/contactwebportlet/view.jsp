@@ -39,15 +39,12 @@
 <h2>ALL REGISTERED CONTACT ENTRIES - LIST</h2>
 
 <%
- int totalContactEntries = ContactEntryLocalServiceUtil.getContactEntriesCount();
+List<ContactEntry> contactEntries = ContactEntryServiceUtil.getAllContactsEntries();
 %>
 
-<liferay-ui:search-container total="<%= totalContactEntries %>">
-    <%
-    List<com.liferay.contact.management.model.ContactEntry> contactEntries = com.liferay.contact.management.service.ContactEntryLocalServiceUtil.getContactEntries(searchContainer.getStart(), searchContainer.getEnd());
-    %>
+<liferay-ui:search-container total="<%= contactEntries.size() %>">
 
-<liferay-ui:search-container-results  results="<%= contactEntries %>"/>
+  <liferay-ui:search-container-results results="<%= ListUtil.subList(contactEntries, searchContainer.getStart(), searchContainer.getEnd()) %>" />
 
 <liferay-ui:search-container-row className="com.liferay.contact.management.model.ContactEntry" modelVar="contactEntryModel">
 

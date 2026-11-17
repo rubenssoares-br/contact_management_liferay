@@ -7,7 +7,7 @@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet" %><%@
 taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %><%@
 taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@ page import="com.liferay.contact.management.service.ContactServiceUtil" %>
-<%@ page import="com.liferay.contact.management.service.ContactEntryLocalServiceUtil" %>
+<%@ page import="com.liferay.contact.management.service.ContactEntryServiceUtil" %>
 <%@ page import="com.liferay.portal.kernel.security.auth.PrincipalException" %>
 <%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
 <%@ page import="com.liferay.contact.management.model.Contact" %>

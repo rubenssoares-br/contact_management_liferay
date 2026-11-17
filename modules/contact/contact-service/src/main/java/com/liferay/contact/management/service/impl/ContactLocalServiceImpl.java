@@ -95,6 +95,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 
 		Contact contact = contactPersistence.findByPrimaryKey(contactId);
 
+		contactEntryPersistence.removeByAllContactIds(contactId);
+
 		contactPersistence.remove(contact);
 
 		resourceLocalService.deleteResource(contact.getCompanyId(), Contact.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, contactId);
