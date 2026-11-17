@@ -12,14 +12,11 @@
 <h2>ALL REGISTERED CONTACTS - LIST</h2>
 
  <%
- int totalContacts = ContactLocalServiceUtil.getContactsCount();
+ List<Contact> contacts = ContactServiceUtil.getAllContacts();
  %>
-<liferay-ui:search-container total="<%= totalContacts %>">
-    <%
-    List<com.liferay.contact.management.model.Contact> contacts = com.liferay.contact.management.service.ContactLocalServiceUtil.getContacts(searchContainer.getStart(), searchContainer.getEnd());
-    %>
+<liferay-ui:search-container total="<%= contacts.size() %>">
 
-<liferay-ui:search-container-results  results="<%= contacts %>"/>
+  <liferay-ui:search-container-results results="<%= ListUtil.subList(contacts, searchContainer.getStart(), searchContainer.getEnd()) %>" />
 
 <liferay-ui:search-container-row className="com.liferay.contact.management.model.Contact" modelVar="contactModel">
 

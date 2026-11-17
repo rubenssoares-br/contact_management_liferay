@@ -5,7 +5,7 @@ long contactId = ParamUtil.getLong(renderRequest, "contactId");
 
 Contact contactModel = null;
 if (contactId > 0) {
-  contactModel = ContactLocalServiceUtil.getContact(contactId);
+  contactModel = ContactServiceUtil.getContact(contactId);
 }
 %>
 

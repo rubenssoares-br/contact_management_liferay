@@ -1,5 +1,5 @@
 <%@ include file="../init.jsp" %>
-
+<liferay-ui:error exception="<%= PrincipalException.MustHavePermission.class %>" message="you-do-not-have-the-required-permissions" />
 <h2>ERROR JSP</h2>
 
 <p>Your requested failed</p>

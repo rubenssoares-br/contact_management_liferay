@@ -1,13 +1,11 @@
 package com.liferay.contact.management.portlet.action;
 
 import com.liferay.contact.management.constants.ContactPortletKeys;
-import com.liferay.contact.management.model.Contact;
 import com.liferay.contact.management.portlet.ContactPortlet;
-import com.liferay.contact.management.service.ContactLocalService;
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.contact.management.service.ContactService;
+
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
@@ -35,7 +33,7 @@ public class DeleteContactMVCActionCommand extends BaseMVCActionCommand {
 
         try {
 
-            _contactLocalService.deleteContact(contactId);
+            _contactService.deleteContact(contactId);
 
             actionResponse.setRenderParameter(
                     "mvcRenderCommandName", "/contact/deleteContact");
@@ -55,5 +53,5 @@ public class DeleteContactMVCActionCommand extends BaseMVCActionCommand {
     }
 
     @Reference
-    private ContactLocalService _contactLocalService;
+    private ContactService _contactService;
 }

@@ -2,8 +2,8 @@ package com.liferay.contact.management.portlet.action;
 
 import com.liferay.contact.management.constants.ContactPortletKeys;
 import com.liferay.contact.management.model.Contact;
-import com.liferay.contact.management.service.ContactEntryLocalService;
-import com.liferay.contact.management.service.ContactLocalService;
+
+import com.liferay.contact.management.service.ContactService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortalUtil;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -39,7 +38,7 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
         if (contactId > 0) {
 
             try {
-                _contactLocalService.updateContact(
+                _contactService.updateContact(
                         name, contactId, email, phone, address, serviceContext);
 
                 actionResponse.setRenderParameter(
@@ -58,7 +57,7 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
         } else {
 
             try {
-                _contactLocalService.addContact(
+                _contactService.addContact(
                         name, email, phone, address, serviceContext);
 
                 actionResponse.setRenderParameter(
@@ -78,5 +77,5 @@ public class AddOrUpdateContactMVCActionCommand extends BaseMVCActionCommand {
     }
 
     @Reference
-    private ContactLocalService _contactLocalService;
+    private ContactService _contactService;
 }

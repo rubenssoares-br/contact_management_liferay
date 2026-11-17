@@ -2,7 +2,7 @@ package com.liferay.contact.management.portlet.action;
 
 import com.liferay.contact.management.constants.ContactPortletKeys;
 import com.liferay.contact.management.model.ContactEntry;
-import com.liferay.contact.management.service.ContactEntryLocalService;
+import com.liferay.contact.management.service.ContactEntryService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -37,7 +37,7 @@ public class AddOrUpdateContactEntryMVCActionCommand extends BaseMVCActionComman
         if (entryId > 0) {
 
             try {
-                _contactEntryLocalService.updateContactEntry(
+                _contactEntryService.updateContactEntry(
                         familyRelationship, entryId, phone, address, contactId, serviceContext);
 
                 actionResponse.setRenderParameter(
@@ -56,7 +56,7 @@ public class AddOrUpdateContactEntryMVCActionCommand extends BaseMVCActionComman
         } else {
 
             try {
-                _contactEntryLocalService.addContactEntry(familyRelationship, phone, address, contactId, serviceContext);
+                _contactEntryService.addContactEntry(familyRelationship, phone, address, contactId, serviceContext);
 
                 actionResponse.setRenderParameter(
                         "mvcRenderCommandName", "/contact/addorupdatecontactentry");
@@ -77,5 +77,5 @@ public class AddOrUpdateContactEntryMVCActionCommand extends BaseMVCActionComman
     }
 
     @Reference
-    private ContactEntryLocalService _contactEntryLocalService;
+    private ContactEntryService _contactEntryService;
 }

@@ -2,7 +2,7 @@ package com.liferay.contact.management.portlet.action;
 
 import com.liferay.contact.management.constants.ContactPortletKeys;
 import com.liferay.contact.management.portlet.ContactPortlet;
-import com.liferay.contact.management.service.ContactEntryLocalService;
+import com.liferay.contact.management.service.ContactEntryService;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -31,7 +31,7 @@ public class DeleteContactEntryMVCActionCommand extends BaseMVCActionCommand {
 
         try {
 
-            _contactEntryLocalService.deleteContactEntry(entryId);
+            _contactEntryService.deleteContactEntry(entryId);
 
             actionResponse.setRenderParameter(
                     "mvcRenderCommandName", "/contact/addorupdatecontactEntry");
@@ -51,5 +51,5 @@ public class DeleteContactEntryMVCActionCommand extends BaseMVCActionCommand {
     }
 
     @Reference
-    private ContactEntryLocalService _contactEntryLocalService;
+    private ContactEntryService _contactEntryService;
 }
