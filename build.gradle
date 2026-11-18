@@ -14,3 +14,9 @@ buildscript {
 
 apply plugin: "com.liferay.portal.tools.db.support"
 apply plugin: "com.liferay.portal.tools.rest.builder"
+
+subprojects {
+	tasks.withType(JavaCompile).configureEach {
+		options.release = 17
+	}
+}
